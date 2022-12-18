@@ -10,4 +10,9 @@ class Clazz extends Model
     use HasFactory;
 
     protected $table = 'classes'; 
+
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
 }

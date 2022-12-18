@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('admno');
             $table->string('gender');
             $table->string('dob');
-            $table->foreignId('parent_id')->constrained('parents')->cascadeOnDelete();
+            $table->foreignId('parent_id')->nullable()->constrained('parents')->cascadeOnDelete();
             $table->foreignId('class_id')->constrained('classes')->cascadeOnDelete();
             $table->string('photo');
             $table->string('address'); 

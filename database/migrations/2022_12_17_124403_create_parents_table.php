@@ -24,9 +24,6 @@ return new class extends Migration
             $table->string('photo');
             $table->string('phone');
             $table->string('address');
-            // $table->foreignId('student_id')->constrained('students')->cascadeOnDelete();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->rememberToken();
             $table->timestamps();
         });
     }
