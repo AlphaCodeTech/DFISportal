@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('clazzs', function (Blueprint $table) {
+        Schema::create('classes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->foreignId('level_id')->constrained('levels')->cascadeOnDelete();
-            $table->foreignId('teacher_id')->constrained('teachers')->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clazzs');
+        Schema::dropIfExists('classes');
     }
 };

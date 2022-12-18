@@ -27,8 +27,7 @@ return new class extends Migration
             $table->foreignId('class_id')->constrained('classes')->cascadeOnDelete();
             $table->string('photo');
             $table->string('address'); 
-            $table->boolean('status')->default(true); 
-            $table->rememberToken();
+            $table->enum('status',['active','inactive'])->default('active'); 
             $table->timestamps();
         });
     }
