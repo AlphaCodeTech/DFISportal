@@ -55,10 +55,66 @@
                         <td>{{ $student->surname ." ". $student->middlename }}</td>
                         <td>{{ $student->admno }}</td>
                         <td>{{ $student->class->name }}</td>
-                        <td><img src="{{ asset($student->photo) }}" alt=""></td>
+                        <td class="text-center"><img class="img-thumbnail" src="{{ asset($student->photo) }}" alt="{{ $student->surname }}" style="width: 100px; height: 100px;"></td>
                         <td class="d-flex" style="justify-content: space-evenly; padding-right: 0;">
-                            <a role="button" class="btn btn-success"><i class="fas fa-edit"></i></a>
-                            <a role="button" class="btn btn-warning"><i class="fas fa-eye"></i></a>
+                            <a href="{{ route('student.edit',$student->id) }}" role="button" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                            <a role="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-xl{{ $student->id }}"><i class="fas fa-eye"></i>
+                              <div class="modal fade" id="modal-xl{{ $student->id }}">
+                                <div class="modal-dialog modal-xl">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h4 class="modal-title">{{ $student->surname }}</h4>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <div class="row">
+                                      <div class="col-md-4 mb-3">
+                                        <div class="card">
+                                          <div class="card-body">
+                                            <div class="d-flex flex-column align-items-center text-center">
+                                              <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                                              <div class="mt-3">
+                                                <h4>John Doe</h4>
+                                                <p class="text-secondary mb-1">Full Stack Developer</p>
+                                                <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
+                                                <button class="btn btn-primary">Follow</button>
+                                                <button class="btn btn-outline-primary">Message</button>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="col-md-8">
+                                        <div class="card mb-3">
+                                          <div class="card-body">
+                                            <div class="row">
+                                              <div class="col-sm-3">
+                                                <h6 class="mb-0">Full Name</h6>
+                                              </div>
+                                              <div class="col-sm-9 text-secondary">
+                                                Kenneth Valdez
+                                              </div>
+                                            </div>
+                                            <hr>
+                                            
+                                          </div>
+                                        </div>
+                                      </div>
+                                    
+                                    </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                      <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                  </div>
+                                  <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                              </div>
+                            </a>
                             <a role="button" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                         </td>
                       </tr>
@@ -70,7 +126,7 @@
                     <th>Name</th>
                     <th>Admission Number</th>
                     <th>Class</th>
-                    <th>Phone</th>
+                    <th>Photo</th>
                     <th>Action</th>
                   </tr>
                   </tfoot>

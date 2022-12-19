@@ -18,11 +18,10 @@ return new class extends Migration
             $table->string('surname');
             $table->string('lastname');
             $table->string('middlename');
-            $table->string('email')->unique();
-            $table->string('password');
             $table->string('admno');
             $table->string('gender');
             $table->string('dob');
+            $table->string('admission_date');
             $table->foreignId('parent_id')->nullable()->constrained('parents')->cascadeOnDelete();
             $table->foreignId('class_id')->constrained('classes')->cascadeOnDelete();
             $table->string('photo');
