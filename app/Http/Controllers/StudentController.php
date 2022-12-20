@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StudentRequest;
 use App\Http\Requests\StudentUpdateRequest;
-use App\Models\Student;
-use Illuminate\Http\Request;
-
-use function Ramsey\Uuid\v1;
+use App\Models\Student; 
 
 class StudentController extends Controller
 {
@@ -18,7 +15,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::all();
+        $students = Student::with(['parent','class'])->get();
         return view('backend.students.index',compact('students'));
     }
 
@@ -136,6 +133,9 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $student = Student::find($id);
+        $student->delete();
+        toast('Student deleted successfully','success');
+        return redirect()->back();
     }
 }

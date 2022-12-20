@@ -24,4 +24,9 @@ class Student extends Model
     {
         return $this->belongsTo(Clazz::class);
     }
+
+    public function parent()
+    {
+        return $this->belongsTo(Parents::class);
+    }
 }

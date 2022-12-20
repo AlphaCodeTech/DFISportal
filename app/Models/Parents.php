@@ -10,4 +10,9 @@ class Parents extends Model
     use HasFactory;
 
     protected $table = 'parents';
+
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
 }
