@@ -57,8 +57,8 @@
                         <td>{{ $student->class->name }}</td>
                         <td class="text-center"><img class="img-thumbnail" src="{{ asset($student->photo) }}" alt="{{ $student->surname }}" style="width: 100px; height: 100px;"></td>
                         <td class="d-flex" style="justify-content: space-evenly; padding-right: 0;">
-                            <a href="{{ route('student.edit',$student->id) }}" role="button" class="btn btn-success"><i class="fas fa-edit"></i></a>
-                            <a role="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-xl{{ $student->id }}"><i class="fas fa-eye"></i>
+                            <a title="edit" href="{{ route('student.edit',$student->id) }}" role="button" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                            <a role="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-xl{{ $student->id }}"><i class="fas fa-eye" title="view student"></i>
                               <div class="modal fade" id="modal-xl{{ $student->id }}" data-keyboard="false" data-backdrop="static"  >
                                 <div class="modal-dialog modal-xl modal-dialog modal-dialog-scrollable">
                                   <div class="modal-content">
@@ -79,7 +79,9 @@
                                                 <h4>{{ $student->surname .' '. $student->middlename }}</h4>
                                                 <p class="text-secondary mb-1">{{ $student->admno }}</p>
                                                 <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
-                                                <button class="btn btn-primary">Edit</button>
+                                                <button class="btn btn-primary">
+                                                  Promote
+                                                </button>
                                                 <button class="btn btn-outline-primary">Status</button>
                                               </div>
                                             </div>
@@ -172,10 +174,11 @@
                             <form action="{{ route('student.destroy', $student->id)}}" class="deleteForm" method="post">
                               @csrf
                               @method('DELETE')
-                              <button type="submit" role="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                              <button title="delete" type="submit" role="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                               {{-- <button class="btn btn-danger" type="submit">Delete</button> --}}
                             </form>
-                            
+                            <a title="promote" href="{{ route('student.showPromotion',$student->id) }}" role="button" class="btn btn-primary"><i class="fas fa-level-up-alt"></i></a>
+
                         </td>
                       </tr>
                     @endforeach

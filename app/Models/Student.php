@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Student extends Model
 {
-    use HasFactory;
+    use HasFactory,
+    \Znck\Eloquent\Traits\BelongsToThrough;
+    
 
     protected $guarded = [];
 
@@ -28,5 +30,10 @@ class Student extends Model
     public function parent()
     {
         return $this->belongsTo(Parents::class);
+    }
+
+    public function level()
+    {
+        return $this->belongsToThrough(Level::class,Clazz::class);
     }
 }

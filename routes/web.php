@@ -26,8 +26,10 @@ Route::middleware(['splade'])->group(function () {
 });
 
 Route::prefix('admin')->group(function () {
-    Route::get('/',function(){
+    Route::get('/', function () {
         return view('backend.index');
-    });
-    Route::resource('student',StudentController::class);
+    })->name('admin.index');
+    Route::resource('student', StudentController::class);
+    Route::get('student/promote/{id}', [StudentController::class, 'ShowPromotionForm'])->name('student.showPromotion');
+    Route::post('student/promote/{id}', [StudentController::class, 'promote'])->name('student.promote');
 });

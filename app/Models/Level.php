@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Level extends Model
 {
     use HasFactory;
+
+    public function classes()
+    {
+        return $this->hasMany(Clazz::class);
+    }
+
+    public function students()
+    {
+        return $this->hasManyThrough(Student::class, Clazz::class);
+    }
 }

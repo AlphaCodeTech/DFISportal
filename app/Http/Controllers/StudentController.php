@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Student;
+use Illuminate\Http\Request;
 use App\Http\Requests\StudentRequest;
 use App\Http\Requests\StudentUpdateRequest;
-use App\Models\Student; 
+use App\Http\Requests\PromoteStudentRequest;
 
 class StudentController extends Controller
 {
@@ -15,8 +17,8 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::with(['parent','class'])->get();
-        return view('backend.students.index',compact('students'));
+        $students = Student::with(['parent', 'class'])->get();
+        return view('backend.students.index', compact('students'));
     }
 
     /**
@@ -41,7 +43,7 @@ class StudentController extends Controller
         if ($request->hasFile('photo')) {
             $path = $request->file('photo')->store('student');
         }
-        
+
         $student = Student::create([
             "surname" => $validated['surname'],
             "middlename" => $validated['middlename'],
@@ -56,11 +58,10 @@ class StudentController extends Controller
             "photo" => $path
         ]);
         if ($student) {
-            toast('Student created successfully','success');
+            toast('Student created successfully', 'success');
             return redirect()->route('student.index');
-            
-        }else{
-            toast('Student not created','error');
+        } else {
+            toast('Student not created', 'error');
             return redirect()->back();
         }
     }
@@ -86,7 +87,7 @@ class StudentController extends Controller
     {
         $student = Student::find($id);
 
-        return view('backend.students.edit',compact('student'));
+        return view('backend.students.edit', compact('student'));
     }
 
     /**
@@ -116,13 +117,11 @@ class StudentController extends Controller
             $path = $request->file('photo')->store('student');
             $student->photo = $path;
         }
-        
+
         $student->save();
 
-        toast('Student updated successfully','success');
+        toast('Student updated successfully', 'success');
         return redirect()->route('student.index');
-
-
     }
 
     /**
@@ -135,7 +134,25 @@ class StudentController extends Controller
     {
         $student = Student::find($id);
         $student->delete();
-        toast('Student deleted successfully','success');
+        toast('Student deleted successfully', 'success');
         return redirect()->back();
+    }
+
+    public function promote(PromoteStudentRequest $request, $id)
+    {
+        $data = $request->validated();
+
+        $student = Student::find($id);
+        $student->class_id = $data['new_class_id'];
+        $student->save();
+
+        toast('Student promoted successfully', 'success');
+        return redirect()->route('student.index');
+    }
+
+    public function ShowPromotionForm($id)
+    {
+        $student = Student::find($id);
+        return view('backend.students.promote', compact('student'));
     }
 }
