@@ -71,8 +71,31 @@
             </ul>
           </li>
          
-          
-         
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-graduation-cap"></i>
+              <p>
+                Subjects
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('subject.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>View Subjects</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('subject.create') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Subject</p>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
+        
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
