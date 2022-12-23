@@ -9,6 +9,8 @@ class Clazz extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     protected $table = 'classes'; 
 
     public function students()
@@ -19,5 +21,10 @@ class Clazz extends Model
     public function level()
     {
         return $this->belongsTo(Level::class);
+    }
+
+    public function teacher()
+    {
+        return $this->belongsTo(User::class,'user_id');
     }
 }

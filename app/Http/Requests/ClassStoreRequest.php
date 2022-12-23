@@ -13,7 +13,7 @@ class ClassStoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,9 @@ class ClassStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required|unique:classes',
+            'level_id' => 'required|exists:levels,id',
+            'user_id' => 'required|exists:users,id',
         ];
     }
 }

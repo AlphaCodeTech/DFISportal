@@ -15,12 +15,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Subjects</h1>
+            <h1>Classrooms</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">View Subjects</li>
+              <li class="breadcrumb-item active">View Classrooms</li>
             </ol>
           </div>
         </div>
@@ -35,7 +35,7 @@
          
             <div class="card">
               <div class="card-header">
-                <a role="button" class="btn btn-primary" href="{{ route('subject.create') }}">Add Subject</a>
+                <a role="button" class="btn btn-primary" href="{{ route('class.create') }}">Add Classroom</a>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -43,21 +43,25 @@
                   <thead>
                   <tr>
                     <th>Name</th>
+                    <th>Level</th>
+                    <th>Teacher</th>
                     <th>Action</th>
                   </tr>
                   </thead>
                   <tbody>
-                    @foreach ($subjects as $subject)
+                    @foreach ($classes as $class)
                     <tr>
-                        <td>{{ $subject->name }}</td>
+                        <td>{{ $class->name }}</td>
+                        <td>{{ $class->level->name }}</td>
+                        <td>{{ $class->teacher->name . ' ' . $class->teacher->middlename. ' ' . $class->teacher->lastname }}</td>
                         <td class="d-flex" style="justify-content: space-evenly; padding-right: 0;">
-                            <a title="edit" href="{{ route('subject.edit',$subject->id) }}" role="button" class="btn btn-success"><i class="fas fa-edit"></i></a>
-                            <a role="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-xl{{ $subject->id }}"><i class="fas fa-eye" title="view subject"></i>
-                              <div class="modal fade" id="modal-xl{{ $subject->id }}" data-keyboard="false" data-backdrop="static"  >
+                            <a title="edit" href="{{ route('class.edit',$class->id) }}" role="button" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                            <a role="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-xl{{ $class->id }}"><i class="fas fa-eye" title="view class"></i>
+                              <div class="modal fade" id="modal-xl{{ $class->id }}" data-keyboard="false" data-backdrop="static"  >
                                 <div class="modal-dialog modal-xl modal-dialog modal-dialog-scrollable">
                                   <div class="modal-content">
                                     <div class="modal-header  text-center">
-                                      <h4 class="modal-title">View Subjectt</h4>
+                                      <h4 class="modal-title">View Classroom</h4>
                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                       </button>
@@ -68,10 +72,10 @@
                                         <div class="card">
                                           <div class="card-body">
                                             <div class="d-flex flex-column align-items-center text-center">
-                                              {{-- <img src="{{ asset($subject->photo) }}" alt="Admin" class="rounded-circle" width="150"> --}}
+                                              {{-- <img src="{{ asset($class->photo) }}" alt="Admin" class="rounded-circle" width="150"> --}}
                                               <div class="mt-3">
-                                                <h4>{{ $subject->name }}</h4>
-                                                <p class="text-secondary mb-1">{{ $subject->admno }}</p>
+                                                <h4>{{ $class->name }}</h4>
+                                                <p class="text-secondary mb-1">{{ $class->teacher->name . ' ' . $class->teacher->middlename }}</p>
                                                 
                                                 <button class="btn btn-outline-primary">Status</button>
                                               </div>
@@ -87,17 +91,26 @@
                                                 <h6 class="mb-0 font-weight-bold">Name</h6>
                                               </div>
                                               <div class="col-sm-9 text-secondary">
-                                                {{ ucwords($subject->name ) }}
+                                                {{ ucwords($class->name ) }}
+                                              </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                              <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">Level</h6>
+                                              </div>
+                                              <div class="col-sm-9 text-secondary">
+                                                {{ ucwords($class->level->name ) }}
                                               </div>
                                             </div>
                                             <hr>
                                           
                                             <div class="row">
                                               <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">Class</h6>
+                                                <h6 class="mb-0 font-weight-bold">Teacher</h6>
                                               </div>
                                               <div class="col-sm-9 text-secondary">
-                                                {{-- {{ ucwords($subject->class->name) }} --}}
+                                                {{ ucwords($class->teacher->name) . ' ' .ucwords($class->teacher->middlename) . ' '. ucwords($class->teacher->lastname) }}
                                               </div>
                                             </div>
                                             <hr>
@@ -118,7 +131,7 @@
                                 <!-- /.modal-dialog -->
                               </div>
                             </a>
-                            <form action="{{ route('subject.destroy', $subject->id)}}" class="deleteForm" method="post">
+                            <form action="{{ route('class.destroy', $class->id)}}" class="deleteForm" method="post">
                               @csrf
                               @method('DELETE')
                               <button title="delete" type="submit" role="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
@@ -134,6 +147,8 @@
                   <tfoot>
                   <tr>
                     <th>Name</th>
+                    <th>Level</th>
+                    <th>Teacher</th>
                     <th>Action</th>
                   </tr>
                   </tfoot>
