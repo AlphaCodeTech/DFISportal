@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreSubjectRequest;
-use App\Http\Requests\SubjectUpdateRequest;
-use App\Models\Subject;
+use App\Http\Requests\LevelStoreRequest;
+use App\Http\Requests\LevelUpdateRequest;
+use App\Models\Level;
 use Illuminate\Http\Request;
 
-class SubjectController extends Controller
+class LevelController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,9 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        $subjects = Subject::all();
+        $levels = Level::all();
 
-        return view('backend.subjects.index', compact('subjects'));
+        return view('backend.levels.index', compact('levels'));
     }
 
     /**
@@ -28,7 +28,7 @@ class SubjectController extends Controller
      */
     public function create()
     {
-        return view('backend.subjects.create');
+        return view('backend.levels.create');
     }
 
     /**
@@ -37,19 +37,19 @@ class SubjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreSubjectRequest $request)
+    public function store(LevelStoreRequest $request)
     {
         $data = $request->validated();
 
-        $subject = Subject::create([
+        $level = Level::create([
             'name' => $data['name']
         ]);
 
-        if ($subject) {
-            toast('Subject added successfully', 'success');
-            return redirect()->route('subject.index');
+        if ($level) {
+            toast('Level created successfully', 'success');
+            return redirect()->route('level.index');
         } else {
-            toast('Subject not created', 'error');
+            toast('Level not created', 'error');
             return redirect()->back();
         }
     }
@@ -73,8 +73,9 @@ class SubjectController extends Controller
      */
     public function edit($id)
     {
-        $subject = Subject::find($id);
-        return view('backend.subjects.edit', compact('subject'));
+        $level = Level::find($id);
+
+        return view('backend.levels.edit', compact('level'));
     }
 
     /**
@@ -84,16 +85,17 @@ class SubjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SubjectUpdateRequest $request, $id)
+    public function update(LevelUpdateRequest $request, $id)
     {
         $data = $request->validated();
 
-        $subject = Subject::find($id);
-        $subject->name = $data['name'];
-        $subject->save();
+        $level = Level::find($id);
+        $level->name = $data['name'];
 
-        toast('Subject updated successfully', 'success');
-        return redirect()->route('subject.index');
+        $level->save();
+
+        toast('Level updated successfully', 'success');
+        return redirect()->route('level.index');
     }
 
     /**
@@ -104,10 +106,10 @@ class SubjectController extends Controller
      */
     public function destroy($id)
     {
-        $subject = Subject::find($id);
-        $subject->delete();
-
-        toast('Subject deleted successfully', 'success');
+        
+        $level = Level::find($id);
+        $level->delete();
+        toast('Level deleted successfully', 'success');
         return redirect()->back();
     }
 }

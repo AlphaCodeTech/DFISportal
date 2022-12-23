@@ -95,6 +95,56 @@
               
             </ul>
           </li>
+         
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-graduation-cap"></i>
+              <p>
+                Levels
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('level.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>View Levels</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('level.create') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add Level</p>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
+         
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-graduation-cap"></i>
+              <p>
+                Classrooms
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('class.index') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>View Classrooms</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('class.create') }}" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Add ClassRoom</p>
+                </a>
+              </li>
+              
+            </ul>
+          </li>
         
         </ul>
       </nav>

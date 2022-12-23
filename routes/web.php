@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ClassController;
+use App\Http\Controllers\LevelController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use Illuminate\Support\Facades\Route;
@@ -38,4 +40,10 @@ Route::prefix('admin')->group(function () {
 
     // ! Subjects
     Route::resource('subject',SubjectController::class);
+
+    // ! Levels
+    Route::resource('level',LevelController::class);
+
+    // ! Classes
+    Route::resource('class',ClassController::class);
 });

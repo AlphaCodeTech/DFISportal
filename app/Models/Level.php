@@ -9,6 +9,8 @@ class Level extends Model
 {
     use HasFactory;
 
+    protected $guarded  = []; 
+
     public function classes()
     {
         return $this->hasMany(Clazz::class);
