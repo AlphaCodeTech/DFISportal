@@ -2,8 +2,11 @@
 
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\LevelController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,4 +49,13 @@ Route::prefix('admin')->group(function () {
 
     // ! Classes
     Route::resource('class',ClassController::class);
+
+    // ! Users
+    Route::resource('user',UserController::class);
+
+    // ! Permissions
+    Route::resource('permission',PermissionController::class);
+
+    // ! Roles
+    Route::resource('role',RoleController::class);
 });
