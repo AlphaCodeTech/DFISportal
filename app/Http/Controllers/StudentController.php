@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Http\Requests\StudentRequest;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StudentUpdateRequest;
 use App\Http\Requests\PromoteStudentRequest;
 
@@ -133,6 +134,9 @@ class StudentController extends Controller
     public function destroy($id)
     {
         $student = Student::find($id);
+
+        Storage::disk('student')->delete($student->photo);
+        
         $student->delete();
         toast('Student deleted successfully', 'success');
         return redirect()->back();

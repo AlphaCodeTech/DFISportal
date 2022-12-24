@@ -42,7 +42,9 @@ class LevelController extends Controller
         $data = $request->validated();
 
         $level = Level::create([
-            'name' => $data['name']
+            'name' => $data['name'],
+            'full_fees' => 21000,
+            'part_fees' => 21000,
         ]);
 
         if ($level) {

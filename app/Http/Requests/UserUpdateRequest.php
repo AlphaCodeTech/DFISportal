@@ -13,7 +13,7 @@ class UserUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,26 @@ class UserUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required',
+            "middlename" => 'required',
+            "lastname" => 'required',
+            "email" => 'required|email|unique:users',
+            "phone" => 'required',
+            "gender" => 'required|in:male,female',
+            "status" => 'required|in:1,0',
+            "dob" => 'required',
+            "bank" => 'required',
+            "account_name" => "required",
+            "account_number" => 'required|min:10',
+            "category_id" => 'required|exists:categories,id',
+            "level_id" => 'required|exists:levels,id',
+            "religion" => 'required',
+            "marital_status" => 'required',
+            "blood_group" => 'required',
+            "nationality" => 'required',
+            "qualification" => 'required',
+            "address" => 'required',
+            "photo" => 'nullable|image|mimes:jpg,png,jpeg',
         ];
     }
 }

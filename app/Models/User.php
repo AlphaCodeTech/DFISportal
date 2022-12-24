@@ -21,13 +21,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'middlename',
-        'lastname',
-        'email',
-        'password',
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -51,5 +45,14 @@ class User extends Authenticatable
     public function classes()
     {
         return $this->hasMany(Clazz::class, 'user_id');
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        self::creating(function($model){
+            $model->idNo = "DFIS/SEC/STAFF" . date('Y') . '/' . rand(10000, 99999);
+        });
     }
 }

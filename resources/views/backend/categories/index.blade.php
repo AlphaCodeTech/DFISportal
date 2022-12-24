@@ -15,12 +15,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Users</h1>
+            <h1>Employment Categories</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">View Users</li>
+              <li class="breadcrumb-item active">View Categories</li>
             </ol>
           </div>
         </div>
@@ -35,7 +35,7 @@
          
             <div class="card">
               <div class="card-header">
-                <a role="button" class="btn btn-primary" href="{{ route('user.create') }}">Add User</a>
+                <a role="button" class="btn btn-primary" href="{{ route('category.create') }}">Add Level</a>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -43,27 +43,21 @@
                   <thead>
                   <tr>
                     <th>Name</th>
-                    <th>ID Number</th>
-                    <th>Role</th>
-                    <th>Photo</th>
                     <th>Action</th>
                   </tr>
                   </thead>
                   <tbody>
-                    @foreach ($users as $user)
+                    @foreach ($categories as $category)
                     <tr>
-                        <td>{{ $user->name ." ". $user->middlename }}</td>
-                        <td>{{ $user->idNo }}</td>
-                        <td>{{ $user->role}}</td>
-                        <td class="text-center"><img class="img-thumbnail" src="{{ asset($user->photo) }}" alt="{{ $user->surname }}" style="width: 100px; height: 100px;"></td>
+                        <td>{{ $category->name }}</td>
                         <td class="d-flex" style="justify-content: space-evenly; padding-right: 0;">
-                            <a title="edit" href="{{ route('user.edit',$user->id) }}" role="button" class="btn btn-success"><i class="fas fa-edit"></i></a>
-                            <a role="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-xl{{ $user->id }}"><i class="fas fa-eye" title="view user"></i>
-                              <div class="modal fade" id="modal-xl{{ $user->id }}" data-keyboard="false" data-backdrop="static"  >
+                            <a title="edit" href="{{ route('category.edit',$category->id) }}" role="button" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                            <a role="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-xl{{ $category->id }}"><i class="fas fa-eye" title="view category"></i>
+                              <div class="modal fade" id="modal-xl{{ $category->id }}" data-keyboard="false" data-backdrop="static"  >
                                 <div class="modal-dialog modal-xl modal-dialog modal-dialog-scrollable">
                                   <div class="modal-content">
                                     <div class="modal-header  text-center">
-                                      <h4 class="modal-title">View User</h4>
+                                      <h4 class="modal-title">View Category</h4>
                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                       </button>
@@ -74,14 +68,11 @@
                                         <div class="card">
                                           <div class="card-body">
                                             <div class="d-flex flex-column align-items-center text-center">
-                                              <img src="{{ asset($user->photo) }}" alt="Admin" class="rounded-circle" width="150">
+                                              {{-- <img src="{{ asset($category->photo) }}" alt="Admin" class="rounded-circle" width="150"> --}}
                                               <div class="mt-3">
-                                                <h4>{{ $user->name .' '. $user->middlename }}</h4>
-                                                <p class="text-secondary mb-1">{{ $user->admno }}</p>
-                                                <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
-                                                <button class="btn btn-primary">
-                                                  Promote
-                                                </button>
+                                                <h4>{{ $category->name }}</h4>
+                                                <p class="text-secondary mb-1">{{ $category->admno }}</p>
+                                                
                                                 <button class="btn btn-outline-primary">Status</button>
                                               </div>
                                             </div>
@@ -93,64 +84,20 @@
                                           <div class="card-body text-left">
                                             <div class="row">
                                               <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">Full Name</h6>
+                                                <h6 class="mb-0 font-weight-bold">Name</h6>
                                               </div>
                                               <div class="col-sm-9 text-secondary">
-                                                {{ ucwords($user->surname .' '. $user->middlename . ' ' . $user->lastname) }}
+                                                {{ ucwords($category->name ) }}
                                               </div>
                                             </div>
                                             <hr>
-                                            <div class="row">
-                                              <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">Gender</h6>
-                                              </div>
-                                              <div class="col-sm-9 text-secondary">
-                                                {{ ucfirst($user->gender) }}
-                                              </div>
-                                            </div>
-                                            <hr>
-                                            <div class="row">
-                                              <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">Date of Birth</h6>
-                                              </div>
-                                              <div class="col-sm-9 text-secondary">
-                                                {{ $user->dob }}
-                                              </div>
-                                            </div>
-                                            <hr>
-                                            <div class="row">
-                                              <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">Admission Date</h6>
-                                              </div>
-                                              <div class="col-sm-9 text-secondary">
-                                                {{ $user->admission_date }}
-                                              </div>
-                                            </div>
-                                            <hr>
-                                            <div class="row">
-                                              <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">Guardian</h6>
-                                              </div>
-                                              <div class="col-sm-9 text-secondary">
-                                                {{ ucwords($user->surname .' '. $user->middlename . ' ' . $user->lastname) }}
-                                              </div>
-                                            </div>
-                                            <hr>
+                                          
                                             <div class="row">
                                               <div class="col-sm-3">
                                                 <h6 class="mb-0 font-weight-bold">Class</h6>
                                               </div>
                                               <div class="col-sm-9 text-secondary">
-                                                {{ ucwords($user->name) }}
-                                              </div>
-                                            </div>
-                                            <hr>
-                                            <div class="row">
-                                              <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">Address</h6>
-                                              </div>
-                                              <div class="col-sm-9 text-secondary">
-                                                {{ ucwords($user->address) }}
+                                                {{-- {{ ucwords($category->class->name) }} --}}
                                               </div>
                                             </div>
                                             <hr>
@@ -171,12 +118,13 @@
                                 <!-- /.modal-dialog -->
                               </div>
                             </a>
-                            <form action="{{ route('user.destroy', $user->id)}}" class="deleteForm" method="post">
+                            <form action="{{ route('category.destroy', $category->id)}}" class="deleteForm" method="post">
                               @csrf
                               @method('DELETE')
                               <button title="delete" type="submit" role="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                               {{-- <button class="btn btn-danger" type="submit">Delete</button> --}}
                             </form>
+                
 
                         </td>
                       </tr>
@@ -186,9 +134,6 @@
                   <tfoot>
                   <tr>
                     <th>Name</th>
-                    <th>ID Number</th>
-                    <th>Role</th>
-                    <th>Photo</th>
                     <th>Action</th>
                   </tr>
                   </tfoot>

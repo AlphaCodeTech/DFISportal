@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\PermissionController;
@@ -58,4 +59,7 @@ Route::prefix('admin')->group(function () {
 
     // ! Roles
     Route::resource('role',RoleController::class);
+
+    // ! Categories
+    Route::resource('category',CategoryController::class);
 });

@@ -39,13 +39,14 @@
                                 <div class="card-body">
 
                                     <div class="form-group">
-                                        <label for="surname">Surname</label>
-                                        <input type="text" name="surname" class="form-control" id="surname"
-                                            placeholder="Enter surname" value="{{ old('surname') }}">
+                                        <label for="name">Surname</label>
+                                        <input type="text" name="name" class="form-control" id="name"
+                                            placeholder="Enter surname" value="{{ old('name') }}">
                                     </div>
-                                    @error('surname')
+                                    @error('name')
                                         <p class="alert alert-danger">{{ $message }}</p>
                                     @enderror
+
                                     <div class="form-group">
                                         <label for="middlename">Middlename</label>
                                         <input type="text" name="middlename" class="form-control" id="middlename"
@@ -54,6 +55,7 @@
                                     @error('middlename')
                                         <p class="alert alert-danger">{{ $message }}</p>
                                     @enderror
+
                                     <div class="form-group">
                                         <label for="lastname">Lastname</label>
                                         <input type="text" name="lastname" class="form-control" id="lastname"
@@ -83,7 +85,7 @@
 
                                     <div class="form-group">
                                         <label for="phone">Phone Number</label>
-                                        <input type="phone" name="phone" class="form-control" id="phone"
+                                        <input type="text" name="phone" class="form-control" id="phone"
                                             placeholder="Enter phone number" value="{{ old('phone') }}">
                                     </div>
                                     @error('phone')
@@ -106,8 +108,8 @@
                                         <label for="status">Status</label>
                                         <select name="status" class="form-control" id="status">
                                             <option value="">Select Status</option>
-                                            <option value="active" {{ old("status") == 'active' ? "selected": "" }}>Active</option>
-                                            <option value="inactive" {{ old("status") == 'inactive' ? "selected": "" }}>Inactive</option>
+                                            <option value="1" {{ old("status") == 'active' ? "selected": "" }}>Active</option>
+                                            <option value="0" {{ old("status") == 'inactive' ? "selected": "" }}>Inactive</option>
                                         </select>
                                     </div>
                                     @error('status')
@@ -128,6 +130,55 @@
                                         <p class="alert alert-danger">{{ $message }}</p>
                                     @enderror
 
+                                    <div class="form-group">
+                                        <label for="bank">Bank</label> 
+                                        <select name="bank" class="form-control" id="bank">
+                                            <option value="">Select Bank</option>
+                                            <option value="Access Bank Plc" {{ old('bank') == 'Access Bank Plc' ? "selected" : "" }}>Access Bank Plc</option>
+                                            <option value="Citibank Nigeria Limited" {{ old('bank') == 'Citibank Nigeria Limited' ? "selected" : "" }}>Citibank Nigeria Limited</option>
+                                            <option value="Diamond Bank Plc" {{ old('bank') == 'Diamond Bank Plc' ? "selected" : "" }}>Diamond Bank Plc</option>
+                                            <option value="Ecobank Nigeria Plc" {{ old('bank') == 'Ecobank Nigeria Plc' ? "selected" : "" }}>Ecobank Nigeria Plc</option>
+                                            <option value="Enterprise Bank" {{ old('bank') == 'Enterprise Bank' ? "selected" : "" }}>Enterprise Bank</option>
+                                            <option value="Fidelity Bank Plc" {{ old('bank') == 'Fidelity Bank Plc' ? "selected" : "" }}>Fidelity Bank Plc</option>
+                                            <option value="First Bank of Nigeria Plc" {{ old('bank') == 'First Bank of Nigeria Plc' ? "selected" : "" }}>First Bank of Nigeria Plc</option>
+                                            <option value="First City Monument Bank Plc" {{ old('bank') == 'First City Monument Bank Plc' ? "selected" : "" }}>First City Monument Bank Plc</option>
+                                            <option value="Guaranty Trust Bank Plc" {{ old('bank') == 'Guaranty Trust Bank Plc' ? "selected" : "" }}>Guaranty Trust Bank Plc</option>
+                                            <option value="Heritage Banking Company Ltd" {{ old('bank') == 'Heritage Banking Company Ltd' ? "selected" : "" }}>Heritage Banking Company Ltd.</option>
+                                            <option value="Key Stone Bank" {{ old('bank') == 'Key Stone Bank' ? "selected" : "" }}>Key Stone Bank</option>
+                                            <option value="MainStreet Bank" {{ old('bank') == 'MainStreet Bank' ? "selected" : "" }}>MainStreet Bank</option>
+                                            <option value="Skye Bank Plc" {{ old('bank') == 'Skye Bank Plc' ? "selected" : "" }}>Skye Bank Plc</option>
+                                            <option value="Stanbic IBTC Bank Ltd" {{ old('bank') == 'Stanbic IBTC Bank Ltd' ? "selected" : "" }}>Stanbic IBTC Bank Ltd.</option>
+                                            <option value="Standard Chartered Bank Nigeria Ltd" {{ old('bank') == 'Standard Chartered Bank Nigeria Ltd' ? "selected" : "" }}>Standard Chartered Bank Nigeria Ltd.</option>
+                                            <option value="Sterling Bank Plc" {{ old('bank') == 'Sterling Bank Plc' ? "selected" : "" }}>Sterling Bank Plc</option>
+                                            <option value="Union Bank of Nigeria Plc" {{ old('bank') == 'Union Bank of Nigeria Plc' ? "selected" : "" }}>Union Bank of Nigeria Plc</option>
+                                            <option value="United Bank For Africa Plc" {{ old('bank') == 'United Bank For Africa Plc' ? "selected" : "" }}>United Bank For Africa Plc</option>
+                                            <option value="Unity Bank Plc" {{ old('bank') == 'Unity Bank Plc' ? "selected" : "" }}>Unity Bank Plc</option>
+                                            <option value="Wema Bank Plc" {{ old('bank') == 'Wema Bank Plc' ? "selected" : "" }}>Wema Bank Plc</option>
+                                            <option value="Zenith Bank Plc" {{ old('bank') == 'Zenith Bank Plc' ? "selected" : "" }}>Zenith Bank Plc</option>
+                                        </select>
+                                    </div>
+                                    @error('bank')
+                                        <p class="alert alert-danger">{{ $message }}</p>
+                                    @enderror
+    
+                                    <div class="form-group">
+                                        <label for="account_name">Account Name</label>
+                                        <input type="text" name="account_name" class="form-control" id="account_name"
+                                            placeholder="Enter account name" value="{{ old('account_name') }}">
+                                    </div>
+                                    @error('account_name')
+                                        <p class="alert alert-danger">{{ $message }}</p>
+                                    @enderror
+
+                                    <div class="form-group">
+                                        <label for="account_number">Account Number</label>
+                                        <input type="text" name="account_number" class="form-control" id="account_number"
+                                            placeholder="Enter account number" value="{{ old('account_number') }}">
+                                    </div>
+                                    @error('account_number')
+                                        <p class="alert alert-danger">{{ $message }}</p>
+                                    @enderror
+
                                 </div>
                                 <!-- /.card-body -->
 
@@ -143,27 +194,110 @@
                                 
                                 <div class="form-group">
                                     <label for="category">Employee Category</label>
-                                    <select name="category" class="form-control" id="category">
+                                    @php
+                                        $categories = App\Models\Category::all();
+                                    @endphp
+                                    <select name="category_id" class="form-control" id="category">
                                         <option value="">Employee Category</option>
                                         @foreach ($categories as $category)
-                                            <option value="{{ $category->id }}" {{ old('category') ==  "$category->id" ? "selected": "" }}>{{ $category->surname ." " . $parent->middlename . " ". $parent->lastname }}</option>
+                                            <option value="{{ $category->id }}" {{ old('category_id') ==  $category->id ? "selected": "" }}>{{ $category->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                @error('category')
+                                @error('category_id')
                                     <p class="alert alert-danger">{{ $message }}</p>
                                 @enderror
 
                              <div class="form-group">
-                                    <label for="class_id">Class</label>
-                                    <select name="class_id" class="form-control" id="class_id">
-                                        <option value="">Select Class</option>
-                                        @foreach ($classes as $class)
-                                            <option value="{{ $class->id }}" {{ old('class_id') == "$class->id" ? "selected": "" }}>{{ $class->name }}</option>
+                                    <label for="level_id">Department</label>
+                                        @php
+                                            $levels = App\Models\Level::all();
+                                        @endphp 
+                                    <select name="level_id" class="form-control" id="class_id">
+                                        <option value="">Select Department</option>
+                                        @foreach ($levels as $level)
+                                            <option value="{{ $level->id }}" {{ old('level_id') == $level->id ? "selected" : "" }}>{{ $level->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                @error('class_id')
+                                @error('level_id')
+                                    <p class="alert alert-danger">{{ $message }}</p>
+                                @enderror
+
+                             <div class="form-group">
+                                    <label for="religion">Religion</label> 
+                                    <select name="religion" class="form-control" id="religion">
+                                        <option value="">Select Religion</option>
+                                        <option value="christainity" {{ old('religion') == 'christainity' ? "selected" : "" }}>Christainity</option>
+                                        <option value="islam" {{ old('religion') == 'islam' ? "selected" : "" }}>Islam</option>
+                                    </select>
+                                </div>
+                                @error('religion')
+                                    <p class="alert alert-danger">{{ $message }}</p>
+                                @enderror
+
+                             <div class="form-group">
+                                    <label for="marital_status">Marital Status</label> 
+                                    <select name="marital_status" class="form-control" id="marital_status">
+                                        <option value="">Select Marital Status</option>
+                                        <option value="single" {{ old('marital_status') == 'single' ? "selected" : "" }}>Single</option>
+                                        <option value="married" {{ old('marital_status') == 'married' ? "selected" : "" }}>Married</option>
+                                    </select>
+                                </div>
+                                @error('marital_status')
+                                    <p class="alert alert-danger">{{ $message }}</p>
+                                @enderror
+
+                             <div class="form-group">
+                                    <label for="blood_group">Blood Group</label> 
+                                    <select name="blood_group" class="form-control" id="blood_group">
+                                        <option value="">Select Blood Group</option>
+                                        <option value="A+" {{ old('blood_group') == 'A+' ? "selected" : "" }}>A+</option>
+                                        <option value="A-" {{ old('blood_group') == 'A-' ? "selected" : "" }}>A-</option>
+                                        <option value="AB+" {{ old('blood_group') == 'AB+' ? "selected" : "" }}>AB+</option>
+                                        <option value="AB-" {{ old('blood_group') == 'AB-' ? "selected" : "" }}>AB-</option>
+                                        <option value="B+" {{ old('blood_group') == 'B+' ? "selected" : "" }}>B+</option>
+                                        <option value="B-" {{ old('blood_group') == 'B-' ? "selected" : "" }}>B-</option>
+                                        <option value="O+" {{ old('blood_group') == 'O+' ? "selected" : "" }}>O+</option>
+                                        <option value="O-" {{ old('blood_group') == 'O-' ? "selected" : "" }}>O-</option>
+                                    </select>
+                                </div>
+                                @error('blood_group')
+                                    <p class="alert alert-danger">{{ $message }}</p>
+                                @enderror
+
+                             <div class="form-group">
+                                    <label for="nationality">Nationality</label> 
+                                    <select name="nationality" class="form-control" id="nationality">
+                                        <option value="">Select Nationality</option>
+                                        <option value="nigeria" {{ old('nationality') == 'nigeria' ? "selected" : "" }}>Nigeria</option>
+                                        <option value="other" {{ old('nationality') == 'other' ? "selected" : "" }}>Other</option>
+                                    </select>
+                                </div>
+                                @error('nationality')
+                                    <p class="alert alert-danger">{{ $message }}</p>
+                                @enderror
+
+                             <div class="form-group">
+                                    <label for="qualification">Qualification</label> 
+                                    <select name="qualification" class="form-control" id="qualification">
+                                        <option value="">Select Qualification</option>
+                                        <option value="Bsc" {{ old('qualification') == 'Bsc' ? "selected" : "" }}>Bsc</option>
+                                        <option value="Msc" {{ old('qualification') == 'Msc' ? "selected" : "" }}>Msc</option>
+                                        <option value="HND" {{ old('qualification') == 'HND' ? "selected" : "" }}>Hnd</option>
+                                        <option value="OND" {{ old('qualification') == 'OND' ? "selected" : "" }}>Ond</option>
+                                        <option value="NCE" {{ old('qualification') == 'NCE' ? "selected" : "" }}>Nce</option>
+                                        <option value="BA" {{ old('qualification') == 'BA' ? "selected" : "" }}>Ba</option>
+                                        <option value="PGDE" {{ old('qualification') == 'PGDE' ? "selected" : "" }}>Pgde</option>
+                                        <option value="PROF" {{ old('qualification') == 'PROF' ? "selected" : "" }}>Prof</option>
+                                        <option value="DR" {{ old('qualification') == 'DR' ? "selected" : "" }}>Dr</option>
+                                        <option value="KCPE" {{ old('qualification') == 'KCPE' ? "selected" : "" }}>Kcpe</option>
+                                        <option value="KCSE" {{ old('qualification') == 'KCSE' ? "selected" : "" }}>Kcse</option>
+                                        <option value="UNDERGRADUATE" {{ old('qualification') == 'UNDERGRADUATE' ? "selected" : "" }}>Undergraduate</option>
+                                        <option value="ECDE" {{ old('qualification') == 'ECDE' ? "selected" : "" }}>Ecde</option>
+                                    </select>
+                                </div>
+                                @error('qualification')
                                     <p class="alert alert-danger">{{ $message }}</p>
                                 @enderror
 
@@ -174,6 +308,7 @@
                                 @error('address')
                                     <p class="alert alert-danger">{{ $message }}</p>
                                 @enderror
+
                                 <div class="form-group">
                                     <label for="photo">File input</label>
                                     <div class="input-group">

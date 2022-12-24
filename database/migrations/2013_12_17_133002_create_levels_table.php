@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('levels', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('full_fees');
+            $table->string('part_fees');
             $table->timestamps();
         });
     }
