@@ -20,4 +20,9 @@ class Level extends Model
     {
         return $this->hasManyThrough(Student::class, Clazz::class);
     }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

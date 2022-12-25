@@ -1,3 +1,4 @@
+
 @extends('backend.layouts.app')
 @push('extra-css')
      <!-- DataTables -->
@@ -54,7 +55,11 @@
                     <tr>
                         <td>{{ $user->name ." ". $user->middlename }}</td>
                         <td>{{ $user->idNo }}</td>
-                        <td>{{ $user->role}}</td>
+                        <td>
+                          @foreach ($user->role as $item)
+                            <button class="btn btn-sm btn-warning font-weight-bold">{{ $item }}</button>
+                          @endforeach
+                      </td>
                         <td class="text-center"><img class="img-thumbnail" src="{{ asset($user->photo) }}" alt="{{ $user->surname }}" style="width: 100px; height: 100px;"></td>
                         <td class="d-flex" style="justify-content: space-evenly; padding-right: 0;">
                             <a title="edit" href="{{ route('user.edit',$user->id) }}" role="button" class="btn btn-success"><i class="fas fa-edit"></i></a>
@@ -74,13 +79,13 @@
                                         <div class="card">
                                           <div class="card-body">
                                             <div class="d-flex flex-column align-items-center text-center">
-                                              <img src="{{ asset($user->photo) }}" alt="Admin" class="rounded-circle" width="150">
+                                              <img src="{{ asset($user->photo) }}" alt="{{ $user->name }}" class="rounded-circle" width="150">
                                               <div class="mt-3">
                                                 <h4>{{ $user->name .' '. $user->middlename }}</h4>
-                                                <p class="text-secondary mb-1">{{ $user->admno }}</p>
-                                                <p class="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
+                                                <p class="text-secondary mb-1">{{ $user->idNo }}</p>
+                                                <p class="text-muted font-size-sm font-weight-bold">{{ $user->roles[0]->name }}</p>
                                                 <button class="btn btn-primary">
-                                                  Promote
+                                                  Transfer
                                                 </button>
                                                 <button class="btn btn-outline-primary">Status</button>
                                               </div>
@@ -96,7 +101,47 @@
                                                 <h6 class="mb-0 font-weight-bold">Full Name</h6>
                                               </div>
                                               <div class="col-sm-9 text-secondary">
-                                                {{ ucwords($user->surname .' '. $user->middlename . ' ' . $user->lastname) }}
+                                                {{ ucwords($user->name .' '. $user->middlename . ' ' . $user->lastname) }}
+                                              </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                              <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">Email</h6>
+                                              </div>
+                                              <div class="col-sm-9 text-secondary">
+                                                {{ ucwords($user->email) }}
+                                              </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                              <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">Roles</h6>
+                                              </div>
+                                              <div class="col-sm-9 text-secondary">
+                                                @foreach ($user->roles as $role)
+                                                    <button class="btn btn-sm btn-warning font-weight-bold">{{ $role->name }}</button>
+                                                @endforeach
+                                              </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                              <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">Permissions</h6>
+                                              </div>
+                                              <div class="col-sm-9 text-secondary">
+                                                @foreach ($user->getAllPermissions() as $perm)
+                                                    <button class="btn btn-sm btn-warning font-weight-bold text-capitalize">{{ $perm->name }}</button>
+                                                @endforeach
+                                              </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                              <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">ID Number</h6>
+                                              </div>
+                                              <div class="col-sm-9 text-secondary">
+                                                {{ ucwords($user->idNo) }}
                                               </div>
                                             </div>
                                             <hr>
@@ -120,28 +165,100 @@
                                             <hr>
                                             <div class="row">
                                               <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">Admission Date</h6>
+                                                <h6 class="mb-0 font-weight-bold">Phone</h6>
                                               </div>
                                               <div class="col-sm-9 text-secondary">
-                                                {{ $user->admission_date }}
+                                                {{ $user->phone }}
                                               </div>
                                             </div>
                                             <hr>
                                             <div class="row">
                                               <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">Guardian</h6>
+                                                <h6 class="mb-0 font-weight-bold">Department</h6>
                                               </div>
                                               <div class="col-sm-9 text-secondary">
-                                                {{ ucwords($user->surname .' '. $user->middlename . ' ' . $user->lastname) }}
+                                                {{ ucwords($user->level->name) }}
+                                              </div> 
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                              <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">Category</h6>
+                                              </div>
+                                              <div class="col-sm-9 text-secondary">
+                                                {{ ucwords($user->category->name . ' Staff') }}
                                               </div>
                                             </div>
                                             <hr>
                                             <div class="row">
                                               <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">Class</h6>
+                                                <h6 class="mb-0 font-weight-bold">Religion</h6>
                                               </div>
                                               <div class="col-sm-9 text-secondary">
-                                                {{ ucwords($user->name) }}
+                                                {{ ucwords($user->religion) }}
+                                              </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                              <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">Marital Status</h6>
+                                              </div>
+                                              <div class="col-sm-9 text-secondary">
+                                                {{ ucwords($user->marital_status) }}
+                                              </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                              <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">Blood Group</h6>
+                                              </div>
+                                              <div class="col-sm-9 text-secondary">
+                                                {{ ucwords($user->blood_group) }}
+                                              </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                              <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">Nationality</h6>
+                                              </div>
+                                              <div class="col-sm-9 text-secondary">
+                                                {{ ucwords($user->nationality) }}
+                                              </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                              <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">Qualification</h6>
+                                              </div>
+                                              <div class="col-sm-9 text-secondary">
+                                                {{ ucwords($user->qualification) }}
+                                              </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                              <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">Bank</h6>
+                                              </div>
+                                              <div class="col-sm-9 text-secondary">
+                                                {{ ucwords($user->bank) }}
+                                              </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                              <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">Account Number</h6>
+                                              </div>
+                                              <div class="col-sm-9 text-secondary">
+                                                {{ ucwords($user->account_number) }}
+                                              </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                              <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">Account Name</h6>
+                                              </div>
+                                              <div class="col-sm-9 text-secondary">
+                                                {{ ucwords($user->account_name) }}
                                               </div>
                                             </div>
                                             <hr>

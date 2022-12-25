@@ -1,6 +1,8 @@
 @extends('backend.layouts.app')
 
 @push('extra-css')
+    <!-- Select2 --> <link rel="stylesheet" href="{{ asset('backend/plugins/select2/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('backend/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{ asset('backend/plugins/daterangepicker/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/plugins/vitalets-bootstrap-datepicker-c7af15b/css/datepicker.css') }}">
 @endpush
@@ -100,8 +102,8 @@
                                         <label for="status">Status</label>
                                         <select name="status" class="form-control" id="status">
                                             <option value="">Select Status</option>
-                                            <option value="1" {{ $user->status == 'active' ? "selected": "" }}>Active</option>
-                                            <option value="0" {{ $user->status == 'inactive' ? "selected": "" }}>Inactive</option>
+                                            <option value="1" {{ $user->status == '1' ? "selected": "" }}>Active</option>
+                                            <option value="0" {{ $user->status == '0' ? "selected": "" }}>Inactive</option>
                                         </select>
                                     </div>
                                     @error('status')
@@ -294,6 +296,23 @@
                                 @enderror
 
                                 <div class="form-group">
+                                    <label for="role">Role or Postion</label> 
+                                    @php
+                                        $roles = Spatie\Permission\Models\Role::all();
+                                    @endphp
+              
+                                    <select class="select2bs4 form-control" name="role[]" multiple="multiple" data-placeholder="Select a Role"
+                                            style="width: 100%;">
+                                         @foreach ($roles as $role)
+                                                <option value="{{ $role->id }}" {{ is_array($user->roles()->pluck('id')->toArray()) && in_array($role->id, $user->roles()->pluck('id')->toArray()) ? 'selected' : '' }}>{{ $role->name }}</option>
+                                        @endforeach  
+                                    </select>
+                                </div>
+                                @error('role')
+                                    <p class="alert alert-danger">{{ $message }}</p>
+                                @enderror
+
+                                <div class="form-group">
                                     <label for="address">Address</label>
                                     <textarea class="form-control" name="address" id="address" placeholder="Enter Address">{{ $user->address }}</textarea>
                                 </div>
@@ -315,6 +334,9 @@
                                 @error('photo')
                                     <p class="alert alert-danger">{{ $message }}</p>
                                 @enderror
+
+                                
+                               <livewire:user.edit-permission-component :user='$user'/>
 
                                 <div class="card-footer text-right">
                                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -341,11 +363,20 @@
 @endsection
 
 @push('extra-js')
+    <script src="{{ asset('backend/plugins/select2/js/select2.full.min.js')}}"></script>
     <!-- bs-custom-file-input -->
     <script src="{{ asset('backend/plugins/bs-custom-file-input/bs-custom-file-input.min.js') }}"></script>
 
     <script>
         $(function() {
+              //Initialize Select2 Elements
+              $('.select2').select2()
+
+            //Initialize Select2 Elements
+            $('.select2bs4').select2({
+            theme: 'bootstrap4'
+            });
+
             bsCustomFileInput.init();
         });
     </script>

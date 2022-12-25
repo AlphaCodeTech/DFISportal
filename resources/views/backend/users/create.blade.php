@@ -1,6 +1,8 @@
 @extends('backend.layouts.app')
 
 @push('extra-css')
+    <link rel="stylesheet" href="{{ asset('backend/plugins/select2/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('backend/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{ asset('backend/plugins/daterangepicker/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/plugins/vitalets-bootstrap-datepicker-c7af15b/css/datepicker.css') }}">
 @endpush
@@ -302,6 +304,22 @@
                                 @enderror
 
                                 <div class="form-group">
+                                    <label for="role">Role or Postion</label> 
+                                    @php
+                                        $roles = Spatie\Permission\Models\Role::all();
+                                    @endphp
+                                    <select class="select2bs4 form-control" name="role[]" multiple="multiple" data-placeholder="Select a Role"
+                                            style="width: 100%;">
+                                         @foreach ($roles as $role)
+                                                <option value="{{ $role->id }}" {{ old('role') == $role->id ? "selected" : "" }}>{{ $role->name }}</option>
+                                        @endforeach  
+                                    </select>
+                                </div>
+                                @error('role')
+                                    <p class="alert alert-danger">{{ $message }}</p>
+                                @enderror
+
+                                <div class="form-group">
                                     <label for="address">Address</label>
                                     <textarea class="form-control" name="address" id="address" placeholder="Enter Address">{{ old('address') }}</textarea>
                                 </div>
@@ -323,6 +341,10 @@
                                 @error('photo')
                                     <p class="alert alert-danger">{{ $message }}</p>
                                 @enderror
+
+                                <h5>Assign Permission</h5>
+                                <livewire:user.user-permission-component />
+                                
 
                                 <div class="card-footer text-right">
                                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -357,11 +379,18 @@
             bsCustomFileInput.init();
         });
     </script>
-    {{-- <script src="{{ asset('backend/plugins/moment/moment.min.js')}}"></script> --}}
-    {{-- <script src="{{ asset('backend/plugins/daterangepicker/daterangepicker.js') }}"></script> --}}
+    <script src="{{ asset('backend/plugins/select2/js/select2.full.min.js')}}"></script>
     <script src="{{ asset('backend/plugins/vitalets-bootstrap-datepicker-c7af15b/js/bootstrap-datepicker.js') }}"></script>
     <script>
         $(function() {
+             //Initialize Select2 Elements
+            $('.select2').select2()
+
+           //Initialize Select2 Elements
+            $('.select2bs4').select2({
+            theme: 'bootstrap4'
+            })
+
             //Date picker
             $('#dob').datepicker();
             $('#admission_date').datepicker();

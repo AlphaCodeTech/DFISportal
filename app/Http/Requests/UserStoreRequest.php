@@ -44,7 +44,9 @@ class UserStoreRequest extends FormRequest
             "nationality" => 'required',
             "qualification" => 'required',
             "address" => 'required',
+            'role' => 'nullable:exists:roles,id',
             "photo" => 'required|image|mimes:jpg,png,jpeg',
+            'permission_id' => 'nullable|exists:permissions,id',
         ];
     }
 }

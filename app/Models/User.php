@@ -55,4 +55,14 @@ class User extends Authenticatable
             $model->idNo = "DFIS/SEC/STAFF" . date('Y') . '/' . rand(10000, 99999);
         });
     }
+
+    public function level()
+    {
+        return $this->belongsTo(Level::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }
