@@ -5,6 +5,7 @@ use App\Http\Controllers\ClassController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SessionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
@@ -62,4 +63,7 @@ Route::prefix('admin')->group(function () {
 
     // ! Categories
     Route::resource('category',CategoryController::class);
+
+    // ! Academic Sessions
+    Route::resource('session',SessionController::class);
 });

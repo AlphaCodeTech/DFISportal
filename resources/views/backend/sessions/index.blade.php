@@ -15,12 +15,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Roles</h1>
+            <h1>Sessions</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">View Roles</li>
+              <li class="breadcrumb-item active">View Sessions</li>
             </ol>
           </div>
         </div>
@@ -35,7 +35,7 @@
          
             <div class="card">
               <div class="card-header">
-                <a role="button" class="btn btn-primary" href="{{ route('role.create') }}">Add Role</a>
+                <a role="button" class="btn btn-primary" href="{{ route('session.create') }}">Add Session</a>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -43,28 +43,25 @@
                   <thead>
                   <tr>
                     <th>Name</th>
-                    <th>Permissions</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
                     <th>Action</th>
                   </tr>
                   </thead>
                   <tbody>
-                    @foreach ($roles as $role)
+                    @foreach ($sessions as $session)
                     <tr>
-                        <td>{{ $role->name }}</td>
-                        <td>
-                          @foreach ($role->permissions->slice(-5) as $permission)
-                            <button class="btn btn-sm btn-warning font-weight-bold text-capitalize">{{ $permission->name }}</button> 
-                          @endforeach
-                        </td>
-                          
+                        <td>{{ $session->name }}</td>
+                        <td>{{ $session->start_date }}</td>
+                        <td>{{ $session->end_date }}</td>
                         <td class="d-flex" style="justify-content: space-evenly; padding-right: 0;">
-                            <a title="edit" href="{{ route('role.edit',$role->id) }}" role="button" class="btn btn-success"><i class="fas fa-edit"></i></a>
-                            <a role="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-xl{{ $role->id }}"><i class="fas fa-eye" title="view class"></i>
-                              <div class="modal fade" id="modal-xl{{ $role->id }}" data-keyboard="false" data-backdrop="static"  >
+                            <a title="edit" href="{{ route('session.edit',$session->id) }}" role="button" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                            <a role="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-xl{{ $session->id }}"><i class="fas fa-eye" title="view session"></i>
+                              <div class="modal fade" id="modal-xl{{ $session->id }}" data-keyboard="false" data-backdrop="static"  >
                                 <div class="modal-dialog modal-xl modal-dialog modal-dialog-scrollable">
                                   <div class="modal-content">
                                     <div class="modal-header  text-center">
-                                      <h4 class="modal-title">View Permission</h4>
+                                      <h4 class="modal-title">View Session</h4>
                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                       </button>
@@ -75,9 +72,10 @@
                                         <div class="card">
                                           <div class="card-body">
                                             <div class="d-flex flex-column align-items-center text-center">
-                                              {{-- <img src="{{ asset($class->photo) }}" alt="Admin" class="rounded-circle" width="150"> --}}
+                                              {{-- <img src="{{ asset($session->photo) }}" alt="Admin" class="rounded-circle" width="150"> --}}
                                               <div class="mt-3">
-                                                <h4>{{ $role->name }}</h4>
+                                                <h4>{{ $session->name }}</h4>
+                                                <p class="text-secondary mb-1">{{ $session->admno }}</p>
                                                 
                                                 <button class="btn btn-outline-primary">Status</button>
                                               </div>
@@ -93,27 +91,29 @@
                                                 <h6 class="mb-0 font-weight-bold">Name</h6>
                                               </div>
                                               <div class="col-sm-9 text-secondary">
-                                                {{ ucwords($role->name ) }}
+                                                {{ ucwords($session->name ) }}
                                               </div>
                                             </div>
                                             <hr>
-                                            
+                                          
                                             <div class="row">
                                               <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">Permissions</h6>
+                                                <h6 class="mb-0 font-weight-bold">Start Date</h6>
                                               </div>
                                               <div class="col-sm-9 text-secondary">
-                                                <div class="row">
-                                                  @foreach ($role->permissions as $permission)
-                                                  <div class="col-md-3">
-                                                    <button class="btn btn-sm btn-warning font-weight-bold text-capitalize mb-1">{{ $permission->name }}</button>
-                                                  </div>
-                                                  @endforeach
-                                                </div>
+                                                {{ ucwords($session->start_date) }}
                                               </div>
                                             </div>
                                             <hr>
-                                            
+                                            <div class="row">
+                                              <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">End Date</h6>
+                                              </div>
+                                              <div class="col-sm-9 text-secondary">
+                                                {{ ucwords($session->end_date) }}
+                                              </div>
+                                            </div>
+                                            <hr>
                                             
                                           </div>
                                         </div>
@@ -131,7 +131,7 @@
                                 <!-- /.modal-dialog -->
                               </div>
                             </a>
-                            <form action="{{ route('role.destroy', $role->id)}}" class="deleteForm" method="post">
+                            <form action="{{ route('session.destroy', $session->id)}}" class="deleteForm" method="post">
                               @csrf
                               @method('DELETE')
                               <button title="delete" type="submit" role="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
@@ -147,7 +147,8 @@
                   <tfoot>
                   <tr>
                     <th>Name</th>
-                    <th>Permissions</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
                     <th>Action</th>
                   </tr>
                   </tfoot>
