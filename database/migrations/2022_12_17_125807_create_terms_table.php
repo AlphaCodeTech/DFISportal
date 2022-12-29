@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('terms', function (Blueprint $table) {
             $table->id();
             $table->foreignId('session_id')->constrained('sessions')->cascadeOnDelete();
-            $table->foreignId('term_type_id')->constrained('term_types')->cascadeOnDelete();
+            $table->string('termtype_id')->constrained('term_types')->cascadeOnDelete();
             $table->timestamps();
         });
     }

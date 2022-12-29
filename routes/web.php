@@ -8,6 +8,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\TermController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -66,4 +67,9 @@ Route::prefix('admin')->group(function () {
 
     // ! Academic Sessions
     Route::resource('session',SessionController::class);
+
+    // ! Terms
+    Route::resource('term',TermController::class);
+    Route::get('/termtypes',[TermController::class,'createTermType'])->name('termtype.create');
+    Route::post('/termtypes',[TermController::class,'storeTermType'])->name('termtype.store');
 });
