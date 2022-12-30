@@ -118,4 +118,19 @@ class ClassController extends Controller
             return redirect()->back();
         }
     }
+
+    public function assignSubjectCreate()
+    {
+        return view('backend.classes.assignSubject');
+    }
+
+    public function assignSubject(Request $request)
+    {
+        $id = $request->class_id;
+
+        $class = Clazz::find($id);
+        $class->subjects()->sync($request->subject_id);
+        toast("Subjects assigned to class successfully",'success');
+        return redirect()->route('class.index');
+    }
 }

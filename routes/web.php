@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -12,28 +13,15 @@ use App\Http\Controllers\TermController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-Route::middleware(['splade'])->group(function () {
-    Route::get('/', fn () => view('home'))->name('home');
-    Route::get('/docs', fn () => view('docs'))->name('docs');
-
-    // Registers routes to support Table Bulk Actions and Exports...
-    Route::spladeTable();
-
-    // Registers routes to support async File Uploads with Filepond...
-    Route::spladeUploads();
+// ! Frontend Routes
+Route::group([], function(){
+    Route::get('/', [HomeController::class,'index'])->name('user.index');
+    Route::get('/purchase-admission-form', [HomeController::class,'purchase'])->name('form.purchase');
+    Route::get('/school-fees-payment', [HomeController::class,'payfees'])->name('fees.pay');
 });
 
+
+// ! Backend Routes
 Route::prefix('admin')->group(function () {
     Route::get('/', function () {
         return view('backend.index');
@@ -52,6 +40,8 @@ Route::prefix('admin')->group(function () {
 
     // ! Classes
     Route::resource('class',ClassController::class);
+    Route::get('/assignSubject',[ClassController::class,'assignSubjectCreate'])->name('class.subject');
+    Route::post('/assignSubject',[ClassController::class,'assignSubject'])->name('subject.assign');
 
     // ! Users
     Route::resource('user',UserController::class);

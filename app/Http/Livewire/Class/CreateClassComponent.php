@@ -14,7 +14,7 @@ class CreateClassComponent extends Component
     public function mount()
     {
         $this->levels = Level::all();
-        $this->teachers = User::all();
+        $this->teachers = User::role('teacher')->get();
     }
     
     public function render()

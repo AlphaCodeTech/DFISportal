@@ -27,4 +27,9 @@ class Clazz extends Model
     {
         return $this->belongsTo(User::class,'user_id');
     }
+
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class,'class_subjects','class_id')->withTimestamps();
+    }
 }

@@ -342,7 +342,6 @@
                                     <p class="alert alert-danger">{{ $message }}</p>
                                 @enderror
 
-                                <h5>Assign Permission</h5>
                                 <livewire:user.user-permission-component />
                                 
 

@@ -1,0 +1,844 @@
+*{
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    border: 0;
+    appearance: 0;
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+/* Dropdown Button */
+.dropbtn {
+    color: black;
+    font-size: 16px;
+    border: none;
+  }
+  
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {background-color: #ddd;}
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {display: block;}
+  
+body{
+    height: 100vh;
+    width: 100%;
+    display: inline-block;
+    overflow-x: hidden;
+}
+
+.navbar{
+    height: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+.logo{
+    margin-top: 5px;
+}
+section{
+    margin-left: 30px;
+    margin-right: 30px;
+}
+.nav{
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+}
+.navbar .nav ul{
+    display: flex;
+}
+.nav button{
+    display: none;
+}
+.nav ul li{
+    list-style: none;
+    padding: 15px;
+    cursor: pointer;
+}
+/*Header Section Ends*/
+.admission{
+    display: flex;
+    margin-top: 60px;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+}
+.add-left{
+    width: 50%;
+    text-align: left;
+    color: #353F74;
+
+}
+.txt-1{
+    width: 100%;
+}
+.txt-1 h2{
+    font-size: 40px;
+    line-height: 50px;
+    margin-bottom: 30px;
+}
+.txt-2 p{
+    line-height: 30px;
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+ button{
+    height: 35px;
+    width: 110px;
+    border: 1px solid #353F74;
+    border-radius: 5px;
+    cursor: pointer;
+ }
+ .join{
+    background-color: #353F74;
+    ;
+    color: #fff;
+ }
+ .join:hover{
+    background-color: #fff;
+    color:#353F74 ;
+ }
+ .why-us{
+    color:#353F74 ;
+    background: #fff;
+    margin-left: 20px;
+ }
+.right{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.right img{
+    margin: 15px;
+    border-radius: 15px;
+}
+
+
+.programs{
+    margin-top: 60px;
+}
+.welcome{
+    text-align: center;
+}
+.w-greetings{
+    margin:30px ;
+}
+h1{
+    font-size: 45px;
+    color: #353F74;
+
+}
+.w-offer p{
+    font-size: 20px;
+    line-height: 25px;
+}
+.icon-section{
+    display: flex;
+    margin-top: 60px;
+    align-items: center;
+    justify-content: center;
+}
+.icon-section .icon-msg{
+    height: 250px;
+    width: 250px;
+    text-align: center;
+    margin: 10px;
+    box-shadow: 2px 2px 1px 2px rgba(0, 0, 0, 0.06);
+    transition: 0.5s ease-in-out;
+}
+.icon{
+    padding: 15px;
+}
+.icon-msg h4{
+    padding: 15px;
+    font-size: 20px;
+    color: #353F74;
+
+}
+.icon-msg .color{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    width: 100%;
+}
+.icon-msg p{
+    line-height: 20px;
+    margin-bottom: 10px;
+}
+.c-1{
+    height: 5px;
+    width: 40px;
+    background-color: #353F74;
+}
+.c-2{
+    height: 5px;
+    width: 40px;
+    background-color: #88974D;
+}
+.c-22{
+    height: 5px;
+    width: 40px;
+    background-color: #A36644;
+}
+.c-23{
+    height: 5px;
+    width: 40px;
+    background-color: #9087D3;
+}
+.c-24{
+    height: 5px;
+    width: 40px;
+    background-color: #A7EAD2;
+}
+.icon-msg:hover{
+    background-color:#dbd8ee;
+}
+
+/*Styling About us*/
+
+.about{
+    padding-top: 60px;
+}
+.about-content{
+    display: flex;
+}
+.about-img{
+    width: 50%;
+}
+.about-img img{
+    
+    border-radius: 5px;
+}
+.about-text{
+    text-align: center;
+    width: 50%;
+}
+.about-text h3{
+    font-size: 30px;
+    color: #353F74;
+}
+.about-text p{
+    text-align: left;
+    font-size: 25px;
+    line-height: 40px;
+}
+.p-2{
+    margin-top: 40px;
+    word-spacing: 10px;
+}
+.blue{
+    display: flex;
+}
+.p-color{
+    color: #353F74;
+    font-weight: 600;
+}
+.smart-programs{
+    text-align: center;
+    margin-top: 80px;
+    margin-bottom: 60px;
+}
+/*Styling About us ends*/
+
+
+/*Styling Gallery*/
+.gallery{
+    padding: top;
+}
+.gallery-contents{
+    text-align: center;
+    padding-bottom: 60px;
+}
+.gallery-contents h1{
+    padding-bottom: 20px;
+}
+.gallery-contents p{
+    font-size: 20px;
+    line-height: 25px;
+    
+}
+.owl-img-info {
+    position: absolute;
+    bottom: 20px;
+    color: #fff;
+    left: 25px;
+}
+
+.owl-img-par img {
+    filter: brightness(0.8);
+    transition: all 0.5s ease;
+}
+.owl-carousel{
+    padding-bottom: 4rem;
+}
+
+
+.result-checker{
+    display: flex;
+}
+.r-text{
+    width: 50%;
+    text-align: center;
+    margin-top: 60px;
+}
+.r-text p{
+    font-size: 20px;
+    line-height: 25px;
+}
+.r-form{
+    width: 50%;
+    justify-content: right;
+    align-items: flex-end;
+}
+.r-form form input, select{
+    height: 50px;
+    width: 500px;
+    outline: none;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    overflow: hidden;
+    border: none;
+    border-top: 2px solid #353F74;
+    border-bottom: 2px solid #353F74;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+}
+#btn{
+    background-color: #353F74;
+    color: white;
+    margin-top: 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 45px;
+}
+
+#btn:hover{
+    border: 1px solid #353F74;
+    background-color: white;
+    color: black;
+}
+
+/*Styling Advert*/
+.advert{
+    height: 250px;
+    width: 100%;
+    margin-top: 100px;
+    text-align: center;
+    background-image: radial-gradient(#353F74, #353F74);
+}
+.advert p{
+    padding-top: 80px;
+    font-size: 20px;
+    line-height: 25px;
+    color: #fff;
+}
+/*Styling Contact*/
+.contact{
+    display: flex;
+    margin-top: 60px;  
+    background-color: rgb(248, 245, 245); 
+}
+.c-left{
+    width: 50%;
+    text-align: center;
+    margin-top: 60px;
+}
+.c-right{
+    width: 50%;
+    margin-top: 30px;
+}
+.contact .c-right form input{
+    height: 50px;
+    width: 500px;
+    outline: none;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    overflow: hidden;
+    border: none;
+    border-bottom: 2px solid #353F74;
+    background: transparent;
+}
+.admission-text{
+    text-align: center;
+    padding-bottom: 30px;
+}
+.admission-text h1{
+    margin-top: 60px;
+    margin-bottom: 30px;
+}
+.admission-text p{
+    font-size: 20px;
+    line-height: 25px;
+    padding-bottom:10px;
+}
+.admit-form{
+    display: grid;
+    grid-template-columns: repeat(1fr);
+    margin-left: 100px;
+}
+.admit-form form input{
+    height: 50px;
+    width: 500px;
+    outline: none;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    margin-left: 50px;
+    overflow: hidden;
+    border: none;
+    border-bottom: 2px solid #353F74;
+    background: transparent;
+}
+.admit-form select{
+    padding-left: 10px;
+    margin-left: 50px;
+    border: none;
+    border-bottom: 2px solid #353F74;
+}
+.admit-form form #btn,#cont-reg{
+    margin-left: 350px;
+}
+.admit-form form h2{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+    color: #353F74;
+}
+
+
+.map{
+    margin-top: 60px;
+    text-align: center;
+}
+.map-text{
+    margin-bottom: 30px;
+    color: #353F74;
+
+}
+
+.map-link{
+    width: 100%;
+}
+
+.footer{
+    display: flex;
+    width: 100%;
+    height: 300px;
+    margin-top: 60px;
+    padding-top: 60px;
+    background-color: #353F74;
+    color: white;
+}
+.links{
+    padding-left: 350px;
+    padding-right: 350px;
+}
+.links ul li{
+    padding-top: 10px;
+    cursor: pointer;
+}
+.f-logo{
+    margin-left: 60px;
+}
+
+.second-footer{
+    height: 70px;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    color: #353F74;
+}
+.second-footer p{
+    font-weight: 700;
+}
+.desc{
+    display: flex;
+    margin-top: 10px;
+}
+.uil{
+    margin-right: 10px;
+}
+
+
+.faqs{
+    background-color: rgb(248, 245, 245); 
+    margin-top: 60px;
+    padding-bottom: 60px;
+    padding-top: 60px;
+}
+.faq-text{
+    margin-bottom: 30px;
+    text-align: center;
+}
+.faq-text p{
+    font-size: 20px;
+    line-height: 25px;
+}
+.faqs__container{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+.faq{
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    height: fit-content;
+    cursor: pointer;
+    width: 90%;
+    margin-left: 60px;
+    border-top: 1px solid #353F74;
+    border-bottom: 1px solid #353F74;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+
+}
+.faq h4{
+    font-size: 1rem;
+    line-height: 2.2;
+}
+.faq__icon{
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    font-size: 1.2rem;
+}
+.faq p{
+    margin-top: 0.8rem;
+    display: none;
+}
+.faq.open p{
+    display: block;
+}
+
+/*===============================================================
+====================Media Queries (Medium Devices)==========================================
+========================
+*/
+
+@media screen and (max-width: 1024px){
+    .nav{
+        display: none;
+    }
+
+    .admission{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    .right{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    .right img{
+        border-radius: 10px;
+    }
+    .programs{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    .icon-section{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    .welcome{
+        text-align: center;
+        width: 45%;
+    }
+    .w-greetings{
+        margin:0px ;
+    }
+    h1{
+        font-size: 20px;
+        color: #353F74;
+    
+    }
+    .w-offer p{
+        font-size: 20px;
+        line-height: 25px;
+    }
+    .about-content{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    .about-img img{
+        height: 260px;
+    }
+    .about-text{
+        text-align: center;
+        width: 45%;
+    }
+    .about-text h3{
+        font-size: 30px;
+        color: #353F74;
+    }
+    .about-text p{
+        text-align: left;
+        font-size: 25px;
+        line-height: 40px;
+    }
+    .smart-programs{
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 45%;
+    }
+    .smart-images{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    .gallery-contents{
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 45%;
+    }
+    .owl-carousel{
+        width: 45%;
+    }
+    .result-checker{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    .r-form{
+        display: grid;
+        grid-template-columns: 1fr;
+        align-items: center;
+        justify-content: center;
+        width: 45%;
+        
+    }
+    .r-form form input, select{
+        width: 350px;
+    }
+    .advert{
+        width: 50%;
+    }
+    .contact{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    .c-left{
+        width: 45%;
+        text-align: center;
+    }
+    .contact .c-right form input{
+        width: 350px;
+        
+    }
+    .map{
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    .map-text, .map-link{
+        width: 45%;
+    }
+
+    .footer{
+        display: grid;
+        grid-template-columns: 1fr;
+        width: 45%;
+        text-align: center;
+        height: 900px;
+    }
+    .links{
+        padding-left: 0;
+        padding-right: 0;
+        text-align: center;
+    }
+    .links ul li{
+        padding-top: 10px;
+        cursor: pointer;
+    }
+    .f-logo{
+        margin-left: 0;
+    }
+    
+    .second-footer{
+        height: 70px;
+        display: flex;
+        align-items:center;
+        justify-content: center;
+        color: #353F74;
+    }
+    .second-footer p{
+        font-weight: 700;
+    }
+    .desc{
+        display: grid;
+        margin-top: 10px;
+    }
+
+    .faq-text{
+        margin-bottom: 30px;
+        width: 45%;
+        text-align: center;
+    }
+    .faq-text p{
+        font-size: 20px;
+        line-height: 25px;
+    }
+    .faqs__container{
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0.4rem;
+    }
+    .faq{
+        padding: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        height: fit-content;
+        cursor: pointer;
+        width: 45%;
+        margin-left: 0;
+        border-top: 1px solid #353F74;
+        border-bottom: 1px solid #353F74;
+        border-left: 1px solid gray;
+        border-right: 1px solid gray;
+    
+    }
+    .faq h4{
+        font-size: 1rem;
+        line-height: 2.2;
+    }
+    .faq__icon{
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        font-size: 1.2rem;
+    }
+    .faq p{
+        margin-top: 0.8rem;
+        display: none;
+    }
+    .faq.open p{
+        display: block;
+    }
+    .admission-text{
+        width: 45%;
+    }
+    .admit-form{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        margin-left: 0;
+    }
+    .admit-form form input{
+        height: 50px;
+        width: 350px;
+        outline: none;
+        margin-bottom: 10px;
+        padding-left: 0;
+        margin-left: 0;
+        overflow: hidden;
+        border: none;
+        border-bottom: 2px solid #353F74;
+        background: transparent;
+    }
+    .admit-form form #btn{
+        margin-left: 0;
+    }
+    .admit-form form h2{
+        margin-top: 30px;
+        margin-bottom: 30px;
+        font-size: 20px;
+        text-align: left;
+        color: #353F74;
+    }
+    .admit-form select{
+        padding-left: 0;
+        margin-left: 0;
+        border: none;
+        border-bottom: 2px solid #353F74;
+    }
+    .second-footer{
+        width: 45%;
+    }
+    
+}
+/*====================MEDIA QUERIES (PHONES)======================*/
+@media screen and (max-width: 600px){
+    section{
+        margin-left: 20px;
+        margin-right: 30px;
+    }
+    .add-left{
+        width: 100%;
+        text-align: left;
+        color: #353F74;
+    }
+    .programs{
+    margin-top: 60px;
+}
+.welcome{
+    width: 100%;
+}
+.icon-section{
+    width: 100%;
+}
+.icon-msg{
+    width: 100%;
+}
+.about-text{
+    width: 100%;
+}
+.gallery-contents{
+    width: 100%;
+}
+.result-checker, .r-text, .r-form, .advert{
+    width: 100%;
+}
+.contact, .c-right, .c-left{
+    width: 100%;
+}
+.map, .map-text, .map-link{
+    width: 100%;
+}
+.faqs, .faq-text, .container, .faq{
+    width: 100%;
+}
+.admission-text{
+    width: 100%;
+}
+.footer{
+    width: 100%;
+}
+.second-footer{
+    width: 100%;
+}
+ }
+ .admit-form form #pass, label{
+    border: none;
+    height: auto;
+    width: auto;
+    padding-top: 15px;
+    font-size: 25px;
+}
+ 

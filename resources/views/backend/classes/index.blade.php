@@ -36,6 +36,7 @@
             <div class="card">
               <div class="card-header">
                 <a role="button" class="btn btn-primary" href="{{ route('class.create') }}">Add Classroom</a>
+                <a role="button" class="btn btn-success" href="{{ route('class.subject') }}">Assign Subject To Class</a>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -111,6 +112,18 @@
                                               </div>
                                               <div class="col-sm-9 text-secondary">
                                                 {{ ucwords($class->teacher->name) . ' ' .ucwords($class->teacher->middlename) . ' '. ucwords($class->teacher->lastname) }}
+                                              </div>
+                                            </div>
+                                            <hr>
+
+                                            <div class="row">
+                                              <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">Subjects</h6>
+                                              </div>
+                                              <div class="col-sm-9 text-secondary">
+                                                @foreach ($class->subjects as $sub)
+                                                  <button class="btn btn-sm btn-warning font-weight-bold">{{ ucwords($sub->name) }}</button>
+                                                @endforeach
                                               </div>
                                             </div>
                                             <hr>

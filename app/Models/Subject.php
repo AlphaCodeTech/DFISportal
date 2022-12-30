@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Subject extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
+
+    public function classes()
+    {
+        return $this->belongsToMany(Clazz::class,'class_subjects')->withTimestamps();
+    }
 }

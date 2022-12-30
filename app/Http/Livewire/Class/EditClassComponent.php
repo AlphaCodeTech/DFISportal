@@ -17,7 +17,7 @@ class EditClassComponent extends Component
     {
         $this->class = $class;
         $this->levels = Level::all();
-        $this->teachers = User::all();
+        $this->teachers = User::role('teacher')->get();
     }
 
     public function render()
