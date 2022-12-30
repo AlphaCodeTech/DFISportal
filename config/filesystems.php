@@ -58,6 +58,13 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+        'parent' => [
+            'driver' => 'local',
+            'root' => storage_path('app/parent'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
 
         's3' => [
             'driver' => 's3',
@@ -88,6 +95,7 @@ return [
         public_path('storage') => storage_path('app/public'),
         public_path('student') => storage_path('app/student'),
         public_path('staff') => storage_path('app/staff'),
+        public_path('parent') => storage_path('app/parent'),
     ],
 
 ];

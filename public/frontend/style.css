@@ -406,6 +406,7 @@ h1{
     grid-template-columns: repeat(1fr);
     margin-left: 100px;
 }
+
 .admit-form form input{
     height: 50px;
     width: 500px;
@@ -840,5 +841,14 @@ h1{
     width: auto;
     padding-top: 15px;
     font-size: 25px;
+}
+
+.error{
+    color: red;
+    font-size: 15px;
+    font-weight: 700;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 50px;
 }
  

@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::group([], function(){
     Route::get('/', [HomeController::class,'index'])->name('user.index');
     Route::get('/purchase-admission-form', [HomeController::class,'purchase'])->name('form.purchase');
-    Route::get('/school-fees-payment', [HomeController::class,'payfees'])->name('fees.pay');
+    Route::get('/school-fees-payment', [HomeController::class,'showfees'])->name('fees.pay');
+    Route::post('/school-fees-payment', [HomeController::class,'payfees'])->name('pay.fees');
 });
 
 

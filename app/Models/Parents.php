@@ -11,6 +11,8 @@ class Parents extends Model
 
     protected $table = 'parents';
 
+    protected $guarded = [];
+
     public function students()
     {
         return $this->hasMany(Student::class);

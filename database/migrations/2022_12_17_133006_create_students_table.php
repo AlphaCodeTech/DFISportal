@@ -20,13 +20,23 @@ return new class extends Migration
             $table->string('middlename');
             $table->string('admno');
             $table->string('gender');
+            $table->string('blood_group');
+            $table->string('genotype');
+            $table->string('allergies');
+            $table->string('disabilities');
+            $table->string('prevSchool');
+            $table->string('reason');
+            $table->string('introducer');
+            $table->string('driver');
             $table->string('dob');
             $table->string('admission_date');
             $table->foreignId('parent_id')->nullable()->constrained('parents')->cascadeOnDelete();
             $table->foreignId('class_id')->constrained('classes')->cascadeOnDelete();
             $table->string('photo');
+            $table->string('birth_certificate');
+            $table->string('immunization_card');
             $table->string('address'); 
-            $table->enum('status',['active','inactive'])->default('active'); 
+            $table->boolean('status')->default(true); 
             $table->timestamps();
         });
     }

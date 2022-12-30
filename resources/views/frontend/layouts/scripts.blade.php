@@ -5,3 +5,4 @@
 <script type="text/javascript" src="{{ asset('frontend/js/owl.carousel.min.js')}}"></script>
 <script src="{{ asset('frontend/js/extrenaljq.js')}}" type="text/javascript"></script>
 <script src="{{ asset('frontend/js/main.js')}}"></script>
+@livewireScripts
