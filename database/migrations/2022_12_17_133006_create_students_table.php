@@ -35,7 +35,6 @@ return new class extends Migration
             $table->string('photo');
             $table->string('birth_certificate');
             $table->string('immunization_card');
-            $table->string('address'); 
             $table->boolean('status')->default(true); 
             $table->timestamps();
         });

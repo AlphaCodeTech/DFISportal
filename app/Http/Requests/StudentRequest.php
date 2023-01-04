@@ -33,7 +33,6 @@ class StudentRequest extends FormRequest
             "admission_date" => 'required|date',
             "parent_id" => 'required|exists:parents,id',
             "class_id" => 'required|exists:classes,id',
-            "address" => 'required',
             "photo" => 'required|image|mimes:jpg,png,jpeg'
         ];
     }

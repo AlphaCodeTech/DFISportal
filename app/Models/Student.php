@@ -29,7 +29,7 @@ class Student extends Model
 
     public function parent()
     {
-        return $this->belongsTo(Parents::class);
+        return $this->belongsTo(Parents::class,'parent_id');
     }
 
     public function level()

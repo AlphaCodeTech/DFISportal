@@ -11,7 +11,7 @@
                         <div class="dropbtn">Admission</div>
                         <div class="dropdown-content">
                             <a href="{{ route('form.purchase') }}">Purchase Admission</a>
-                            <a href="{{ route('form.purchase') }}">Continue Registeration</a>
+                            <a href="{{ route('form.purchase',['enabled' => true,'id' => session()->get('id')]) }}">Continue Registeration</a>
 
                         </div>
                     </div>

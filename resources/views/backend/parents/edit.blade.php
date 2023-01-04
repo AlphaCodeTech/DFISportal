@@ -12,12 +12,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Add Student</h1>
+                        <h1>Edit Guardian</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Add Student</li>
+                            <li class="breadcrumb-item active">Edit Guardian</li>
                         </ol>
                     </div>
                 </div>
@@ -34,70 +34,72 @@
                         <div class="card card-primary">
 
                             <!-- form start -->
-                            <form method="POST" action="{{ route('student.store') }}" enctype="multipart/form-data">
+                            <form method="POST" action="{{ route('parent.update',$parent->id) }}" enctype="multipart/form-data">
                                 @csrf
+                                @method('PUT')
                                 <div class="card-body">
 
                                     <div class="form-group">
-                                        <label for="surname">Surname</label>
-                                        <input type="text" name="surname" class="form-control" id="surname"
-                                            placeholder="Enter surname" value="{{ old('surname') }}">
+                                        <label for="name">Name</label>
+                                        <input type="text" name="name" class="form-control" id="name"
+                                            placeholder="Enter name" value="{{ $parent->name }}">
                                     </div>
-                                    @error('surname')
-                                        <p class="alert alert-danger">{{ $message }}</p>
-                                    @enderror
-                                    <div class="form-group">
-                                        <label for="middlename">Middlename</label>
-                                        <input type="text" name="middlename" class="form-control" id="middlename"
-                                            placeholder="Enter middlename" value="{{ old('middlename') }}">
-                                    </div>
-                                    @error('middlename')
-                                        <p class="alert alert-danger">{{ $message }}</p>
-                                    @enderror
-                                    <div class="form-group">
-                                        <label for="lastname">Lastname</label>
-                                        <input type="text" name="lastname" class="form-control" id="lastname"
-                                            placeholder="Enter lastname" value="{{ old('lastname') }}">
-                                    </div>
-                                    @error('lastname')
-                                        <p class="alert alert-danger">{{ $message }}</p>
-                                    @enderror
-                                    <div class="form-group">
-                                        <label for="gender">Gender</label>
-                                        <select name="gender" class="form-control" id="gender">
-                                            <option value="">Select Gender</option>
-                                            <option value="male" {{ old("gender") == 'male' ? "selected": "" }}>Male</option>
-                                            <option value="female" {{ old("gender") == 'female' ? "selected": "" }}>Female</option>
-                                        </select>
-                                    </div>
-                                    @error('gender')
-                                        <p class="alert alert-danger">{{ $message }}</p>
-                                    @enderror
-                                    <div class="form-group">
-                                        <label for="status">Status</label>
-                                        <select name="status" class="form-control" id="status">
-                                            <option value="">Select Status</option>
-                                            <option value="active" {{ old("status") == 'active' ? "selected": "" }}>Active</option>
-                                            <option value="inactive" {{ old("status") == 'inactive' ? "selected": "" }}>Inactive</option>
-                                        </select>
-                                    </div>
-                                    @error('status')
+                                    @error('name')
                                         <p class="alert alert-danger">{{ $message }}</p>
                                     @enderror
 
                                     <div class="form-group">
-                                        <label>Date of Birth: </label>
-                                        <div data-date="12-02-2012" data-date-format="dd-mm-yyyy" class="input-group date">
-                                            <input id="dob" name="dob" type="text" class="form-control"
-                                                autocomplete="off" value="{{ old('dob') }}"/>
-                                            <div class="input-group-append">
-                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                            </div>
-                                        </div>
+                                        <label for="email">Email</label>
+                                        <input type="text" name="email" class="form-control" id="email"
+                                            placeholder="Enter email" value="{{ $parent->email }}">
                                     </div>
-                                    @error('dob')
+                                    @error('email')
                                         <p class="alert alert-danger">{{ $message }}</p>
                                     @enderror
+
+                                    <div class="form-group">
+                                        <label for="phone">Phone</label>
+                                        <input type="text" name="phone" class="form-control" id="phone"
+                                            placeholder="Enter phone" value="{{ $parent->phone }}">
+                                    </div>
+                                    @error('phone')
+                                        <p class="alert alert-danger">{{ $message }}</p>
+                                    @enderror
+
+                                    <div class="form-group">
+                                        <label for="state">State</label>
+                                        <input type="text" name="state" class="form-control" id="state"
+                                            placeholder="Enter state" value="{{ $parent->state }}">
+                                    </div>
+                                    @error('state')
+                                        <p class="alert alert-danger">{{ $message }}</p>
+                                    @enderror
+
+                                    <div class="form-group">
+                                        <label for="lga">LGA</label>
+                                        <input type="text" name="lga" class="form-control" id="lga"
+                                            placeholder="Enter local Govt of Origin" value="{{ $parent->lga }}">
+                                    </div>
+                                    @error('lga')
+                                        <p class="alert alert-danger">{{ $message }}</p>
+                                    @enderror
+
+                                    <div class="form-group">
+                                        <label for="religion">Religion</label>
+                                       <input name="religion" class="form-control" type="text" value="{{ $parent->religion }}">
+                                    </div>
+                                    @error('religion')
+                                        <p class="alert alert-danger">{{ $message }}</p>
+                                    @enderror
+
+                                    <div class="form-group">
+                                        <label for="nationality">Nationality</label>
+                                       <input name="nationality" class="form-control" type="text" value="{{ $parent->nationality }}">
+                                    </div>
+                                    @error('nationality')
+                                        <p class="alert alert-danger">{{ $message }}</p>
+                                    @enderror
+                                    
 
                                 </div>
                                 <!-- /.card-body -->
@@ -111,45 +113,50 @@
                         <div class="card card-primary">
 
                             <div class="card-body">
-                                <div class="form-group">
-                                    <label>Admission Date</label>
-                                    <div data-date="12-02-2012" data-date-format="dd-mm-yyyy" class="input-group date">
-                                        <input id="admission_date" name="admission_date" type="text" class="form-control"
-                                            autocomplete="off" value="{{ old('admission_date') }}"/>
-                                        <div class="input-group-append">
-                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                @error('admission_date')
-                                    <p class="alert alert-danger">{{ $message }}</p>
-                                @enderror
-                                <livewire:parent-dropdown />
-                                @error('parent_id')
-                                    <p class="alert alert-danger">{{ $message }}</p>
-                                @enderror
-                                <livewire:class-dropdown />
-                                @error('class_id')
-                                    <p class="alert alert-danger">{{ $message }}</p>
-                                @enderror
-       
-                                <div class="form-group">
-                                    <label for="photo">File input</label>
-                                    <div class="input-group">
-                                        <div class="custom-file">
-                                            <input type="file" name="photo" class="custom-file-input"
-                                                id="photo">
-                                            <label class="custom-file-label" for="photo">Choose file</label>
-                                        </div>
 
-                                    </div>
+                                <div class="form-group">
+                                    <label for="occupation">Occupation</label>
+                                   <input name="occupation" class="form-control" type="text" value="{{ $parent->occupation }}">
                                 </div>
-                                @error('photo')
+                                @error('occupation')
+                                    <p class="alert alert-danger">{{ $message }}</p>
+                                @enderror
+
+        
+                                <div class="form-group">
+                                    <label for="relationship">Relationship With Ward</label>
+                                   <input name="relationship" class="form-control" type="text" value="{{ $parent->relationship }}">
+                                </div>
+                                @error('relationship')
+                                    <p class="alert alert-danger">{{ $message }}</p>
+                                @enderror
+
+                                <div class="form-group">
+                                    <label>Residential Address </label>
+                                   <textarea class="form-control" name="residential_address">{{ $parent->residential_address }}</textarea>
+                                </div>
+                                @error('residential_address')
+                                    <p class="alert alert-danger">{{ $message }}</p>
+                                @enderror
+
+                                <div class="form-group">
+                                    <label>Business Address </label>
+                                   <textarea class="form-control" name="business_address">{{ $parent->business_address }}</textarea>
+                                </div>
+                                @error('business_address')
+                                    <p class="alert alert-danger">{{ $message }}</p>
+                                @enderror
+
+                                <div class="form-group">
+                                    <label>Family History </label>
+                                   <textarea class="form-control" name="family_history">{{ $parent->family_history }}</textarea>
+                                </div>
+                                @error('family_history')
                                     <p class="alert alert-danger">{{ $message }}</p>
                                 @enderror
 
                                 <div class="card-footer text-right">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                    <button type="submit" class="btn btn-primary">Update</button>
                                 </div>
 
                             </div>

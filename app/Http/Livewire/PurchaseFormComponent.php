@@ -24,6 +24,7 @@ class PurchaseFormComponent extends Component
     public $relationship;
     public $family_history;
     public $id_card;
+    public $pid;
 
     public $enabled = false;
 
@@ -68,13 +69,14 @@ class PurchaseFormComponent extends Component
             'business_address' => $this->business_address,
             'relationship' => $this->relationship,
             'family_history' => $this->family_history,
-            'id_card' => $this->id_card,
+            'id_card' => $path,
         ]);
         $this->enabled = true;
+        $this->pid = session()->put('id', $parent->id);
 
         if ($parent) {
             toast('Parent Created Successfully', 'success');
-            return redirect()->route('form.purchase',['enabled' => $this->enabled]);
+            return redirect()->route('form.purchase',['enabled' => $this->enabled,'id' => $this->pid]);
         }
     }
 }

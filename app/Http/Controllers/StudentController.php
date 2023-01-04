@@ -18,7 +18,7 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::with(['parent', 'class'])->get();
+        $students = Student::with(['parent', 'class'])->where('status', true)->get();
         return view('backend.students.index', compact('students'));
     }
 
@@ -42,7 +42,7 @@ class StudentController extends Controller
     {
         $validated = $request->validated();
         if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('student');
+            $photoPath = $request->file('photo')->store('student');
         }
 
         $student = Student::create([
@@ -55,8 +55,7 @@ class StudentController extends Controller
             "admission_date" => $validated['admission_date'],
             "parent_id" => $validated['parent_id'],
             "class_id" => $validated['class_id'],
-            "address" => $validated['address'],
-            "photo" => $path
+            "photo" => $photoPath
         ]);
         if ($student) {
             toast('Student created successfully', 'success');
@@ -112,7 +111,6 @@ class StudentController extends Controller
         $student->admission_date = $validated['admission_date'];
         $student->parent_id = $validated['parent_id'];
         $student->class_id = $validated['class_id'];
-        $student->address = $validated['address'];
 
         if ($request->hasFile('photo')) {
             $path = $request->file('photo')->store('student');
@@ -136,7 +134,7 @@ class StudentController extends Controller
         $student = Student::find($id);
 
         Storage::disk('student')->delete($student->photo);
-        
+
         $student->delete();
         toast('Student deleted successfully', 'success');
         return redirect()->back();

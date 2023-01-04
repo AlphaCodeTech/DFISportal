@@ -6,3 +6,5 @@
 <script src="{{ asset('frontend/js/extrenaljq.js')}}" type="text/javascript"></script>
 <script src="{{ asset('frontend/js/main.js')}}"></script>
 @livewireScripts
+
+@stack('front-js')
