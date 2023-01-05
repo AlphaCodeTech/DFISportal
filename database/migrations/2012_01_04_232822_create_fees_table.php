@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('levels', function (Blueprint $table) {
+        Schema::create('fees', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignId('fee_id')->constrained('fees')->cascadeOnDelete();
+            $table->string('full_fees');
+            $table->string('part_fees');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('levels');
+        Schema::dropIfExists('fees');
     }
 };

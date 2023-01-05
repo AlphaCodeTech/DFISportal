@@ -2,12 +2,25 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Parents;
+use App\Models\Student;
 use Livewire\Component;
 
 class PaySchoolFees extends Component
 {
-    public $parent;
+    public $student;
+    public $studentID;
+    public $name;
+    public $level;
+    public $fullFees;
+    public $partFees;
+    public $class;
+    public $surname;
+    public $middlename;
+    public $lastname;
+    public $amountPaid;
+    public $amountUnPaid;
+    public $email;
+
 
     public function render()
     {
@@ -16,6 +29,35 @@ class PaySchoolFees extends Component
 
     public function fetchDetails($value)
     {
-        $this->parent = Parents::where('phone', $value)->first();
+        $this->student = Student::where('admno', $value)->first();
+        if ($this->student) {
+            $this->studentID = $this->student->id;
+            $this->name = $this->student->parent->name;
+            $this->level = $this->student->level->name;
+            $this->class = $this->student->class->name;
+            $this->email = $this->student->parent->email;
+            $this->surname = $this->student->surname;
+            $this->middlename = $this->student->middlename;
+            $this->lastname = $this->student->lastname;
+            $this->fullFees = $this->student->level->fee->full_fees;
+            $this->partFees = $this->student->level->fee->part_fees;
+        } else {
+            $this->level = '';
+            $this->class = '';
+            $this->email = '';
+            $this->surname = '';
+            $this->middlename = '';
+            $this->lastname = '';
+            $this->fullFees = '';
+            $this->partFees = '';
+            $this->amountPaid = '';
+            $this->amountUnPaid = '';
+        }
+    }
+
+    public function amountPaid($val)
+    {
+        $this->amountPaid = $val;
+        $this->amountUnPaid = $this->fullFees - $val;
     }
 }

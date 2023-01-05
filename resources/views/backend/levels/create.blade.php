@@ -42,6 +42,22 @@
                                     @error('name')
                                         <p class="alert alert-danger">{{ $message }}</p>
                                     @enderror
+
+                                    <div class="form-group">
+                                        @php
+                                            $fees = App\Models\Fee::all();
+                                        @endphp
+                                        <label for="fee_id">School Fees</label>
+                                       <select class="form-control" name="fee_id" id="fee_id">
+                                        <option value="">Select School Fees</option>
+                                        @foreach ($fees as $fee)
+                                            <option value="{{ $fee->id }}">{{ $fee->full_fees }}</option>
+                                        @endforeach
+                                       </select>
+                                    </div>
+                                    @error('fee_id')
+                                        <p class="alert alert-danger">{{ $message }}</p>
+                                    @enderror
                                    
                                     <div class="card-footer text-right">
                                         <button type="submit" class="btn btn-primary">Add</button>

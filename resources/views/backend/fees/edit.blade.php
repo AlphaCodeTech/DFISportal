@@ -8,12 +8,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Edit Level</h1>
+                        <h1>Edit Fee</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Edit Level</li>
+                            <li class="breadcrumb-item active">Edit Fee</li>
                         </ol>
                     </div>
                 </div>
@@ -30,36 +30,28 @@
                         <div class="card card-primary">
 
                             <!-- form start -->
-                            <form method="POST" action="{{ route('level.update',$level->id) }}">
+                            <form method="POST" action="{{ route('fees.update',$fee->id) }}">
                                 @csrf
                                 @method('PUT')
                                 <div class="card-body">
 
                                     <div class="form-group">
-                                        <label for="name">Name</label>
-                                        <input type="text" name="name" class="form-control" id="name"
-                                            placeholder="Enter name" value="{{ $level->name }}">
+                                        <label for="full_fees">Full Payment</label>
+                                        <input type="text" name="full_fees" class="form-control" id="full_fees"
+                                            placeholder="Enter Full Payment" value="{{ $fee->full_fees }}">
                                     </div>
-                                    @error('name')
-                                        <p class="alert alert-danger">{{ $message }}</p>
-                                    @enderror
-
-                                    <div class="form-group">
-                                        @php
-                                            $fees = App\Models\Fee::all();
-                                        @endphp
-                                        <label for="fee_id">School Fees</label>
-                                       <select class="form-control" name="fee_id" id="fee_id">
-                                        <option value="">Select School Fees</option>
-                                        @foreach ($fees as $fee)
-                                            <option value="{{ $fee->id }}" {{ $fee->id == $level->fee->id ? 'selected' : '' }}>{{ $fee->full_fees }}</option>
-                                        @endforeach
-                                       </select>
-                                    </div>
-                                    @error('fee_id')
+                                    @error('full_fees')
                                         <p class="alert alert-danger">{{ $message }}</p>
                                     @enderror
                                    
+                                    <div class="form-group">
+                                        <label for="part_fees">Part Payment</label>
+                                        <input type="text" name="part_fees" class="form-control" id="part_fees"
+                                            placeholder="Enter Part Payment" value="{{ $fee->part_fees }}">
+                                    </div>
+                                    @error('part_fees')
+                                        <p class="alert alert-danger">{{ $message }}</p>
+                                    @enderror
                                     
                                     
                                 <div class="card-footer text-right">

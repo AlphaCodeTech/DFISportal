@@ -24,7 +24,8 @@ class LevelUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:levels'
+            'name' => 'required|unique:levels',
+            'fee_id' => 'required|exists:fees,id',
         ];
     }
 }

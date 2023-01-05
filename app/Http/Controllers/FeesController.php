@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LevelStoreRequest;
-use App\Http\Requests\LevelUpdateRequest;
-use App\Models\Level;
+use App\Models\Fee;
 use Illuminate\Http\Request;
 
-class LevelController extends Controller
+class FeesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +14,8 @@ class LevelController extends Controller
      */
     public function index()
     {
-        $levels = Level::with('fee')->get();
-
-        return view('backend.levels.index', compact('levels'));
+        $fees = Fee::all();
+        return view('backend.fees.index', compact('fees'));
     }
 
     /**
@@ -28,7 +25,7 @@ class LevelController extends Controller
      */
     public function create()
     {
-        return view('backend.levels.create');
+        return view('backend.fees.create');
     }
 
     /**
@@ -37,20 +34,22 @@ class LevelController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(LevelStoreRequest $request)
+    public function store(Request $request)
     {
-        $data = $request->validated();
-
-        $level = Level::create([
-            'name' => $data['name'],
-            'fee_id' => $data['fee_id']
+        $data = $request->validate([
+            'full_fees' => 'required',
+            'part_fees' => 'required',
         ]);
 
-        if ($level) {
-            toast('Level created successfully', 'success');
-            return redirect()->route('level.index');
+        $fee = Fee::create($data);
+
+        if ($fee) {
+            toast('School Fees created Successfully', 'success');
+
+            return redirect()->route('fees.index');
         } else {
-            toast('Level not created', 'error');
+            toast('Error creating Fees', 'error');
+
             return redirect()->back();
         }
     }
@@ -74,9 +73,9 @@ class LevelController extends Controller
      */
     public function edit($id)
     {
-        $level = Level::find($id);
+        $fee  = Fee::find($id);
 
-        return view('backend.levels.edit', compact('level'));
+        return view('backend.fees.edit', compact('fee'));
     }
 
     /**
@@ -86,18 +85,22 @@ class LevelController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(LevelUpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        $data = $request->validated();
+        $fee = Fee::find($id);
+        $request->validate([
+            'full_fees' => 'required',
+            'part_fees' => 'required',
+        ]);
 
-        $level = Level::find($id);
-        $level->name = $data['name'];
-        $level->fee_id = $data['fee_id'];
+        $fee->full_fees = $request->full_fees;
+        $fee->part_fees = $request->part_fees;
 
-        $level->save();
+        $fee->save();
 
-        toast('Level updated successfully', 'success');
-        return redirect()->route('level.index');
+        toast('School fees Updated Successfully', 'success');
+
+        return redirect()->route('fees.index');
     }
 
     /**
@@ -108,10 +111,12 @@ class LevelController extends Controller
      */
     public function destroy($id)
     {
-        
-        $level = Level::find($id);
-        $level->delete();
-        toast('Level deleted successfully', 'success');
-        return redirect()->back();
+        $fee = Fee::find($id);
+
+        $fee->delete();
+
+        toast('School fees Deleted Successfully', 'success');
+
+        return redirect()->route('fees.index');
     }
 }

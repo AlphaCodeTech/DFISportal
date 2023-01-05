@@ -409,14 +409,14 @@ h1{
 
 .admit-form form input{
     height: 50px;
-    width: 500px;
+    width: 500px;   
     outline: none;
     margin-bottom: 10px;
     padding-left: 10px;
     margin-left: 50px;
     overflow: hidden;
-    border: none;
-    border-bottom: 2px solid #353F74;
+    /* border: none; */
+    /* border-bottom: 2px solid #353F74; */
     background: transparent;
 }
 .admit-form select{

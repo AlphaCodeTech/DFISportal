@@ -1,4 +1,4 @@
-{{-- {{ dd(session()->get('id') ?? null) }} --}}
+
 <section class="Admission-form">
     <div class="admission-text">
         <h1>DIVINE FAVOUR INTERNATIONAL SCHOOL</h1>
@@ -8,7 +8,7 @@
         <p>REGISTERATION FORM (02)</p>
     </div>
 
-    <div class="admit-form">
+    <div class="admit-form container">
         <form method="POST" action="{{ route('admission.store') }}" enctype="multipart/form-data"
             style="display: {{ request('enabled') ? 'block' : 'none' }}">
             @csrf

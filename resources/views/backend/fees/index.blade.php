@@ -15,12 +15,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Levels</h1>
+            <h1>Fees</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">View Levels</li>
+              <li class="breadcrumb-item active">View Fees</li>
             </ol>
           </div>
         </div>
@@ -35,33 +35,31 @@
          
             <div class="card">
               <div class="card-header">
-                <a role="button" class="btn btn-primary" href="{{ route('level.create') }}">Add Level</a>
+                <a role="button" class="btn btn-primary" href="{{ route('fees.create') }}">Add School Fees</a>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Full Fees</th>
-                    <th>Part Fees</th>
+                    <th>Full Payment</th>
+                    <th>Part Payment</th>
                     <th>Action</th>
                   </tr>
                   </thead>
                   <tbody>
-                    @foreach ($levels as $level)
+                    @foreach ($fees as $fee)
                     <tr>
-                        <td>{{ $level->name }}</td>
-                        <td>{{ '₦'. $level->fee->full_fees }}</td>
-                        <td>{{ '₦'. $level->fee->part_fees }}</td>
+                        <td>{{ '₦ '. $fee->full_fees }}</td>
+                        <td>{{ '₦ '. $fee->part_fees }}</td>
                         <td class="d-flex" style="justify-content: space-evenly; padding-right: 0;">
-                            <a title="edit" href="{{ route('level.edit',$level->id) }}" role="button" class="btn btn-success"><i class="fas fa-edit"></i></a>
-                            <a role="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-xl{{ $level->id }}"><i class="fas fa-eye" title="view level"></i>
-                              <div class="modal fade" id="modal-xl{{ $level->id }}" data-keyboard="false" data-backdrop="static"  >
+                            <a title="edit" href="{{ route('fees.edit',$fee->id) }}" role="button" class="btn btn-success"><i class="fas fa-edit"></i></a>
+                            <a role="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-xl{{ $fee->id }}"><i class="fas fa-eye" title="view fee"></i>
+                              <div class="modal fade" id="modal-xl{{ $fee->id }}" data-keyboard="false" data-backdrop="static"  >
                                 <div class="modal-dialog modal-xl modal-dialog modal-dialog-scrollable">
                                   <div class="modal-content">
                                     <div class="modal-header  text-center">
-                                      <h4 class="modal-title">View Level</h4>
+                                      <h4 class="modal-title">View School Fees</h4>
                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                       </button>
@@ -72,10 +70,10 @@
                                         <div class="card">
                                           <div class="card-body">
                                             <div class="d-flex flex-column align-items-center text-center">
-                                              {{-- <img src="{{ asset($level->photo) }}" alt="Admin" class="rounded-circle" width="150"> --}}
+                                              {{-- <img src="{{ asset($fee->photo) }}" alt="Admin" class="rounded-circle" width="150"> --}}
                                               <div class="mt-3">
-                                                <h4>{{ $level->name }}</h4>
-                                                <p class="text-secondary mb-1">{{ $level->admno }}</p>
+                                                <h4>{{ '₦ '. $fee->full_fees }}</h4>
+                                                <p class="text-secondary mb-1">{{ $fee->admno }}</p>
                                                 
                                                 <button class="btn btn-outline-primary">Status</button>
                                               </div>
@@ -88,30 +86,20 @@
                                           <div class="card-body text-left">
                                             <div class="row">
                                               <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">Name</h6>
+                                                <h6 class="mb-0 font-weight-bold">Full Payment</h6>
                                               </div>
                                               <div class="col-sm-9 text-secondary">
-                                                {{ ucwords($level->name ) }}
+                                                {{ '₦ '. ucwords($fee->full_fees ) }}
                                               </div>
                                             </div>
                                             <hr>
                                           
                                             <div class="row">
                                               <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">Full Fees</h6>
+                                                <h6 class="mb-0 font-weight-bold">Part Payment</h6>
                                               </div>
                                               <div class="col-sm-9 text-secondary">
-                                                {{ '₦'. ucwords($level->fee->full_fees) }}
-                                              </div>
-                                            </div>
-                                            <hr>
-
-                                            <div class="row">
-                                              <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">Part Fees</h6>
-                                              </div>
-                                              <div class="col-sm-9 text-secondary">
-                                                {{ '₦'. ucwords($level->fee->part_fees) }}
+                                                {{ '₦ '. ucwords($fee->part_fees) }}
                                               </div>
                                             </div>
                                             <hr>
@@ -132,7 +120,7 @@
                                 <!-- /.modal-dialog -->
                               </div>
                             </a>
-                            <form action="{{ route('level.destroy', $level->id)}}" class="deleteForm" method="post">
+                            <form action="{{ route('fees.destroy', $fee->id)}}" class="deleteForm" method="post">
                               @csrf
                               @method('DELETE')
                               <button title="delete" type="submit" role="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
@@ -147,9 +135,8 @@
                   </tbody>
                   <tfoot>
                   <tr>
-                    <th>Name</th>
-                    <th>Full Fees</th>
-                    <th>Part Fees</th>
+                    <th>Full Payment</th>
+                    <th>Part Payment</th>
                     <th>Action</th>
                   </tr>
                   </tfoot>

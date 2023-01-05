@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('relationship');
             $table->text('family_history')->nullable();
-            $table->string('id_card');
+            $table->string('id_card')->nullable();
             $table->timestamps();
         });
     }

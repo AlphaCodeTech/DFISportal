@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Parents;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class ParentsController extends Controller
 {
@@ -37,9 +38,7 @@ class ParentsController extends Controller
      */
     public function store(Request $request)
     {
-
-        dd($request->all());
-        $request->validate([
+        $data = $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:parents,email',
             'phone' => 'required',
@@ -53,6 +52,32 @@ class ParentsController extends Controller
             'relationship' => 'required',
             'family_history' => 'required',
         ]);
+
+        $parent = Parents::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'phone' => $data['phone'],
+            'residential_address' => $data['residential_address'],
+            'state' => $data['state'],
+            'lga' => $data['lga'],
+            'religion' => $data['religion'],
+            'nationality' => $data['nationality'],
+            'occupation' => $data['occupation'],
+            'business_address' => $data['business_address'],
+            'relationship' => $data['relationship'],
+            'family_history' => $data['family_history'],
+            'password' => Hash::make($data['phone']),
+        ]);
+
+        if ($parent) {
+            toast('Guardian Created Successfully', 'success');
+
+            return redirect()->route('parent.index');
+        } else {
+            toast('Error Creating Guardian', 'error');
+
+            return redirect()->back();
+        }
     }
 
     /**
@@ -120,7 +145,7 @@ class ParentsController extends Controller
 
         $parent->save();
 
-        toast('Guardian Updated Successfully','success');
+        toast('Guardian Updated Successfully', 'success');
 
         return redirect()->route('parent.index');
     }
@@ -137,7 +162,7 @@ class ParentsController extends Controller
 
         $parent->delete();
 
-        toast('Guardian deleted successfully','success');
+        toast('Guardian deleted successfully', 'success');
 
         return redirect()->back();
     }

@@ -8,10 +8,11 @@
             <ul class="nav__menu">
                 <li>
                     <div class="dropdown">
-                        <div class="dropbtn">Admission</div>
+                        <div class="dropbtn">Menu</div>
                         <div class="dropdown-content">
                             <a href="{{ route('form.purchase') }}">Purchase Admission</a>
-                            <a href="{{ route('form.purchase',['enabled' => true,'id' => session()->get('id')]) }}">Continue Registeration</a>
+                            <a href="{{ route('form.purchase',['enabled' => true,'id' => session()->get('id')]) }}">Continue Registration</a>
+                            <a href="{{ route('fees.verify') }}">Verify School Fees</a>
 
                         </div>
                     </div>
