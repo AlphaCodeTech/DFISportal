@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdmissionController;
+use App\Http\Controllers\BursaryController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\FeesController;
@@ -71,6 +72,9 @@ Route::prefix('admin')->group(function () {
 
     // ! Parents
     Route::resource('parent', ParentsController::class);
+
+    // ! Bursary
+    Route::resource('bursary', BursaryController::class);
 
     // ! Terms
     Route::resource('term', TermController::class);

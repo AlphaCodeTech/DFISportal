@@ -36,4 +36,9 @@ class Student extends Model
     {
         return $this->belongsToThrough(Level::class,Clazz::class);
     }
+
+    public function finances()
+    {
+        return $this->hasMany(Finance::class);
+    }
 }

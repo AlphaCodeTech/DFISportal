@@ -20,4 +20,10 @@ class Term extends Model
     {
         return $this->belongsTo(TermType::class);
     }
+
+    public function finances()
+    {
+        return $this->hasMany(Finance::class);
+    }
+   
 }

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignId('term_id')->constrained('terms')->cascadeOnDelete();
             $table->boolean('status')->default(0);
             $table->string('transaction_ref');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
