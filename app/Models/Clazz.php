@@ -11,11 +11,11 @@ class Clazz extends Model
 
     protected $guarded = [];
 
-    protected $table = 'classes'; 
+    protected $table = 'classes';
 
     public function students()
     {
-        return $this->hasMany(Student::class);
+        return $this->hasMany(Student::class, 'class_id');
     }
 
     public function level()
@@ -25,11 +25,11 @@ class Clazz extends Model
 
     public function teacher()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function subjects()
     {
-        return $this->belongsToMany(Subject::class,'class_subjects','class_id')->withTimestamps();
+        return $this->belongsToMany(Subject::class, 'class_subjects', 'class_id')->withTimestamps();
     }
 }

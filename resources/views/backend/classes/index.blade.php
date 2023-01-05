@@ -46,6 +46,7 @@
                     <th>Name</th>
                     <th>Level</th>
                     <th>Teacher</th>
+                    <th>Print Data</th>
                     <th>Action</th>
                   </tr>
                   </thead>
@@ -55,6 +56,7 @@
                         <td>{{ $class->name }}</td>
                         <td>{{ $class->level->name }}</td>
                         <td>{{ $class->teacher->name . ' ' . $class->teacher->middlename. ' ' . $class->teacher->lastname }}</td>
+                        <td class="text-center"><a class="btn btn-sm btn-secondary" href="{{ route('class.students',$class->id) }}">Print Data</a></td>
                         <td class="d-flex" style="justify-content: space-evenly; padding-right: 0;">
                             <a title="edit" href="{{ route('class.edit',$class->id) }}" role="button" class="btn btn-success"><i class="fas fa-edit"></i></a>
                             <a role="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-xl{{ $class->id }}"><i class="fas fa-eye" title="view class"></i>
@@ -162,6 +164,7 @@
                     <th>Name</th>
                     <th>Level</th>
                     <th>Teacher</th>
+                    <th>Print Data</th>
                     <th>Action</th>
                   </tr>
                   </tfoot>

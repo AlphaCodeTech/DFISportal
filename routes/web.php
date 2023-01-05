@@ -54,6 +54,7 @@ Route::prefix('admin')->group(function () {
     Route::resource('class', ClassController::class);
     Route::get('/assignSubject', [ClassController::class, 'assignSubjectCreate'])->name('class.subject');
     Route::post('/assignSubject', [ClassController::class, 'assignSubject'])->name('subject.assign');
+    Route::get('/print-class-student-date/{id}', [ClassController::class, 'printClassData'])->name('class.students');
 
     // ! Users
     Route::resource('user', UserController::class);
