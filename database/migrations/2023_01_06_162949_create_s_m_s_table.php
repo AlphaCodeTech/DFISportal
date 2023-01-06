@@ -13,8 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('finances', function (Blueprint $table) {
-            $table->softDeletes();
+        Schema::create('s_m_s', function (Blueprint $table) {
+            $table->id();
+            $table->string('code');
+            $table->string('reference');
+            $table->string('phone_number');
+            $table->string('status');
+            $table->string('message');
+            $table->string('errors');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('finances', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('s_m_s');
     }
 };

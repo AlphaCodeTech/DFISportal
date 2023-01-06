@@ -36,6 +36,7 @@ return new class extends Migration
             $table->string('birth_certificate');
             $table->string('immunization_card');
             $table->boolean('status')->default(true); 
+            $table->boolean('admitted')->default(false); 
             $table->timestamps();
         });
     }

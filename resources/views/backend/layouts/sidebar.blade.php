@@ -370,12 +370,26 @@
                   <p>View Bursary</p>
                 </a>
               </li>
-              {{-- <li class="nav-item">
-                <a href="{{ route('term.create') }}" class="nav-link">
+              
+            </ul>
+          </li>
+         
+          
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-graduation-cap"></i>
+              <p>
+                Admissions
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ route('admission.index') }}" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Add Parents</p>
+                  <p>View Applications</p>
                 </a>
-              </li> --}}
+              </li>
               
             </ul>
           </li>

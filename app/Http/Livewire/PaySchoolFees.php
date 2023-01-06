@@ -20,6 +20,7 @@ class PaySchoolFees extends Component
     public $amountPaid;
     public $amountUnPaid;
     public $email;
+    public $phone;
 
 
     public function render()
@@ -41,6 +42,7 @@ class PaySchoolFees extends Component
             $this->lastname = $this->student->lastname;
             $this->fullFees = $this->student->level->fee->full_fees;
             $this->partFees = $this->student->level->fee->part_fees;
+            $this->phone = $this->student->parent->phone;
         } else {
             $this->level = '';
             $this->class = '';
@@ -52,6 +54,7 @@ class PaySchoolFees extends Component
             $this->partFees = '';
             $this->amountPaid = '';
             $this->amountUnPaid = '';
+            $this->email = '';
         }
     }
 

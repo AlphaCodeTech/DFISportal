@@ -3,11 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Models\Finance;
+use App\Models\SMS;
+use App\Services\SMSService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 class PaymentController extends Controller
 {
+    private $phone;
+
+    public function __construct(public SMSService $smsService)
+    {
+    }
+
     public function showfees()
     {
         return view('frontend.payfees');
@@ -23,6 +31,8 @@ class PaymentController extends Controller
             'term_id' => 'required',
         ]);
 
+        $this->phone = str_replace('+', '', $request->phone);
+
         $response = Http::withHeaders([
             'Authorization' => 'sandbox_sk_06fda0d87d3772b8c6e8cccd5b6e030f7707f3baf944',
         ])->post('https://sandbox-api-d.squadco.com/transaction/initiate', [
@@ -31,7 +41,7 @@ class PaymentController extends Controller
             'initiate_type' => 'inline',
             'currency' => 'NGN',
             'customer_name' => $request->customer_name,
-            'callback_url' => route('fees.verify'),
+            'callback_url' => route('fees.verify', ['phone' => $this->phone]),
         ]);
 
         if ($response['status'] == 200) {
@@ -60,6 +70,20 @@ class PaymentController extends Controller
     public function verifyFees(Request $request)
     {
         $transaction_ref = $request->get('reference');
+        $phone = request()->segment(2);
+
+        $message = "School fees payment was successful.\nKindly use this transaction reference to verify your payment.\n$transaction_ref";
+
+        $response = $this->smsService->sendSMS($phone, $message);
+
+        $sms = SMS::create([
+            'code' => $response['code'],
+            'phone_number' => $response['data']['phone_number'],
+            'reference' => $response['data']['reference'],
+            'errors' => $response['errors'] ?? 'null',
+            'message' => $response['message'],
+            'status' => $response['status'],
+        ]);
 
         return view('frontend.verify');
     }
@@ -71,11 +95,10 @@ class PaymentController extends Controller
             $finance->status = true;
             $finance->update();
             alert('Congratulations', 'School Fees Verifification was successful', 'success');
-        return redirect()->route('home.index');
-        }else{
+            return redirect()->route('home.index');
+        } else {
             alert('Sorry', 'School Fees Verifification already done contact the management for more support', 'success');
-        return redirect()->route('home.index');
+            return redirect()->route('home.index');
         }
-        
     }
 }

@@ -35,7 +35,19 @@
                             </div>
 
                             <div class="form-group">
-                                <input class="form-control" type="email" name="email" value="{{ $email }}"
+                                <select name="amount" class="form-control"
+                                    wire:change='amountPaid($event.target.value)' id="" style="width: 500px;">
+                                    <option value="" selected>Please Select Amount</option>
+                                    <option value='{{ $fullFees }}'>{{ $fullFees }}</option>
+                                    <option value='{{ $partFees }}'>{{ $partFees }}</option>
+                                </select>
+                                @error('amount')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Email" type="email" name="email" value="{{ $email }}"
                                     readonly>
                                 @error('email')
                                     <span class="error">{{ $message }}</span>
@@ -51,22 +63,17 @@
                             </div>
 
                             <div class="form-group">
-                                <input class="form-control" type="text" name="level_id" value="{{ $level }}"
+                                <input class="form-control" type="hidden" name="phone" value="{{ $phone }}"
                                     readonly>
-                                @error('level_id')
+                                @error('phone')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
                             </div>
 
-
                             <div class="form-group">
-                                <select name="amount" class="form-control"
-                                    wire:change='amountPaid($event.target.value)' id="" style="width: 500px;">
-                                    <option value="" selected>Please Select Amount</option>
-                                    <option value='{{ $fullFees }}'>{{ $fullFees }}</option>
-                                    <option value='{{ $partFees }}'>{{ $partFees }}</option>
-                                </select>
-                                @error('amount')
+                                <input class="form-control" placeholder="Level" type="text" name="level_id" value="{{ $level }}"
+                                    readonly>
+                                @error('level_id')
                                     <span class="error">{{ $message }}</span>
                                 @enderror
                             </div>
