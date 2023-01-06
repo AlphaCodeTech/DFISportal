@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
-use Illuminate\Http\Request;
 use App\Http\Requests\StudentRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StudentUpdateRequest;
@@ -18,6 +17,13 @@ class StudentController extends Controller
      */
     public function index()
     {
+        if (auth()->user()->hasRole('Teacher')) {
+            $teacher = auth()->user();
+            dd($teacher->classes);
+            $students = $teacher->classes()->students;
+        } else {
+            $students = Student::with(['parent', 'class'])->where('status', true)->get();
+        }
         $students = Student::with(['parent', 'class'])->where('status', true)->get();
         return view('backend.students.index', compact('students'));
     }

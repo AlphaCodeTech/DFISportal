@@ -32,7 +32,7 @@ Route::post('/student-admissions', [AdmissionController::class, 'store'])->name(
 
 
 // ! Backend Routes
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('backend.index');
     })->name('admin.index');
@@ -87,3 +87,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/termtypes', [TermController::class, 'createTermType'])->name('termtype.create');
     Route::post('/termtypes', [TermController::class, 'storeTermType'])->name('termtype.store');
 });
+
+
+
+require __DIR__.'/auth.php';

@@ -19,7 +19,6 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
-
         $users->transform(function ($user) {
             $user->role = $user->getRoleNames();
             return $user;

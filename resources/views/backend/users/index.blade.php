@@ -56,9 +56,11 @@
                         <td>{{ $user->name ." ". $user->middlename }}</td>
                         <td>{{ $user->idNo }}</td>
                         <td>
-                          @foreach ($user->role as $item)
-                            <button class="btn btn-sm btn-warning font-weight-bold">{{ $item }}</button>
-                          @endforeach
+                          @if (count($user->role) > 0)
+                            @foreach ($user->role as $item)
+                              <button class="btn btn-sm btn-warning font-weight-bold">{{ $item }}</button>
+                            @endforeach
+                          @endif
                       </td>
                         <td class="text-center"><img class="img-thumbnail" src="{{ asset($user->photo) }}" alt="{{ $user->surname }}" style="width: 100px; height: 100px;"></td>
                         <td class="d-flex" style="justify-content: space-evenly; padding-right: 0;">
