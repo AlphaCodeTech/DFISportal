@@ -27,13 +27,16 @@
                 <div class="row">
                     <div class="col-12 col-sm-6 col-md-3">
                         <div class="info-box">
-                            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-cog"></i></span>
+                            <span class="info-box-icon bg-info elevation-1"><i class="fas fa-graduation-cap"></i></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">CPU Traffic</span>
+                                <span class="info-box-text">Students</span>
                                 <span class="info-box-number">
-                                    10
-                                    <small>%</small>
+                                    @php
+                                        $student_count = App\Models\Student::where('admitted', true)->count();
+                                    @endphp
+                                    {{ $student_count }}
+                                    {{-- <small>%</small> --}}
                                 </span>
                             </div>
                             <!-- /.info-box-content -->
@@ -43,11 +46,13 @@
                     <!-- /.col -->
                     <div class="col-12 col-sm-6 col-md-3">
                         <div class="info-box mb-3">
-                            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
-
+                            <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-users"></i></span>
+                            @php
+                                $staff_count = App\Models\User::count();
+                            @endphp
                             <div class="info-box-content">
-                                <span class="info-box-text">Likes</span>
-                                <span class="info-box-number">41,410</span>
+                                <span class="info-box-text">Staffs</span>
+                                <span class="info-box-number">{{ $staff_count }}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -60,11 +65,13 @@
 
                     <div class="col-12 col-sm-6 col-md-3">
                         <div class="info-box mb-3">
-                            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-shopping-cart"></i></span>
-
+                            <span class="info-box-icon bg-success elevation-1"><i class="fas fa-user-tie"></i></span>
+                            @php
+                                $parent_count = App\Models\Parents::count();
+                            @endphp
                             <div class="info-box-content">
-                                <span class="info-box-text">Sales</span>
-                                <span class="info-box-number">760</span>
+                                <span class="info-box-text">Parents</span>
+                                <span class="info-box-number">{{ $parent_count }}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -73,11 +80,11 @@
                     <!-- /.col -->
                     <div class="col-12 col-sm-6 col-md-3">
                         <div class="info-box mb-3">
-                            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+                            <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-cog"></i></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">New Members</span>
-                                <span class="info-box-number">2,000</span>
+                                <span class="info-box-text">Others</span>
+                                <span class="info-box-number">coming</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -86,7 +93,7 @@
                     <!-- /.col -->
                 </div>
                 <!-- /.row -->
-
+                {{-- 
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card">
@@ -224,11 +231,11 @@
                         <!-- /.card -->
                     </div>
                     <!-- /.col -->
-                </div>
+                </div> --}}
                 <!-- /.row -->
 
                 <!-- Main row -->
-                <div class="row">
+                {{-- <div class="row">
                     <!-- Left col -->
                     <div class="col-md-8">
                         <!-- MAP & BOX PANE -->
@@ -893,7 +900,7 @@
                         <!-- /.card -->
                     </div>
                     <!-- /.col -->
-                </div>
+                </div> --}}
                 <!-- /.row -->
             </div>
             <!--/. container-fluid -->

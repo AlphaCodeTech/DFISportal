@@ -19,6 +19,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
+       
         $users->transform(function ($user) {
             $user->role = $user->getRoleNames();
             return $user;
@@ -152,7 +153,7 @@ class UserController extends Controller
             $user->photo = $path;
         }
 
-        $user->assignRole($data['role']);
+        $user->syncRoles($data['role']);
 
         if ($user->save()) {
             toast('User updated successfully', 'success');

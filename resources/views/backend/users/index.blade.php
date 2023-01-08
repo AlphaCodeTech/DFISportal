@@ -85,7 +85,7 @@
                                               <div class="mt-3">
                                                 <h4>{{ $user->name .' '. $user->middlename }}</h4>
                                                 <p class="text-secondary mb-1">{{ $user->idNo }}</p>
-                                                <p class="text-muted font-size-sm font-weight-bold">{{ $user->roles[0]->name }}</p>
+                                                <p class="text-muted font-size-sm font-weight-bold">{{ $user->roles[0]->name ?? 'null' }}</p>
                                                 <button class="btn btn-primary">
                                                   Transfer
                                                 </button>

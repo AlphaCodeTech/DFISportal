@@ -7,24 +7,26 @@ use Livewire\Component;
 
 class GiveAdmissionComponent extends Component
 {
-    public $student;
+    public $students;
 
-    public function mount(Student $student)
+    public function mount($students)
     {
-        $this->student = $student;
+        $this->students = $students;
     }
 
     public function render()
     {
-        return view('livewire.give-admission-component');
+        $students = $this->students;
+        return view('livewire.give-admission-component',compact('students'));
     }
 
-    public function promote()
+    public function admit($id)
     {
-        $this->student->admitted = true;
-        $this->student->save();
+        $student = Student::find($id);
 
+        $student->admitted = true;
+        $student->save();
 
-        return redirect()->back();
+        $this->dispatchBrowserEvent('admit');
     }
 }
