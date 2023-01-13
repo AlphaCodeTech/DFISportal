@@ -1,3 +1,5 @@
-<div>
-    <input type="checkbox" wire:check.prevent="changeStatus('{{ $student->id }}')" {{ $student->status ? 'checked' : ''}} data-bootstrap-switch data-off-color="danger" data-on-color="primary">
+<div class="switch">
+    <input id="cmn-toggle-{{ $model->id }}" class="cmn-toggle cmn-toggle-round" type="checkbox" wire:model='isActive'
+        {{ $model->status ? 'checked' : '' }}>
+    <label for="cmn-toggle-{{ $model->id }}"></label>
 </div>
