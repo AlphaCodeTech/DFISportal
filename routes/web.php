@@ -17,6 +17,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TermController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 // ! Frontend Routes
@@ -29,6 +30,9 @@ Route::get('/school-fees-verification/{phone?}', [PaymentController::class, 'ver
 Route::post('/school-fees-verification', [PaymentController::class, 'verify'])->name('verify');
 Route::post('/student-admissions', [AdmissionController::class, 'store'])->name('admission.store');
 
+Route::get('/storages',function(){
+    Artisan::call('storage:link');
+});
 
 
 // ! Backend Routes
