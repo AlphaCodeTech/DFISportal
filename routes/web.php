@@ -32,6 +32,7 @@ Route::post('/student-admissions', [AdmissionController::class, 'store'])->name(
 
 Route::get('/storages',function(){
     Artisan::call('storage:link');
+    dd('success');
 });
 
 

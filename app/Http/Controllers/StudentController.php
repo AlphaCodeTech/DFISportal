@@ -51,6 +51,8 @@ class StudentController extends Controller
     public function store(StudentRequest $request)
     {
         $validated = $request->validated();
+        $birthPath = null;
+        $cardPath = null;
 
         if ($request->hasFile('photo')) {
             $photoPath = $request->file('photo')->store('student');
@@ -84,9 +86,11 @@ class StudentController extends Controller
             "introducer" => $validated['introducer'],
             "driver" => $validated['driver'],
             "status" => $validated['status'],
+            'admitted' => true,
             "birth_certificate" => $birthPath,
             "immunization_card" => $cardPath,
         ]);
+
         if ($student) {
             toast('Student created successfully', 'success');
             return redirect()->route('student.index');
