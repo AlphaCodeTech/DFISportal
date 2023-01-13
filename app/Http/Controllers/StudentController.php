@@ -20,7 +20,6 @@ class StudentController extends Controller
         if (auth()->user()->hasRole('Teacher')) {
             $teacher = auth()->user();
             $students = $teacher->students;
-            
             return view('backend.students.index', compact('students'));
             
         } else {

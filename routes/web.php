@@ -68,6 +68,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
     // ! Admissions
     Route::resource('admission', AdmissionManagementController::class);
+    Route::get('offer-admission/{student}', [AdmissionManagementController::class,'admit'])->name('admission.offer');
 
     // ! Permissions
     Route::resource('permission', PermissionController::class);

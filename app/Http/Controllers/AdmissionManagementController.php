@@ -85,8 +85,14 @@ class AdmissionManagementController extends Controller
         //
     }
 
-    public function admit($id)
+    public function admit(Student $student)
     {
-        dd($id);
+        $student->admitted = true;
+        $student->status = true;
+
+        $student->save();
+
+        alert('success','Student successfully offered admission','success');
+        return redirect()->back();
     }
 }
