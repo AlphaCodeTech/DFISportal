@@ -56,6 +56,11 @@ class User extends Authenticatable
         });
     }
 
+    public function students()
+    {
+        return $this->hasManyThrough(Student::class,Clazz::class,'user_id','class_id');
+    }
+
     public function level()
     {
         return $this->belongsTo(Level::class);

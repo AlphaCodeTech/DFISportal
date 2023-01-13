@@ -19,17 +19,19 @@ class StudentController extends Controller
     {
         if (auth()->user()->hasRole('Teacher')) {
             $teacher = auth()->user();
-            dd($teacher->classes);
-            $students = $teacher->classes()->students;
+            $students = $teacher->students;
+            
+            return view('backend.students.index', compact('students'));
+            
         } else {
             $students = Student::with(['parent', 'class'])
                 ->where('admitted', true)
-                
+
                 ->latest()
                 ->get();
+                return view('backend.students.index', compact('students'));
         }
         // $students = Student::with(['parent', 'class'])->where('admitted', true)->get();
-        return view('backend.students.index', compact('students'));
     }
 
     /**
