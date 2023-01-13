@@ -28,12 +28,22 @@ class StudentRequest extends FormRequest
             "middlename" => 'required',
             "lastname" => 'required',
             "gender" => 'required|in:male,female',
-            "status" => 'required|in:active,inactive',
             "dob" => 'required|date',
-            "admission_date" => 'required|date',
-            "parent_id" => 'required|exists:parents,id',
+            'admission_date' => 'required',
+            "blood_group" => 'nullable',
+            "genotype" => 'nullable',
+            "allergies" => 'nullable',
+            "disabilities" => 'nullable',
+            "prevSchool" => 'nullable',
+            "reason" => 'nullable',
+            "introducer" => 'nullable',
+            "status" => 'nullable',
+            "driver" => 'nullable',
+            "parent_id" => 'nullable|exists:parents,id',
             "class_id" => 'required|exists:classes,id',
-            "photo" => 'required|image|mimes:jpg,png,jpeg'
+            "photo" => 'required|file|mimes:jpg,png,jpeg',
+            "birth_certificate" => 'nullable|file|mimes:jpg,png,jpeg,pdf',
+            "immunization_card" => 'nullable|file|mimes:jpg,png,jpeg,pdf'
         ];
     }
 }

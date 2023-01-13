@@ -46,6 +46,7 @@
                     <th>Admission Number</th>
                     <th>Class</th>
                     <th>Photo</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                   </thead>
@@ -56,6 +57,9 @@
                         <td>{{ $student->admno }}</td>
                         <td>{{ $student->class->name }}</td>
                         <td class="text-center"><img class="img-thumbnail" src="{{ asset($student->photo) }}" alt="{{ $student->surname }}" style="width: 100px; height: 100px;"></td>
+                        <td class="text-center">   
+                          <livewire:status-button :student="$student">
+                        </td>
                         <td class="d-flex" style="justify-content: space-evenly; padding-right: 0;">
                             <a title="edit" href="{{ route('student.edit',$student->id) }}" role="button" class="btn btn-success"><i class="fas fa-edit"></i></a>
                             <a role="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-xl{{ $student->id }}"><i class="fas fa-eye" title="view student"></i>
@@ -190,6 +194,7 @@
                     <th>Admission Number</th>
                     <th>Class</th>
                     <th>Photo</th>
+                    <th>Status</th>
                     <th>Action</th>
                   </tr>
                   </tfoot>
@@ -223,6 +228,8 @@
 <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
 <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
 <script src="{{ asset('backend/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+<script src="{{ asset('backend/plugins/bootstrap-switch/js/bootstrap-switch.min.js')}}"></script>
+
 <!-- AdminLTE App -->
 <script src="{{ asset('backend/dist/js/sweetalert.min.js')}}"></script>
 
@@ -241,6 +248,10 @@
         "autoWidth": false,
         "responsive": true,
       });
+
+      $("input[data-bootstrap-switch]").each(function(){
+      $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    })
     });
 
   const deleteForms = document.querySelectorAll('.deleteForm'); 

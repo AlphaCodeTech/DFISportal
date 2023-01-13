@@ -22,9 +22,13 @@ class StudentController extends Controller
             dd($teacher->classes);
             $students = $teacher->classes()->students;
         } else {
-            $students = Student::with(['parent', 'class'])->where('status', true)->get();
+            $students = Student::with(['parent', 'class'])
+                ->where('admitted', true)
+                
+                ->latest()
+                ->get();
         }
-        $students = Student::with(['parent', 'class'])->where('status', true)->get();
+        // $students = Student::with(['parent', 'class'])->where('admitted', true)->get();
         return view('backend.students.index', compact('students'));
     }
 
@@ -47,8 +51,17 @@ class StudentController extends Controller
     public function store(StudentRequest $request)
     {
         $validated = $request->validated();
+
         if ($request->hasFile('photo')) {
             $photoPath = $request->file('photo')->store('student');
+        }
+
+        if ($request->hasFile('birth_certificate')) {
+            $birthPath = $request->file('birth_certificate')->store('student');
+        }
+
+        if ($request->hasFile('immunization_card')) {
+            $cardPath = $request->file('immunization_card')->store('student');
         }
 
         $student = Student::create([
@@ -61,7 +74,18 @@ class StudentController extends Controller
             "admission_date" => $validated['admission_date'],
             "parent_id" => $validated['parent_id'],
             "class_id" => $validated['class_id'],
-            "photo" => $photoPath
+            "photo" => $photoPath,
+            "blood_group" => $validated['blood_group'],
+            "genotype" => $validated['genotype'],
+            "allergies" => $validated['allergies'],
+            "disabilities" => $validated['disabilities'],
+            "prevSchool" => $validated['prevSchool'],
+            "reason" => $validated['reason'],
+            "introducer" => $validated['introducer'],
+            "driver" => $validated['driver'],
+            "status" => $validated['status'],
+            "birth_certificate" => $birthPath,
+            "immunization_card" => $cardPath,
         ]);
         if ($student) {
             toast('Student created successfully', 'success');

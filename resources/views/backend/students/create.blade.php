@@ -46,6 +46,7 @@
                                     @error('surname')
                                         <p class="alert alert-danger">{{ $message }}</p>
                                     @enderror
+
                                     <div class="form-group">
                                         <label for="middlename">Middlename</label>
                                         <input type="text" name="middlename" class="form-control" id="middlename"
@@ -54,6 +55,7 @@
                                     @error('middlename')
                                         <p class="alert alert-danger">{{ $message }}</p>
                                     @enderror
+
                                     <div class="form-group">
                                         <label for="lastname">Lastname</label>
                                         <input type="text" name="lastname" class="form-control" id="lastname"
@@ -66,19 +68,57 @@
                                         <label for="gender">Gender</label>
                                         <select name="gender" class="form-control" id="gender">
                                             <option value="">Select Gender</option>
-                                            <option value="male" {{ old("gender") == 'male' ? "selected": "" }}>Male</option>
-                                            <option value="female" {{ old("gender") == 'female' ? "selected": "" }}>Female</option>
+                                            <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Male
+                                            </option>
+                                            <option value="female" {{ old('gender') == 'female' ? 'selected' : '' }}>Female
+                                            </option>
                                         </select>
                                     </div>
                                     @error('gender')
+                                        <p class="alert alert-danger">{{ $message }}</p>
+                                    @enderror
+
+                                    <div class="form-group">
+                                        <label for="gender">Blood Group</label>
+                                        <select name="blood_group" id="" class="form-control">
+                                            <label for="blood_group">Blo    od Group</label>
+                                            <option value="">Blood Group</option>
+                                            <option value="A+" {{ old('blood_group') == 'A+' ? 'selected' : '' }}>A RhD
+                                                Positive (A+) </option>
+                                            <option value="A-" {{ old('blood_group') == 'A-' ? 'selected' : '' }}>A-
+                                                RhD
+                                                Negative (A-) </option>
+                                            <option value="B+" {{ old('blood_group') == 'B+' ? 'selected' : '' }}>B+
+                                                RhD
+                                                Positive (B+) </option>
+                                            <option value="B-" {{ old('blood_group') == 'B-' ? 'selected' : '' }}>B-
+                                                RhD
+                                                Negative (B-) </option>
+                                            <option value="O+" {{ old('blood_group') == 'O+' ? 'selected' : '' }}>O+
+                                                RhD
+                                                Positive (O+) </option>
+                                            <option value="O-" {{ old('blood_group') == 'O-' ? 'selected' : '' }}>O-
+                                                RhD
+                                                Negative (O-) </option>
+                                            <option value="AB+" {{ old('blood_group') == 'AB+' ? 'selected' : '' }}>AB+
+                                                RhD
+                                                Positive (AB+) </option>
+                                            <option value="AB-" {{ old('blood_group') == 'AB-' ? 'selected' : '' }}>AB-
+                                                RhD
+                                                Negative (AB-) </option>
+                                        </select>
+                                    </div>
+                                    @error('blood_group')
                                         <p class="alert alert-danger">{{ $message }}</p>
                                     @enderror
                                     <div class="form-group">
                                         <label for="status">Status</label>
                                         <select name="status" class="form-control" id="status">
                                             <option value="">Select Status</option>
-                                            <option value="active" {{ old("status") == 'active' ? "selected": "" }}>Active</option>
-                                            <option value="inactive" {{ old("status") == 'inactive' ? "selected": "" }}>Inactive</option>
+                                            <option value="1" {{ old('status') == '1' ? 'selected' : '' }}>Active
+                                            </option>
+                                            <option value="0" {{ old('status') == '0' ? 'selected' : '' }}>
+                                                Inactive</option>
                                         </select>
                                     </div>
                                     @error('status')
@@ -86,10 +126,50 @@
                                     @enderror
 
                                     <div class="form-group">
+                                        <label for="genotype">Genotype</label>
+                                        <select name="genotype" class="form-control" id="genotype">
+                                            <option value="">Select Genotype</option>
+                                            <option value="AA" {{ old('genotype') == 'AA' ? 'selected' : '' }}>AA
+                                            </option>
+                                            <option value="AS" {{ old('genotype') == 'AS' ? 'selected' : '' }}>AS
+                                            </option>
+                                            <option value="AC" {{ old('genotype') == 'AC' ? 'selected' : '' }}>AC
+                                            </option>
+                                            <option value="SS" {{ old('genotype') == 'SS' ? 'selected' : '' }}>SS
+                                            </option>
+                                            <option value="SC" {{ old('genotype') == 'SC' ? 'selected' : '' }}>SC
+                                            </option>
+                                        </select>
+                                    </div>
+                                    @error('genotype')
+                                        <p class="alert alert-danger">{{ $message }}</p>
+                                    @enderror
+
+                                   
+                                    <div class="form-group">
+                                        <label for="introducer">Who Introduced You</label>
+                                        <input type="text" name="introducer" class="form-control" id="introducer"
+                                            value="{{ old('introducer') }}">
+                                    </div>
+                                    @error('introducer')
+                                        <p class="alert alert-danger">{{ $message }}</p>
+                                    @enderror
+
+                                    <div class="form-group">
+                                        <label for="driver">Driver</label>
+                                        <input type="text" name="driver" class="form-control" id="driver"
+                                            value="{{ old('driver') }}">
+                                    </div>
+                                    @error('driver')
+                                        <p class="alert alert-danger">{{ $message }}</p>
+                                    @enderror
+
+                                    <div class="form-group">
                                         <label>Date of Birth: </label>
-                                        <div data-date="12-02-2012" data-date-format="dd-mm-yyyy" class="input-group date">
+                                        <div data-date="12-02-2012" data-date-format="dd-mm-yyyy"
+                                            class="input-group date">
                                             <input id="dob" name="dob" type="text" class="form-control"
-                                                autocomplete="off" value="{{ old('dob') }}"/>
+                                                autocomplete="off" value="{{ old('dob') }}" />
                                             <div class="input-group-append">
                                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                             </div>
@@ -114,8 +194,9 @@
                                 <div class="form-group">
                                     <label>Admission Date</label>
                                     <div data-date="12-02-2012" data-date-format="dd-mm-yyyy" class="input-group date">
-                                        <input id="admission_date" name="admission_date" type="text" class="form-control"
-                                            autocomplete="off" value="{{ old('admission_date') }}"/>
+                                        <input id="admission_date" name="admission_date" type="text"
+                                            class="form-control" autocomplete="off"
+                                            value="{{ old('admission_date') }}" />
                                         <div class="input-group-append">
                                             <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                                         </div>
@@ -132,9 +213,45 @@
                                 @error('class_id')
                                     <p class="alert alert-danger">{{ $message }}</p>
                                 @enderror
-       
+
                                 <div class="form-group">
-                                    <label for="photo">File input</label>
+                                    <label for="allergies">Allergies</label>
+                                    <input type="text" name="allergies" class="form-control" id="allergies"
+                                        placeholder="Enter allergies" value="{{ old('allergies') }}">
+                                </div>
+                                @error('allergies')
+                                    <p class="alert alert-danger">{{ $message }}</p>
+                                @enderror
+
+                                <div class="form-group">
+                                    <label for="disabilities">Disabilities</label>
+                                    <input type="text" name="disabilities" class="form-control" id="disabilities"
+                                        placeholder="Enter disabilities" value="{{ old('disabilities') }}">
+                                </div>
+                                @error('disabilities')
+                                    <p class="alert alert-danger">{{ $message }}</p>
+                                @enderror
+
+                                <div class="form-group">
+                                    <label for="prevSchool">Previous School</label>
+                                    <input type="text" name="prevSchool" class="form-control" id="prevSchool"
+                                        placeholder="Enter previous School" value="{{ old('prevSchool') }}">
+                                </div>
+                                @error('prevSchool')
+                                    <p class="alert alert-danger">{{ $message }}</p>
+                                @enderror
+
+                                <div class="form-group">
+                                    <label for="reason">Reason For Leaving Your Formal School</label>
+                                    <textarea name="reason" class="form-control" id="reason">{{ old('reason') }}</textarea>
+                                </div>
+                                @error('reason')
+                                    <p class="alert alert-danger">{{ $message }}</p>
+                                @enderror
+
+
+                                <div class="form-group">
+                                    <label for="photo">Photo</label>
                                     <div class="input-group">
                                         <div class="custom-file">
                                             <input type="file" name="photo" class="custom-file-input"
@@ -145,6 +262,36 @@
                                     </div>
                                 </div>
                                 @error('photo')
+                                    <p class="alert alert-danger">{{ $message }}</p>
+                                @enderror
+
+                                <div class="form-group">
+                                    <label for="birth_certificate">Birth Certificate if Available</label>
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input type="file" name="birth_certificate" class="custom-file-input"
+                                                id="birth_certificate">
+                                            <label class="custom-file-label" for="birth_certificate">Choose file</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                @error('birth_certificate')
+                                    <p class="alert alert-danger">{{ $message }}</p>
+                                @enderror
+
+                                <div class="form-group">
+                                    <label for="immunization_card">Immunization Card if Available</label>
+                                    <div class="input-group">
+                                        <div class="custom-file">
+                                            <input type="file" name="immunization_card" class="custom-file-input"
+                                                id="immunization_card">
+                                            <label class="custom-file-label" for="immunization_card">Choose file</label>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                @error('immunization_card')
                                     <p class="alert alert-danger">{{ $message }}</p>
                                 @enderror
 

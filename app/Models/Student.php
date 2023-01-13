@@ -13,6 +13,10 @@ class Student extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'status' => 'boolean',
+    ];
+
     public static function boot()
     {
         parent::boot();
