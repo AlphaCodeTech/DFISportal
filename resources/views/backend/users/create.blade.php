@@ -342,7 +342,7 @@
                                     <p class="alert alert-danger">{{ $message }}</p>
                                 @enderror
 
-                                <livewire:user.user-permission-component />
+                                {{-- <livewire:user.user-permission-component /> --}}
                                 
 
                                 <div class="card-footer text-right">

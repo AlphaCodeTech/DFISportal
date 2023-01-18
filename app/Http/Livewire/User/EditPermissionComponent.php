@@ -25,8 +25,9 @@ class EditPermissionComponent extends Component
     public function updatePermission($id)
     {
         $permission = Permission::find($id);
-        if ($this->user->hasPermissionTo($permission->name)) {
+        if ($this->user->hasDirectPermission($permission->name)) {
             $this->user->revokePermissionTo($permission->name);
+            dd($permission->name);
         } else {
             $this->user->givePermissionTo($permission->name);
         }

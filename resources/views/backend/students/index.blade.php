@@ -85,7 +85,9 @@
          
             <div class="card">
               <div class="card-header">
-                <a role="button" class="btn btn-primary" href="{{ route('student.create') }}">Add Student</a>
+                @if (auth()->user()->hasPermissionTo('create student'))
+                  <a role="button" class="btn btn-primary" href="{{ route('student.create') }}">Add Student</a>
+                @endif 
               </div>
               <!-- /.card-header -->
               <div class="card-body">

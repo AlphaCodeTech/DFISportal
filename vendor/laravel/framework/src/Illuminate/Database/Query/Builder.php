@@ -1094,6 +1094,8 @@ class Builder implements BuilderContract
             $values = $values->toArray();
         }
 
+        $values = Arr::flatten($values);
+
         foreach ($values as &$value) {
             $value = (int) $value;
         }
@@ -2277,7 +2279,7 @@ class Builder implements BuilderContract
     /**
      * Put the query's results in random order.
      *
-     * @param  string  $seed
+     * @param  string|int  $seed
      * @return $this
      */
     public function inRandomOrder($seed = '')

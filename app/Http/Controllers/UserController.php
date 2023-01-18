@@ -78,9 +78,9 @@ class UserController extends Controller
 
         $user->assignRole($data['role']);
 
-        if ($request->has('permission_id')) {
-            $user->givePermissionTo($data['permission_id']);
-        }
+        // if ($request->has('permission_id')) {
+        //     $user->givePermissionTo($data['permission_id']);
+        // }
 
         if ($user) {
             toast('User created successfully', 'success');

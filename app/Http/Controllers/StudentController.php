@@ -17,6 +17,7 @@ class StudentController extends Controller
      */
     public function index()
     {
+        // dd(auth()->user()->hasPermissionTo('create student'));
         if (auth()->user()->hasRole('Teacher')) {
             $teacher = auth()->user();
             $students = $teacher->students;

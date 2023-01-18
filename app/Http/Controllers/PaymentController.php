@@ -37,7 +37,7 @@ class PaymentController extends Controller
             'Authorization' => 'sandbox_sk_06fda0d87d3772b8c6e8cccd5b6e030f7707f3baf944',
         ])->post('https://sandbox-api-d.squadco.com/transaction/initiate', [
             'email' => $request->email,
-            'amount' => intval($request->amount_paid),
+            'amount' => intval($request->amount_paid) * 100,
             'initiate_type' => 'inline',
             'currency' => 'NGN',
             'customer_name' => $request->customer_name,

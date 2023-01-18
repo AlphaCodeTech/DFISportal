@@ -336,7 +336,7 @@
                                 @enderror
 
                                 
-                               <livewire:user.edit-permission-component :user='$user'/>
+                               {{-- <livewire:user.edit-permission-component :user='$user'/> --}}
 
                                 <div class="card-footer text-right">
                                     <button type="submit" class="btn btn-primary">Submit</button>

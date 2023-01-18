@@ -13,7 +13,7 @@ class StudentRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return dd(auth()->user()->hasPermissionTo('create student'));
     }
 
     /**
