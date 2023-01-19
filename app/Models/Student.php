@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Student extends Model
 {
     use HasFactory,
-    \Znck\Eloquent\Traits\BelongsToThrough;
+    \Znck\Eloquent\Traits\BelongsToThrough,
+    SoftDeletes;
     
 
     protected $guarded = [];

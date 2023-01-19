@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('relationship');
             $table->text('family_history')->nullable();
             $table->string('id_card')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

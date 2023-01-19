@@ -6,17 +6,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Parents extends Model
+class UserInformation extends Model
 {
     use HasFactory,
     SoftDeletes;
 
-    protected $table = 'parents';
-
-    protected $guarded = [];
-
-    public function students()
+    public function user()
     {
-        return $this->hasMany(Student::class,'parent_id');
+        return $this->belongsTo(User::class);
     }
 }

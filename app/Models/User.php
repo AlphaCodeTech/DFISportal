@@ -7,6 +7,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -14,7 +15,8 @@ class User extends Authenticatable
     use HasApiTokens,
         HasFactory,
         Notifiable,
-        HasRoles;
+        HasRoles,
+        SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -31,6 +33,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'email_verified_at',
     ];
 
     /**
@@ -51,14 +57,14 @@ class User extends Authenticatable
     {
         parent::boot();
 
-        self::creating(function($model){
-            $model->idNo = "DFIS/SEC/STAFF" . date('Y') . '/' . rand(10000, 99999);
+        self::creating(function ($model) {
+            $model->staff_ID = "DFIS/SEC/STAFF" . date('Y') . '/' . rand(10000, 99999);
         });
     }
 
     public function students()
     {
-        return $this->hasManyThrough(Student::class,Clazz::class,'user_id','class_id');
+        return $this->hasManyThrough(Student::class, Clazz::class, 'user_id', 'class_id');
     }
 
     public function level()
@@ -66,8 +72,13 @@ class User extends Authenticatable
         return $this->belongsTo(Level::class);
     }
 
-    public function category()
+    public function department()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Department::class);
+    }
+
+    public function detail()
+    {
+        return $this->hasOne(UserInformation::class, 'user_id');
     }
 }

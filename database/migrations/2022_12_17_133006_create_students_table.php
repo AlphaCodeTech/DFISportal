@@ -37,6 +37,7 @@ return new class extends Migration
             $table->string('immunization_card')->nullable();
             $table->boolean('status')->default(true); 
             $table->boolean('admitted')->default(false); 
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -5,9 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Guardian extends Model
+class Bursary extends Model
 {
     use HasFactory;
-
-    protected $table = 'parents';
 }

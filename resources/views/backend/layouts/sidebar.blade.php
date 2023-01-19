@@ -10,12 +10,13 @@
       <!-- Sidebar -->
       <div class="sidebar">
           <!-- Sidebar user panel (optional) -->
+         
           <div class="user-panel mt-3 pb-3 mb-3 d-flex">
               <div class="image">
                   <img src="{{ asset(auth()->user()->photo) }}" class="img-circle elevation-2" alt="User Image">
               </div>
               <div class="info">
-                  <a href="#" class="d-block">{{ ucwords(Auth::user()->getRoleNames()[0]) }}</a>
+                  <a href="#" class="d-block">{{ ucwords(Auth::user()->getRoleNames()[0] ?? 'User')  }}</a>
               </div>
           </div>
 
@@ -206,7 +207,7 @@
                   @endif
                   @if(auth()->user()->hasAnyRole(['Super Admin', 'Developer']))
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ (request()->routeIs('user.*')) ? 'active' : '' }}">
+                          <a href="#" class="nav-link {{ (request()->routeIs('users.*')) ? 'active' : '' }}">
                               <i class="nav-icon fas fa-users"></i>
                               <p>
                                   Users
@@ -215,17 +216,17 @@
                           </a>
                           <ul class="nav nav-treeview">
                               <li class="nav-item">
-                                  <a href="{{ route('user.index') }}" class="nav-link">
+                                  <a href="{{ route('backend.users') }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
                                       <p>View Users</p>
                                   </a>
                               </li>
-                              <li class="nav-item">
+                              {{-- <li class="nav-item">
                                   <a href="{{ route('user.create') }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
                                       <p>Add User</p>
                                   </a>
-                              </li>
+                              </li> --}}
 
                           </ul>
                       </li>

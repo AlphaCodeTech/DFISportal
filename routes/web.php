@@ -1,24 +1,9 @@
 <?php
 
-use App\Http\Controllers\AdmissionController;
-use App\Http\Controllers\AdmissionManagementController;
-use App\Http\Controllers\BursaryController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ClassController;
-use App\Http\Controllers\FeesController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\LevelController;
-use App\Http\Controllers\ParentsController;
-use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\SessionController;
-use App\Http\Controllers\StudentController;
-use App\Http\Controllers\SubjectController;
-use App\Http\Controllers\TermController;
-use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+use App\Http\Livewire\Backend\User\UserComponent;
+
 
 // ! Frontend Routes
 
@@ -64,7 +49,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/print-class-student-date/{id}', [ClassController::class, 'printClassData'])->name('class.students');
 
     // ! Users
-    Route::resource('user', UserController::class);
+    Route::get('users', UserComponent::class)->name('backend.users');
 
     // ! Admissions
     Route::resource('admission', AdmissionManagementController::class);
