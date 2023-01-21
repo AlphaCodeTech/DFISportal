@@ -28,7 +28,7 @@ class UserUpdateRequest extends FormRequest
             'name' => 'required',
             "middlename" => 'required',
             "lastname" => 'required',
-            // "email" => ['required','email',Rule::unique('users')->ignore($this->id)],
+            "email" => ['required','email',Rule::unique('users')->ignore($this->id)],
             "email" => 'required|email',
             "phone" => 'required',
             "gender" => 'required|in:male,female',

@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Livewire\Backend\Permission\PermissionComponent;
+use App\Http\Livewire\Backend\Profile\ProfileComponent;
+use App\Http\Livewire\Backend\Role\RoleComponent;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Livewire\Backend\User\UserComponent;
@@ -49,17 +52,20 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/print-class-student-date/{id}', [ClassController::class, 'printClassData'])->name('class.students');
 
     // ! Users
-    Route::get('users', UserComponent::class)->name('backend.users');
+    Route::get('users', UserComponent::class)->name('backend.users')->middleware(['role:developer|super admin']);
+
+    // ! Profiles
+    Route::get('profile', ProfileComponent::class)->name('backend.profile');
 
     // ! Admissions
     Route::resource('admission', AdmissionManagementController::class);
     Route::get('offer-admission/{student}', [AdmissionManagementController::class,'admit'])->name('admission.offer');
 
     // ! Permissions
-    Route::resource('permission', PermissionController::class);
+    Route::get('permissions', PermissionComponent::class)->name('backend.permissions');
 
     // ! Roles
-    Route::resource('role', RoleController::class);
+    Route::get('roles', RoleComponent::class)->name('backend.roles');
 
     // ! Categories
     Route::resource('category', CategoryController::class);

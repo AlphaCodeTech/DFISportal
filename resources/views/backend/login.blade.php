@@ -16,6 +16,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('backend/dist/css/adminlte.min.css') }}">
 </head>
+{{-- {{ dd(Hash::make('password')) }} --}}
 
 <body class="hold-transition login-page">
     <div class="login-box">

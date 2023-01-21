@@ -34,6 +34,13 @@
         }, 'show');
     });
 
+    window.addEventListener('edit-form', function() {
+        $('#profile').modal({
+            backdrop: 'static',
+            keyboard: false
+        }, 'show');
+    });
+
     window.addEventListener('show-view', function() {
         $('#view').modal({
             backdrop: 'static',
@@ -43,6 +50,11 @@
 
     window.addEventListener('hide-modal', function(event) {
         $('#form').modal('hide');
+        toastr.success(event.detail.message, 'Success!');
+    });
+
+    window.addEventListener('hide-profile', function(event) {
+        $('#profile').modal('hide');
         toastr.success(event.detail.message, 'Success!');
     });
 
