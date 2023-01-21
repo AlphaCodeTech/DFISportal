@@ -42,8 +42,10 @@
 
                         <div class="card">
                             <div class="card-header">
-                                <a role="button" class="btn btn-primary" href="#" wire:click='create'>Add
-                                    Permission</a>
+                                @can('create permission')
+                                    <a role="button" class="btn btn-primary" href="#" wire:click='create'>Add
+                                        Permission</a>
+                                @endcan
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -58,18 +60,22 @@
                                         @foreach ($permissions as $permission)
                                             <tr>
                                                 <td>{{ Str::headline($permission->name) }}</td>
-                                        
+
                                                 <td class="d-flex"
                                                     style="justify-content: space-evenly; padding-right: 0;">
-                                                    <a title="edit" wire:click="edit({{ $permission->id }})"
-                                                        role="button" class="btn btn-success"><i
-                                                            class="fas fa-edit"></i></a>
+                                                    @can('edit permission')
+                                                        <a title="edit" wire:click="edit({{ $permission->id }})"
+                                                            role="button" class="btn btn-success"><i
+                                                                class="fas fa-edit"></i></a>
+                                                    @endcan
                                                     <button wire:click="show({{ $permission->id }})" role="button"
                                                         class="btn btn-warning"><i class="fas fa-eye"
                                                             title="view role"></i></button>
-                                                    <button wire:click='confirmDelete({{ $permission->id }})'
-                                                        title="delete" type="submit" role="button"
-                                                        class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                                    @can('delete permission')
+                                                        <button wire:click='confirmDelete({{ $permission->id }})'
+                                                            title="delete" type="submit" role="button"
+                                                            class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                                    @endcan
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -143,7 +149,7 @@
                                 <!-- /.card -->
 
                             </div>
-                
+
                             <!--/.col (left) -->
 
                             <!--/.col (right) -->
@@ -179,11 +185,11 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="d-flex flex-column align-items-center text-center">
-                                           
+
                                             <div class="mt-3">
                                                 <h4>{{ Str::headline(optional($selectedPermission)->name) ?? '' }}
                                                 </h4>
-                                                
+
                                                 <button class="btn btn-outline-primary">Status</button>
                                             </div>
                                         </div>
@@ -207,11 +213,11 @@
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <h6 class="mb-0 font-weight-bold">
-                                                     Permission Roles</h6>
+                                                    Permission Roles</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
                                                 @if (optional($selectedPermission)->roles())
-                                                {{-- {{ dd($selectedRole->permissions) }} --}}
+                                                    {{-- {{ dd($selectedRole->permissions) }} --}}
                                                     @foreach ($selectedPermission->roles as $item)
                                                         <button
                                                             class="btn btn-sm btn-warning font-weight-bold">{{ $item->name }}</button>

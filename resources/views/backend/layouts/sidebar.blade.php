@@ -60,17 +60,12 @@
                           </a>
                           <ul class="nav nav-treeview">
                               <li class="nav-item">
-                                  <a href="{{ route('student.index') }}" class="nav-link">
+                                  <a href="{{ route('backend.students',["user" => auth()->user()]) }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
                                       <p>View Students</p>
                                   </a>
                               </li>
-                              <li class="nav-item">
-                                  <a href="{{ route('student.create') }}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>Add Student</p>
-                                  </a>
-                              </li>
+                             
 
                           </ul>
                       </li>
@@ -112,17 +107,12 @@
                           </a>
                           <ul class="nav nav-treeview">
                               <li class="nav-item">
-                                  <a href="{{ route('level.index') }}" class="nav-link">
+                                  <a href="{{ route('backend.levels') }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
                                       <p>View Levels</p>
                                   </a>
                               </li>
-                              <li class="nav-item">
-                                  <a href="{{ route('level.create') }}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>Add Level</p>
-                                  </a>
-                              </li>
+                            
 
                           </ul>
                       </li>
@@ -138,17 +128,12 @@
                           </a>
                           <ul class="nav nav-treeview">
                               <li class="nav-item">
-                                  <a href="{{ route('fees.index') }}" class="nav-link">
+                                  <a href="{{ route('backend.fees') }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
                                       <p>View Fees</p>
                                   </a>
                               </li>
-                              <li class="nav-item">
-                                  <a href="{{ route('fees.create') }}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>Add Fees</p>
-                                  </a>
-                              </li>
+   
 
                           </ul>
                       </li>
@@ -190,18 +175,12 @@
                           </a>
                           <ul class="nav nav-treeview">
                               <li class="nav-item">
-                                  <a href="{{ route('class.index') }}" class="nav-link">
+                                  <a href="{{ route('backend.classrooms') }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
                                       <p>View Classrooms</p>
                                   </a>
                               </li>
-                              <li class="nav-item">
-                                  <a href="{{ route('class.create') }}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>Add ClassRoom</p>
-                                  </a>
-                              </li>
-
+                              
                           </ul>
                       </li>
                   @endif
@@ -242,7 +221,7 @@
                           </a>
                           <ul class="nav nav-treeview">
                               <li class="nav-item">
-                                  <a href="{{ route('backend.profile') }}" class="nav-link">
+                                  <a href="{{ route('backend.profile',auth()->user()) }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
                                       <p>View Profile</p>
                                   </a>

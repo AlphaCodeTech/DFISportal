@@ -49,7 +49,6 @@ class PermissionComponent extends Component
 
     public function edit(Permission $permission)
     {
-        dd($permission);
         $this->permission = $permission;
         $this->isEditing = true;
         $this->state = $permission->toArray();
@@ -67,7 +66,7 @@ class PermissionComponent extends Component
 
         $this->permission->update($data);
 
-        $this->dispatchBrowserEvent('hide-modal', ['message' => 'Permission created successfully!']);
+        $this->dispatchBrowserEvent('hide-modal', ['message' => 'Permission updated successfully!']);
     }
 
     public function show(Permission $permission)
@@ -80,7 +79,7 @@ class PermissionComponent extends Component
     public function confirmDelete($userId)
     {
         $this->toBeDeleted = $userId;
-        $this->dispatchBrowserEvent('delete-modal', ['message' => 'Are you sure you want to delete this user?']);
+        $this->dispatchBrowserEvent('delete-modal', ['message' => 'Are you sure you want to delete this permission?']);
     }
 
     public function destroy()

@@ -1,8 +1,12 @@
 <?php
 
+use App\Http\Livewire\Backend\Classroom\ClassroomComponent;
+use App\Http\Livewire\Backend\Fees\FeesComponent;
+use App\Http\Livewire\Backend\Level\LevelComponent;
 use App\Http\Livewire\Backend\Permission\PermissionComponent;
 use App\Http\Livewire\Backend\Profile\ProfileComponent;
 use App\Http\Livewire\Backend\Role\RoleComponent;
+use App\Http\Livewire\Backend\Student\StudentComponent;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Livewire\Backend\User\UserComponent;
@@ -31,7 +35,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     })->name('admin.index');
 
     // ! Students
-    Route::resource('student', StudentController::class);
+    Route::get('students/{user}', StudentComponent::class)->name('backend.students');
     Route::get('student/promote/{id}', [StudentController::class, 'ShowPromotionForm'])->name('student.showPromotion');
     Route::post('student/promote/{id}', [StudentController::class, 'promote'])->name('student.promote');
     Route::get('student/admit/{id}', [AdmissionManagementController::class, 'admit'])->name('student.admit');
@@ -40,13 +44,13 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('subject', SubjectController::class);
 
     // ! Levels
-    Route::resource('level', LevelController::class);
+    Route::get('levels', LevelComponent::class)->name('backend.levels');
 
     // ! Fees
-    Route::resource('fees', FeesController::class);
+    Route::get('fees', FeesComponent::class)->name('backend.fees');
 
     // ! Classes
-    Route::resource('class', ClassController::class);
+    Route::get('classrooms', ClassroomComponent::class)->name('backend.classrooms');
     Route::get('/assignSubject', [ClassController::class, 'assignSubjectCreate'])->name('class.subject');
     Route::post('/assignSubject', [ClassController::class, 'assignSubject'])->name('subject.assign');
     Route::get('/print-class-student-date/{id}', [ClassController::class, 'printClassData'])->name('class.students');
@@ -55,7 +59,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('users', UserComponent::class)->name('backend.users')->middleware(['role:developer|super admin']);
 
     // ! Profiles
-    Route::get('profile', ProfileComponent::class)->name('backend.profile');
+    Route::get('profile/{user}', ProfileComponent::class)->name('backend.profile');
 
     // ! Admissions
     Route::resource('admission', AdmissionManagementController::class);

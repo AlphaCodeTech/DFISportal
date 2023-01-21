@@ -30,8 +30,8 @@ return new class extends Migration
             $table->string('driver')->nullable();
             $table->string('dob');
             $table->string('admission_date');
-            $table->foreignId('parent_id')->nullable()->constrained('parents')->cascadeOnDelete();
-            $table->foreignId('class_id')->constrained('classes')->cascadeOnDelete();
+            $table->foreignId('parent_id')->nullable()->constrained('parents');
+            $table->foreignId('class_id')->constrained('classes');
             $table->string('photo');
             $table->string('birth_certificate')->nullable();
             $table->string('immunization_card')->nullable();

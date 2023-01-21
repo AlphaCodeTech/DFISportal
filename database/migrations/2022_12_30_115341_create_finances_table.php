@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('total_fees');
             $table->string('amount_paid');
             $table->string('amount_unpaid');
-            $table->foreignId('term_id')->constrained('terms')->cascadeOnDelete();
+            $table->foreignId('term_id')->constrained('terms');
             $table->boolean('status')->default(0);
             $table->string('transaction_ref');
             $table->softDeletes();

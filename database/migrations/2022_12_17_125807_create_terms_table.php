@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('terms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('session_id')->constrained('sessions')->cascadeOnDelete();
-            $table->foreignId('term_type_id')->constrained('term_types')->cascadeOnDelete();
+            $table->foreignId('session_id')->constrained('sessions');
+            $table->foreignId('term_type_id')->constrained('term_types');
             $table->timestamps();
         });
     }

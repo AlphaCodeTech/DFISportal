@@ -68,7 +68,7 @@
                                                     @if ($user->roles)
                                                         @foreach ($user->roles as $item)
                                                             <button
-                                                                class="btn btn-sm btn-warning font-weight-bold">{{ $item->name }}</button>
+                                                                class="btn btn-sm btn-warning font-weight-bold text-capitalize">{{ $item->name }}</button>
                                                         @endforeach
                                                     @endif
                                                 </td>
@@ -411,7 +411,7 @@
                                             <div class="col-sm-9 text-secondary">
                                                 @foreach ($selectedUser->roles as $role)
                                                     <button
-                                                        class="btn btn-sm btn-warning font-weight-bold">{{ $role->name }}</button>
+                                                        class="btn btn-sm btn-warning font-weight-bold text-capitalize">{{ $role->name }}</button>
                                                 @endforeach
                                             </div>
                                         </div>

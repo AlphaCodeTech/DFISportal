@@ -10,9 +10,9 @@ class ParentDropdown extends Component
     public $parents;
 
     public function mount()
-    {
-        $this->parents = Parents::all();
+    { $this->parents = Parents::all();
     }
+       
 
     public function render()
     {

@@ -119,7 +119,7 @@ class UserComponent extends Component
 
         $this->user->update($data);
 
-        $this->dispatchBrowserEvent('hide-modal', ['message' => 'User created successfully!']);
+        $this->dispatchBrowserEvent('hide-modal', ['message' => 'User updated successfully!']);
     }
 
     public function show(User $user)

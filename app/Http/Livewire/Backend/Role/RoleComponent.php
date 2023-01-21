@@ -79,7 +79,7 @@ class RoleComponent extends Component
 
         $this->role->update($data);
 
-        $this->dispatchBrowserEvent('hide-modal', ['message' => 'Role created successfully!']);
+        $this->dispatchBrowserEvent('hide-modal', ['message' => 'Role updated successfully!']);
     }
 
     public function show(Role $role)
@@ -91,7 +91,7 @@ class RoleComponent extends Component
     public function confirmDelete($userId)
     {
         $this->toBeDeleted = $userId;
-        $this->dispatchBrowserEvent('delete-modal', ['message' => 'Are you sure you want to delete this user?']);
+        $this->dispatchBrowserEvent('delete-modal', ['message' => 'Are you sure you want to delete this role?']);
     }
 
     public function destroy()

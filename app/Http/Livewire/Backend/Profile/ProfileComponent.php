@@ -21,17 +21,19 @@ class ProfileComponent extends Component
     public $state = [];
     public $detail = [];
     public $selectedUser;
+    public $profile;
 
 
-    public function mount()
+    public function mount(User $user)
     {
+        $this->profile = $user;
         $this->selectedUser = auth()->user();
         $this->permissions = Permission::all();
     }
 
     public function render()
     {
-        $users = auth()->user();
+        $users = User::find($this->profile->id);
         return view('livewire.backend.profile.profile-component', compact('users'))->layout('backend.layouts.app');
     }
 
@@ -41,8 +43,8 @@ class ProfileComponent extends Component
         $this->user = $user;
         $this->state = $user->toArray();
         unset($this->state['photo']);
-        $this->photo = null;
-        $this->detail = $user->detail->toArray();
+        // $this->photo = null;
+        $this->detail = optional($user->detail)->toArray();
         $this->dispatchBrowserEvent('edit-form');
     }
 
@@ -98,7 +100,7 @@ class ProfileComponent extends Component
     public function show(User $user)
     {
         $this->selectedUser = $user;
-        dd($this->selectedUser->getAllPermissions());
+        // dd($this->selectedUser->getAllPermissions());
         $this->dispatchBrowserEvent('show-view');
     }
 }

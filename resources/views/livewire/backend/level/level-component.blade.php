@@ -22,12 +22,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Roles</h1>
+                        <h1>Levels</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">View Roles</li>
+                            <li class="breadcrumb-item active">View Levels</li>
                         </ol>
                     </div>
                 </div>
@@ -42,9 +42,9 @@
 
                         <div class="card">
                             <div class="card-header">
-                                @can('create role')
+                                @can('create level')
                                     <a role="button" class="btn btn-primary" href="#" wire:click='create'>Add
-                                        Role</a>
+                                        Level</a>
                                 @endcan
                             </div>
                             <!-- /.card-header -->
@@ -53,26 +53,30 @@
                                     <thead>
                                         <tr>
                                             <th>Name</th>
+                                            <th>Full Fees</th>
+                                            <th>Part Fees</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($roles as $role)
+                                        @foreach ($levels as $level)
                                             <tr>
-                                                <td>{{ Str::headline($role->name) }}</td>
+                                                <td>{{ Str::headline($level->name) }}</td>
+                                                <td>{{ Str::headline($level->fee->full_fees) }}</td>
+                                                <td>{{ Str::headline($level->fee->part_fees) }}</td>
 
                                                 <td class="d-flex"
                                                     style="justify-content: space-evenly; padding-right: 0;">
-                                                    @can('edit role')
-                                                        <a title="edit" wire:click="edit({{ $role }})"
+                                                    @can('edit level')
+                                                        <a title="edit" wire:click="edit({{ $level->id }})"
                                                             role="button" class="btn btn-success"><i
                                                                 class="fas fa-edit"></i></a>
                                                     @endcan
-                                                    <button wire:click="show({{ $role }})" role="button"
+                                                    <button wire:click="show({{ $level->id }})" role="button"
                                                         class="btn btn-warning"><i class="fas fa-eye"
                                                             title="view role"></i></button>
-                                                    @can('delete role')
-                                                        <button wire:click='confirmDelete({{ $role->id }})'
+                                                    @can('delete level')
+                                                        <button wire:click='confirmDelete({{ $level->id }})'
                                                             title="delete" type="submit" role="button"
                                                             class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                                     @endcan
@@ -84,6 +88,8 @@
                                     <tfoot>
                                         <tr>
                                             <th>Name</th>
+                                            <th>Full Fees</th>
+                                            <th>Part Fees</th>
                                             <th>Action</th>
                                         </tr>
                                     </tfoot>
@@ -107,7 +113,7 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">{{ $isEditing ? 'Edit Role' : 'Add New Role' }}</h4>
+                    <h4 class="modal-title">{{ $isEditing ? 'Edit Level' : 'Add New Level' }}</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -137,17 +143,23 @@
                                                 @enderror
 
                                             </div>
-                                            <h5>Assign Permission</h5>
 
-                                            @foreach ($permissions as $perm)
-                                                <div class="form-check">
-                                                    <input wire:model.defer='rolePermission' class="form-check-input"
-                                                        type="checkbox" value="{{ $perm->id }}"
-                                                        {{ $isEditing ? (in_array($perm->id, $rolePermission) ? 'checked' : '') : '' }}>
-                                                    <label
-                                                        class="form-check-label font-weight-bold">{{ $perm->name }}</label>
-                                                </div>
-                                            @endforeach
+                                            <div class="form-group">
+                                                <label for="fee_id">Fees</label>
+                                                <select class="form-control" wire:model.defer='state.fee_id'
+                                                    id="fee_id">
+                                                    <option value="">Select School Fees</option>
+                                                    @foreach ($fees as $fee)
+                                                        <option value="{{ $fee->id }}">
+                                                            {{ $fee->full_fees . '-' . $fee->part_fees }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('fee_id')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+
+                                            </div>
 
                                             <div class="card-footer text-right">
                                                 <button type="submit"
@@ -183,7 +195,7 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">View Role</h4>
+                    <h4 class="modal-title">View Level</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -198,7 +210,7 @@
                                         <div class="d-flex flex-column align-items-center text-center">
 
                                             <div class="mt-3">
-                                                <h4>{{ Str::headline(optional($selectedRole)->name) ?? '' }}
+                                                <h4>{{ Str::headline(optional($selectedLevel)->name) ?? '' }}
                                                 </h4>
 
                                                 <button class="btn btn-outline-primary">Status</button>
@@ -216,24 +228,33 @@
                                                     Name</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedRole)->name) ?? '' }}
+                                                {{ ucwords(optional($selectedLevel)->name) ?? '' }}
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Full Fees</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                @if ($selectedLevel != null)
+                                                    {{ ucwords(optional($selectedLevel->fee)->full_fees) ?? '' }}
+                                                @endif
+
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <h6 class="mb-0 font-weight-bold">
-                                                    Role Permissions</h6>
+                                                    Part Fees</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                @if (optional($selectedRole)->permissions())
-                                                    {{-- {{ dd($selectedRole->permissions) }} --}}
-                                                    @foreach ($selectedRole->permissions as $item)
-                                                        <button
-                                                            class="btn btn-sm btn-warning font-weight-bold">{{ $item->name }}</button>
-                                                    @endforeach
+                                                @if ($selectedLevel != null)
+                                                    {{ ucwords(optional($selectedLevel)->fee->part_fees) ?? '' }}
                                                 @endif
-
                                             </div>
                                         </div>
                                         <hr>
