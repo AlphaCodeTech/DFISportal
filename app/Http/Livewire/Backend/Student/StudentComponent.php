@@ -8,7 +8,6 @@ use App\Models\Parents;
 use App\Models\Student;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class StudentComponent extends Component
@@ -18,12 +17,12 @@ class StudentComponent extends Component
     public $photo;
     public $immunization_card;
     public $birth_certificate;
-    public $user;
+    public $student;
     public $selectedStudent;
     public $isEditing = false;
     public $toBeDeleted = null;
     public $state = [];
-    public User $authUser;
+    public $authUser;
     public $parents;
     public $classes;
 
@@ -33,7 +32,7 @@ class StudentComponent extends Component
         $this->classes = Clazz::all();
         $this->parents = Parents::all();
         $this->authUser = $user;
-        $this->selectedStudent = $this->authUser; //Please this is for error handling
+        $this->selectedStudent = $this->authUser; //!Please this is for error handling
     }
 
     protected $listeners = ['delete' => 'destroy'];
@@ -41,8 +40,8 @@ class StudentComponent extends Component
     public function render()
     {
         if ($this->authUser->hasRole('teacher')) {
-            $teacher = $this->authUser;
-            $students = $teacher->students;
+            $teacher = User::find($this->authUser->id);
+            $students = $teacher->students->where('admitted', true);
             return view('livewire.backend.student.student-component', compact('students'))->layout('backend.layouts.app');
         } else {
             $students = Student::with(['parent', 'class'])
@@ -62,7 +61,6 @@ class StudentComponent extends Component
 
     public function store()
     {
-
         if ($this->photo) {
             $this->state['photo'] = $this->photo;
         }
@@ -93,13 +91,10 @@ class StudentComponent extends Component
             "driver" => 'nullable',
             "parent_id" => 'nullable|exists:parents,id',
             "class_id" => 'required|exists:classes,id',
-            "photo" => 'nullable|file|mimes:jpg,png,jpeg',
+            "photo" => 'required|file|mimes:jpg,png,jpeg',
             "birth_certificate" => 'nullable|file|mimes:jpg,png,jpeg,pdf',
             "immunization_card" => 'nullable|file|mimes:jpg,png,jpeg,pdf'
         ])->validate();
-
-
-        dd($data);
 
         if (array_key_exists('photo', $this->state)) {
             $path = $this->photo->store('student');
@@ -107,28 +102,30 @@ class StudentComponent extends Component
         }
 
         if (array_key_exists('immunization_card', $this->state)) {
-            $path = $this->immunization_card->store('student');
-            $data['immunization_card'] = $path;
+            $card_path = $this->immunization_card->store('student');
+            $data['immunization_card'] = $card_path;
         }
 
         if (array_key_exists('birth_certificate', $this->state)) {
-            $path = $this->birth_certificate->store('student');
-            $data['birth_certificate'] = $path;
+            $birth_path = $this->birth_certificate->store('student');
+            $data['birth_certificate'] = $birth_path;
         }
 
-        $student = Student::create($data);
+        $data['admitted'] = true;
+
+        Student::create($data);
 
         $this->dispatchBrowserEvent('hide-modal', ['message' => 'Student created successfully!']);
     }
 
-    public function edit(Student $user)
+    public function edit(Student $student)
     {
-        $this->user = $user;
-        $this->role = $this->user->roles->pluck('id')->toArray();
+        $this->student = $student;
         $this->isEditing = true;
-        $this->state = $user->toArray();
+        $this->state = $student->toArray();
         unset($this->state['photo']);
-        $this->photo = null;
+        unset($this->state['immunization_card']);
+        unset($this->state['birth_certificate']);
         $this->dispatchBrowserEvent('show-form');
     }
 
@@ -138,51 +135,65 @@ class StudentComponent extends Component
             $this->state['photo'] = $this->photo;
         }
 
-        if ($this->role) {
-            $this->user->syncRoles(array_unique($this->role));
-        }
-
-
         $data =  Validator::make($this->state, [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $this->user->id,
-            'password' => 'sometimes|confirmed',
-            'department_id' => 'nullable|exists:departments,id',
-            'level_id' => 'nullable|exists:levels,id',
+            "surname" => 'required',
+            "middlename" => 'required',
+            "lastname" => 'required',
+            "gender" => 'required|in:male,female',
+            "dob" => 'required|date',
+            'admission_date' => 'required|date',
+            "blood_group" => 'nullable',
+            "genotype" => 'nullable',
+            "allergies" => 'nullable',
+            "disabilities" => 'nullable',
+            "prevSchool" => 'nullable',
+            "reason" => 'nullable',
+            "introducer" => 'nullable',
+            "status" => 'nullable',
+            "driver" => 'nullable',
+            "parent_id" => 'nullable|exists:parents,id',
+            "class_id" => 'required|exists:classes,id',
             "photo" => 'nullable|image|mimes:jpg,png,jpeg',
-            'status' => 'required|in:1,0',
+            "birth_certificate" => 'nullable|file|mimes:jpg,png,jpeg,pdf',
+            "immunization_card" => 'nullable|file|mimes:jpg,png,jpeg,pdf'
         ])->validate();
 
-        if (array_key_exists('password', $data)) {
-            $data['password'] = Hash::make($data['password']);
-        }
-
         if (array_key_exists('photo', $this->state)) {
-            $path = $this->photo->store('staff');
+            $path = $this->photo->store('student');
             $data['photo'] = $path;
         }
 
-        $this->user->update($data);
+        if (array_key_exists('immunization_card', $this->state)) {
+            $card_path = $this->immunization_card->store('student');
+            $data['immunization_card'] = $card_path;
+        }
 
-        $this->dispatchBrowserEvent('hide-modal', ['message' => 'User created successfully!']);
+        if (array_key_exists('birth_certificate', $this->state)) {
+            $birth_path = $this->birth_certificate->store('student');
+            $data['birth_certificate'] = $birth_path;
+        }
+
+        $this->student->update($data);
+
+        $this->dispatchBrowserEvent('hide-modal', ['message' => 'Student created successfully!']);
     }
 
-    public function show(Student $user)
+    public function show(Student $student)
     {
-        $this->selectedStudent = $user;
+        $this->selectedStudent = $student;
         $this->dispatchBrowserEvent('show-view');
     }
 
     public function confirmDelete($userId)
     {
         $this->toBeDeleted = $userId;
-        $this->dispatchBrowserEvent('delete-modal', ['message' => 'Are you sure you want to delete this user?']);
+        $this->dispatchBrowserEvent('delete-modal', ['message' => 'Are you sure you want to delete this student?']);
     }
 
     public function destroy()
     {
         $user = Student::find($this->toBeDeleted);
         $user->delete();
-        $this->dispatchBrowserEvent('show-confirm', ['message' => 'User deleted successfully!']);
+        $this->dispatchBrowserEvent('show-confirm', ['message' => 'Student deleted successfully!']);
     }
 }

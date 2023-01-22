@@ -12,6 +12,63 @@
         <link rel="stylesheet"
             href="{{ asset('backend/plugins/vitalets-bootstrap-datepicker-c7af15b/css/datepicker.css') }}">
         <!-- Theme style -->
+
+        <style>
+            .cmn-toggle {
+                position: absolute;
+                margin-left: -9999px;
+                visibility: hidden;
+            }
+
+            .cmn-toggle+label {
+                /* display: block; */
+                position: relative;
+                cursor: pointer;
+                outline: none;
+                user-select: none;
+            }
+
+            input.cmn-toggle-round+label {
+                padding: 2px;
+                width: 100px;
+                height: 45px;
+                background-color: #dddddd;
+                border-radius: 40px;
+            }
+
+            input.cmn-toggle-round+label:before,
+            input.cmn-toggle-round+label:after {
+                display: block;
+                position: absolute;
+                top: 1px;
+                left: 1px;
+                bottom: 1px;
+                content: "";
+            }
+
+            input.cmn-toggle-round+label:before {
+                right: 1px;
+                background-color: #f20c0c;
+                border-radius: 50px;
+                transition: background 0.4s;
+            }
+
+            input.cmn-toggle-round+label:after {
+                width: 45px;
+                background-color: #fff;
+                border-radius: 100%;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+                transition: margin 0.4s;
+            }
+
+            input.cmn-toggle-round:checked+label:before {
+                background-color: #8ce196;
+            }
+
+            input.cmn-toggle-round:checked+label:after {
+                margin-left: 60px;
+            }
+        </style>
     @endpush
 
 
@@ -63,11 +120,16 @@
                                     <tbody>
                                         @foreach ($students as $student)
                                             <tr>
-                                                <td>{{ $student->name }}</td>
+                                                <td>{{ $student->surname . ' ' . $student->middlename }}</td>
                                                 <td>{{ $student->admno }}</td>
+                                                <td>{{ $student->class->name }}</td>
                                                 <td class="text-center"><img class="img-thumbnail"
                                                         src="{{ asset($student->photo) }}" alt="{{ $student->name }}"
                                                         style="width: 100px; height: 100px;"></td>
+                                                <td class="text-center">
+                                                    <livewire:status-button :model="$student" field="status"
+                                                        key="{{ $student->id }}">
+                                                </td>
                                                 <td class="d-flex"
                                                     style="justify-content: space-evenly; padding-right: 0;">
                                                     @can('edit student')
@@ -337,7 +399,8 @@
                                             <label>Admission Date</label>
                                             <div data-date="12-02-2012" data-date-format="dd-mm-yyyy"
                                                 class="input-group date">
-                                                <input wire:model.defer='state.admission_date' id="admission_date" type="text"
+                                                <input wire:model.defer='state.admission_date' id="admission_date"
+                                                    type="text"
                                                     class="form-control @error('admission_date') is-invalid @enderror"
                                                     autocomplete="off" value="{{ old('admission_date') }}" />
                                                 <div class="input-group-append">
@@ -392,7 +455,7 @@
                                                 class="form-control @error('allergies') is-invalid @enderror"
                                                 id="allergies" placeholder="Enter allergies"
                                                 value="{{ old('allergies') }}">
-                                                @error('allergies')
+                                            @error('allergies')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
@@ -679,12 +742,12 @@
                 $('#dob').datepicker();
                 $('#admission_date').datepicker();
 
-                
+
                 $('#dob').on('change', function(e) {
                     @this.set('state.dob', e.target.value);
                 });
 
-                
+
                 $('#admission_date').on('change', function(e) {
                     @this.set('state.admission_date', e.target.value);
                 });
