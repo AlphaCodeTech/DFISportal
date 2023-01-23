@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend\Student;
 
 use App\Models\User;
 use App\Models\Clazz;
+use App\Models\Level;
 use App\Models\Parents;
 use App\Models\Student;
 use Livewire\Component;
@@ -22,14 +23,17 @@ class StudentComponent extends Component
     public $isEditing = false;
     public $toBeDeleted = null;
     public $state = [];
+    public $promoteData = [];
     public $authUser;
     public $parents;
     public $classes;
+    public $levels;
 
 
     public function mount(User $user)
     {
-        $this->classes = Clazz::all();
+        $this->levels = Level::all();
+        $this->classes = Clazz::orderBy('name', 'asc')->get();
         $this->parents = Parents::all();
         $this->authUser = $user;
         $this->selectedStudent = $this->authUser; //!Please this is for error handling
@@ -92,8 +96,8 @@ class StudentComponent extends Component
             "parent_id" => 'nullable|exists:parents,id',
             "class_id" => 'required|exists:classes,id',
             "photo" => 'required|file|mimes:jpg,png,jpeg',
-            "birth_certificate" => 'nullable|file|mimes:jpg,png,jpeg,pdf',
-            "immunization_card" => 'nullable|file|mimes:jpg,png,jpeg,pdf'
+            "birth_certificate" => 'nullable|file|mimes:pdf',
+            "immunization_card" => 'nullable|file|mimes:pdf'
         ])->validate();
 
         if (array_key_exists('photo', $this->state)) {
@@ -195,5 +199,53 @@ class StudentComponent extends Component
         $user = Student::find($this->toBeDeleted);
         $user->delete();
         $this->dispatchBrowserEvent('show-confirm', ['message' => 'Student deleted successfully!']);
+    }
+
+    public function viewImmunizationCard()
+    {
+        // dd($this->selectedStudent->immunization_card);
+        if ($this->selectedStudent->immunization_card == null) {
+            $this->dispatchBrowserEvent('not-found', ['message' => 'This student Immunization Card have not been uploaded']);
+            return;
+        }
+
+        return response()->file(public_path($this->selectedStudent->immunization_card), [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; 
+            filename="'. $this->selectedStudent->surname .'"'
+        ]);
+    }
+
+    public function viewBirthCertificate()
+    {
+        if ($this->selectedStudent->birth_certificate == null) {
+            $this->dispatchBrowserEvent('not-found', ['message' => 'This student Birth Certificate have not been uploaded']);
+            return;
+        }
+
+        return response()->file(public_path($this->selectedStudent->birth_certificate), [
+            'Content-Type' => 'application/pdf'
+        ]);
+    }
+
+    public function showPromote(Student $student)
+    {
+        $this->selectedStudent = $student;
+
+        $this->student = $student;
+  
+        $this->dispatchBrowserEvent('show-promote');        
+    }
+
+    public function promote()
+    {
+        $data = Validator::make($this->promoteData, [
+            'new_class_id' => 'required|exists:classes,id',
+        ])->validate();
+
+        $this->student->class_id = $data['new_class_id'];
+        $this->student->save();
+
+        $this->dispatchBrowserEvent('hide-promote', ['message' => 'Student promoted successfully!']);
     }
 }

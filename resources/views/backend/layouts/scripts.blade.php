@@ -27,6 +27,7 @@
 @stack('extra-js')
 
 <script>
+    
     window.addEventListener('show-form', function() {
         $('#form').modal({
             backdrop: 'static',
@@ -48,8 +49,20 @@
         }, 'show');
     });
 
+    window.addEventListener('show-promote', function() {
+        $('#promote').modal({
+            backdrop: 'static',
+            keyboard: false
+        }, 'show');
+    });
+
     window.addEventListener('hide-modal', function(event) {
         $('#form').modal('hide');
+        toastr.success(event.detail.message, 'Success!');
+    });
+
+    window.addEventListener('hide-promote', function(event) {
+        $('#promote').modal('hide');
         toastr.success(event.detail.message, 'Success!');
     });
 
@@ -71,6 +84,19 @@
         }).then(function(value) {
             if (value) {
                 Livewire.emit('delete')
+            }
+        });
+    });
+
+    window.addEventListener('not-found', (e) => {
+        swal({
+            title: 'Sorry',
+            text: e.detail.message,
+            icon: 'warning',
+            button: "Ok!",
+        }).then(function(value) {
+            if (value) {
+                //
             }
         });
     });

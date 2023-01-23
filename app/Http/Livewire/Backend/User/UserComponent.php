@@ -97,7 +97,6 @@ class UserComponent extends Component
             $this->user->syncRoles(array_unique($this->role));
         }
 
-
         $data =  Validator::make($this->state, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $this->user->id,

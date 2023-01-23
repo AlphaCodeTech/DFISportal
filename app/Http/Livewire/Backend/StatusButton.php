@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Backend;
 
-use App\Models\Student;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Component;
 
@@ -22,7 +21,7 @@ class StatusButton extends Component
     public function render()
     {
 
-        return view('livewire.status-button');
+        return view('livewire.backend.status-button');
     }
 
     public function updating($field, $value)

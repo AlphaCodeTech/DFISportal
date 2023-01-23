@@ -1,15 +1,16 @@
 <?php
 
-use App\Http\Livewire\Backend\Classroom\ClassroomComponent;
-use App\Http\Livewire\Backend\Fees\FeesComponent;
-use App\Http\Livewire\Backend\Level\LevelComponent;
-use App\Http\Livewire\Backend\Permission\PermissionComponent;
-use App\Http\Livewire\Backend\Profile\ProfileComponent;
-use App\Http\Livewire\Backend\Role\RoleComponent;
-use App\Http\Livewire\Backend\Student\StudentComponent;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\HomeController;
+use App\Http\Livewire\Backend\Fees\FeesComponent;
+use App\Http\Livewire\Backend\Role\RoleComponent;
 use App\Http\Livewire\Backend\User\UserComponent;
+use App\Http\Livewire\Backend\Level\LevelComponent;
+use App\Http\Livewire\Backend\Profile\ProfileComponent;
+use App\Http\Livewire\Backend\Student\StudentComponent;
+use App\Http\Livewire\Backend\Classroom\ClassroomComponent;
+use App\Http\Livewire\Backend\Permission\PermissionComponent;
 
 
 // ! Frontend Routes
