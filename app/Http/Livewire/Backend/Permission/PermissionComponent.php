@@ -4,14 +4,11 @@ namespace App\Http\Livewire\Backend\Permission;
 
 use Livewire\Component;
 use Illuminate\Support\Str;
-use Livewire\WithFileUploads;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Validator;
 
 class PermissionComponent extends Component
 {
-    use WithFileUploads;
-
     public $isEditing = false;
     public $toBeDeleted = null;
     public $state = [];
@@ -58,7 +55,7 @@ class PermissionComponent extends Component
     public function update()
     {
         $data =  Validator::make($this->state, [
-            'name' => 'required|unique:roles,name,'.$this->permission->id,
+            'name' => 'required|unique:permissions,name,'.$this->permission->id,
         ])->validate();
 
         $data['name'] = Str::lower($data['name']);

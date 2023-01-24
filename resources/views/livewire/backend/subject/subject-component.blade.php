@@ -22,12 +22,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Roles</h1>
+                        <h1>Subjects</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">View Roles</li>
+                            <li class="breadcrumb-item active">View Subjects</li>
                         </ol>
                     </div>
                 </div>
@@ -42,9 +42,10 @@
 
                         <div class="card">
                             <div class="card-header">
-                                @can('create role')
+                                @can('create subject')
                                     <a role="button" class="btn btn-primary" href="#" wire:click='create'>Add
-                                        Role</a>
+                                        Subject</a>
+                                   
                                 @endcan
                             </div>
                             <!-- /.card-header -->
@@ -57,22 +58,22 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($roles as $role)
+                                        @foreach ($subjects as $subject)
                                             <tr>
-                                                <td>{{ Str::headline($role->name) }}</td>
+                                                <td>{{ Str::headline($subject->name) }}</td>
 
                                                 <td class="d-flex"
                                                     style="justify-content: space-evenly; padding-right: 0;">
-                                                    @can('edit role')
-                                                        <a title="edit" wire:click="edit({{ $role }})"
+                                                    @can('edit subject')
+                                                        <a title="edit" wire:click="edit({{ $subject->id }})"
                                                             role="button" class="btn btn-success"><i
                                                                 class="fas fa-edit"></i></a>
                                                     @endcan
-                                                    <button wire:click="show({{ $role }})" role="button"
+                                                    <button wire:click="show({{ $subject->id }})" role="button"
                                                         class="btn btn-warning"><i class="fas fa-eye"
                                                             title="view role"></i></button>
-                                                    @can('delete role')
-                                                        <button wire:click='confirmDelete({{ $role->id }})'
+                                                    @can('delete subject')
+                                                        <button wire:click='confirmDelete({{ $subject->id }})'
                                                             title="delete" type="submit" role="button"
                                                             class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                                     @endcan
@@ -107,7 +108,7 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">{{ $isEditing ? 'Edit Role' : 'Add New Role' }}</h4>
+                    <h4 class="modal-title">{{ $isEditing ? 'Edit Subject' : 'Add New Subject' }}</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -137,17 +138,6 @@
                                                 @enderror
 
                                             </div>
-                                            <h5>Assign Permission</h5>
-
-                                            @foreach ($permissions as $perm)
-                                                <div class="form-check">
-                                                    <input wire:model.defer='rolePermission' class="form-check-input"
-                                                        type="checkbox" value="{{ $perm->id }}"
-                                                        {{ $isEditing ? (in_array($perm->id, $rolePermission) ? 'checked' : '') : '' }}>
-                                                    <label
-                                                        class="form-check-label font-weight-bold">{{ $perm->name }}</label>
-                                                </div>
-                                            @endforeach
 
                                             <div class="card-footer text-right">
                                                 <button type="submit"
@@ -178,12 +168,11 @@
         <!-- /.modal-dialog -->
     </div>
 
-
     <div class="modal fade" id="view">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">View Role</h4>
+                    <h4 class="modal-title">View Subject</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -198,7 +187,7 @@
                                         <div class="d-flex flex-column align-items-center text-center">
 
                                             <div class="mt-3">
-                                                <h4>{{ Str::headline(optional($selectedRole)->name) ?? '' }}
+                                                <h4>{{ Str::headline(optional($selectedSubject)->name) ?? '' }}
                                                 </h4>
 
                                                 <button class="btn btn-outline-primary">Status</button>
@@ -216,25 +205,7 @@
                                                     Name</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedRole)->name) ?? '' }}
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Role Permissions</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                @if (optional($selectedRole)->permissions())
-                                                    {{-- {{ dd($selectedRole->permissions) }} --}}
-                                                    @foreach ($selectedRole->permissions as $item)
-                                                        <button
-                                                            class="btn btn-sm btn-warning font-weight-bold mr-2">{{ $item->name }}</button>
-                                                    @endforeach
-                                                @endif
-
+                                                {{ ucwords(optional($selectedSubject)->name) ?? '' }}
                                             </div>
                                         </div>
                                         <hr>
@@ -257,6 +228,7 @@
         <!-- /.modal-dialog -->
     </div>
 
+    
     @push('extra-js')
         <!-- DataTables  & Plugins -->
         <script src="{{ asset('backend/plugins/datatables/jquery.dataTables.min.js') }}"></script>

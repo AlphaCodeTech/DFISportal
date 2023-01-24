@@ -46,6 +46,7 @@
                                     <a role="button" class="btn btn-primary" href="#" wire:click='create'>Add
                                         Classroom</a>
                                 @endcan
+
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -64,7 +65,6 @@
                                                 <td>{{ Str::headline($class->name) }}</td>
                                                 <td>{{ Str::headline($class->level->name) }}</td>
                                                 <td>{{ Str::headline(optional($class->teacher)->name) }}</td>
-
                                                 <td class="d-flex"
                                                     style="justify-content: space-evenly; padding-right: 0;">
                                                     @can('edit class')
@@ -81,6 +81,7 @@
                                                             class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                                     @endcan
                                                 </td>
+
                                             </tr>
                                         @endforeach
 
@@ -182,7 +183,7 @@
                                             </div>
                                         </div>
                                         <!-- /.card-body -->
-
+                                    </form>
                                 </div>
                                 <!-- /.card -->
 
@@ -204,7 +205,6 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-
 
     <div class="modal fade" id="view">
         <div class="modal-dialog modal-xl">
@@ -247,6 +247,7 @@
                                             </div>
                                         </div>
                                         <hr>
+
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <h6 class="mb-0 font-weight-bold">
@@ -259,6 +260,7 @@
                                             </div>
                                         </div>
                                         <hr>
+
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <h6 class="mb-0 font-weight-bold">
@@ -268,6 +270,38 @@
                                                 @if ($selectedClass != null)
                                                     {{ ucwords(optional($selectedClass->teacher)->name) ?? '' }}
                                                 @endif
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Class Subjects</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                @if (optional($selectedClass)->subjects())
+                                                    {{-- {{ dd($selectedRole->permissions) }} --}}
+                                                    @foreach ($selectedClass->subjects as $item)
+                                                        <button
+                                                            class="btn btn-sm btn-warning font-weight-bold mr-2">{{ $item->name }}</button>
+                                                    @endforeach
+                                                @endif
+
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Assign Subject To Class</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                @can('assign subject to classroom')
+                                                    <a role="button" class="btn btn-success"
+                                                        wire:click='showAssign({{ optional($selectedClass)->id }})'>Continue</a>
+                                                @endcan
                                             </div>
                                         </div>
                                         <hr>
@@ -289,6 +323,85 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
+
+    <div class="modal fade" id="assign" wire:ignore.self>
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Assign Subject</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <!-- left column -->
+                            <div class="col-md-6">
+                                <!-- general form elements -->
+                                <div class="card card-primary">
+
+                                    <!-- form start -->
+                                    <form wire:submit.prevent='assign'>
+
+                                        <div class="card-body">
+
+                                            <div class="form-group">
+                                                <label for="class_id">Class</label>
+
+                                                <select wire:model.defer="state.class_id"
+                                                    class="form-control @error('class_id') is-invalid @enderror"
+                                                    id="class_id">
+                                                    <option value="">Select a class</option>
+                                                    <option value="{{ $selectedClass->id }}" selected>{{ $selectedClass->name }}
+                                                    </option>
+
+                                                </select>
+                                                @error('class_id')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            <h5>Assign Subjects To Class</h5>
+
+                                            @foreach ($subjects as $subject)
+                                                <div class="form-check">
+                                                    <input wire:model.defer='subject_ids' class="form-check-input"
+                                                        type="checkbox" value="{{ $subject->id }}"
+                                                        {{ in_array($subject->id, $subject_ids) ? 'checked' : '' }}>
+                                                    <label
+                                                        class="form-check-label font-weight-bold">{{ $subject->name }}</label>
+                                                </div>
+                                            @endforeach
+
+                                            <div class="card-footer text-right">
+                                                <button type="submit" class="btn btn-success">Assign</button>
+                                            </div>
+
+                                        </div>
+                                        <!-- /.card-body -->
+                                    </form>
+                                </div>
+                                <!-- /.card -->
+                            </div>
+
+                            <!--/.col (left) -->
+
+                            <!--/.col (right) -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
 
     @push('extra-js')
         <!-- DataTables  & Plugins -->

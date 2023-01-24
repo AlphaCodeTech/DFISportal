@@ -49,7 +49,11 @@ class RoleComponent extends Component
 
         $data['name'] = Str::lower($data['name']);
 
-        Role::create($data);
+        $role = Role::create($data);
+        
+        if ($this->rolePermission) {
+            $role->syncPermissions(array_unique($this->rolePermission));
+        }
 
         $this->dispatchBrowserEvent('hide-modal', ['message' => 'User created successfully!']);
     }
@@ -58,7 +62,7 @@ class RoleComponent extends Component
     {
         $this->role = $role;
         $this->rolePermission = $this->role->permissions()->pluck('id')->toArray();
-        // dd($this->rolePermission);
+
         $this->isEditing = true;
         $this->state = $role->toArray();
         $this->dispatchBrowserEvent('show-form');

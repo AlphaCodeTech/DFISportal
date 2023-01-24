@@ -27,7 +27,7 @@
 @stack('extra-js')
 
 <script>
-    
+
     window.addEventListener('show-form', function() {
         $('#form').modal({
             backdrop: 'static',
@@ -56,6 +56,14 @@
         }, 'show');
     });
 
+    window.addEventListener('show-assign', function() {
+        $('#assign').modal({
+            backdrop: 'static',
+            keyboard: false
+        }, 'show');
+        $('#view').modal('hide');
+    });
+
     window.addEventListener('hide-modal', function(event) {
         $('#form').modal('hide');
         toastr.success(event.detail.message, 'Success!');
@@ -63,6 +71,11 @@
 
     window.addEventListener('hide-promote', function(event) {
         $('#promote').modal('hide');
+        toastr.success(event.detail.message, 'Success!');
+    });
+
+    window.addEventListener('hide-assign', function(event) {
+        $('#assign').modal('hide');
         toastr.success(event.detail.message, 'Success!');
     });
 

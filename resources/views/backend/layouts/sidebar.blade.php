@@ -10,13 +10,13 @@
       <!-- Sidebar -->
       <div class="sidebar">
           <!-- Sidebar user panel (optional) -->
-         
+
           <div class="user-panel mt-3 pb-3 mb-3 d-flex">
               <div class="image">
                   <img src="{{ asset(auth()->user()->photo) }}" class="img-circle elevation-2" alt="User Image">
               </div>
               <div class="info">
-                  <a href="#" class="d-block">{{ ucwords(Auth::user()->getRoleNames()[0] ?? 'User')  }}</a>
+                  <a href="#" class="d-block">{{ ucwords(Auth::user()->getRoleNames()[0] ?? 'User') }}</a>
               </div>
           </div>
 
@@ -40,7 +40,8 @@
                   <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                   <li class="nav-item">
-                      <a href="{{ route('admin.index') }}" class="nav-link {{ (request()->is('admin')) ? 'active' : '' }}">
+                      <a href="{{ route('admin.index') }}"
+                          class="nav-link {{ request()->is('admin') ? 'active' : '' }}">
                           <i class="nav-icon fas fa-tachometer-alt"></i>
                           <p>
                               Dashboard
@@ -49,9 +50,9 @@
                       </a>
 
                   </li>
-                  @if (auth()->user()->hasAnyRole(['super admin','teacher','developer']))
+                  @if (auth()->user()->hasAnyRole(['super admin', 'teacher', 'developer']))
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ (request()->is('admin/students')) ? 'active' : '' }}">
+                          <a href="#" class="nav-link {{ request()->is('admin/students') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-graduation-cap"></i>
                               <p>
                                   Students
@@ -60,19 +61,19 @@
                           </a>
                           <ul class="nav nav-treeview">
                               <li class="nav-item">
-                                  <a href="{{ route('backend.students',["user" => auth()->user()]) }}" class="nav-link">
+                                  <a href="{{ route('backend.students', ['user' => auth()->user()]) }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
                                       <p>View Students</p>
                                   </a>
                               </li>
-                             
+
 
                           </ul>
                       </li>
                   @endif
-                  @if(auth()->user()->hasAnyRole(['teacher', 'super admin']))
+                  @if (auth()->user()->hasAnyRole(['teacher', 'super admin','developer']))
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ (request()->is('admin/subjects')) ? 'active' : '' }}">
+                          <a href="#" class="nav-link {{ request()->is('admin/subjects') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-book"></i>
                               <p>
                                   Subjects
@@ -81,24 +82,18 @@
                           </a>
                           <ul class="nav nav-treeview">
                               <li class="nav-item">
-                                  <a href="{{ route('subject.index') }}" class="nav-link">
+                                  <a href="{{ route('backend.subjects') }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
                                       <p>View Subjects</p>
-                                  </a>
-                              </li>
-                              <li class="nav-item">
-                                  <a href="{{ route('subject.create') }}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>Add Subject</p>
                                   </a>
                               </li>
 
                           </ul>
                       </li>
                   @endif
-                  @if(auth()->user()->hasAnyRole(['super admin', 'developer','teacher']))
+                  @if (auth()->user()->hasAnyRole(['super admin', 'developer', 'teacher']))
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ (request()->is('admin/levels')) ? 'active' : '' }}">
+                          <a href="#" class="nav-link {{ request()->is('admin/levels') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-battery-half"></i>
                               <p>
                                   Levels
@@ -112,14 +107,14 @@
                                       <p>View Levels</p>
                                   </a>
                               </li>
-                            
+
 
                           </ul>
                       </li>
                   @endif
-                  @if(auth()->user()->hasAnyRole(['super admin', 'accountant','developer']))
+                  @if (auth()->user()->hasAnyRole(['super admin', 'accountant', 'developer']))
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ (request()->is('admin/fees')) ? 'active' : '' }}">
+                          <a href="#" class="nav-link {{ request()->is('admin/fees') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-sort-amount-up"></i>
                               <p>
                                   Fees
@@ -133,14 +128,15 @@
                                       <p>View Fees</p>
                                   </a>
                               </li>
-   
+
 
                           </ul>
                       </li>
                   @endif
-                  @if(auth()->user()->hasAnyRole(['super admin', 'developer']))
+                  @if (auth()->user()->hasAnyRole(['super admin', 'developer']))
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ (request()->is('admin/departments.*')) ? 'active' : '' }}">
+                          <a href="#"
+                              class="nav-link {{ request()->is('admin/departments.*') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-list-alt"></i>
                               <p>
                                   Categories
@@ -163,10 +159,10 @@
 
                           </ul>
                       </li>
-                  @endif    
-                  @if(auth()->user()->hasAnyRole(['super admin', 'developer','teacher']))
+                  @endif
+                  @if (auth()->user()->hasAnyRole(['super admin', 'developer', 'teacher']))
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ (request()->is('admin/classrooms')) ? 'active' : '' }}">
+                          <a href="#" class="nav-link {{ request()->is('admin/classrooms') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-school"></i>
                               <p>
                                   Classrooms
@@ -180,13 +176,13 @@
                                       <p>View Classrooms</p>
                                   </a>
                               </li>
-                              
+
                           </ul>
                       </li>
                   @endif
-                  @if(auth()->user()->hasAnyRole(['super admin', 'developer']))
+                  @if (auth()->user()->hasAnyRole(['super admin', 'developer']))
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ (request()->is('admin/users')) ? 'active' : '' }}">
+                          <a href="#" class="nav-link {{ request()->is('admin/users') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-users"></i>
                               <p>
                                   Users
@@ -210,9 +206,9 @@
                           </ul>
                       </li>
                   @endif
-                  @if(auth()->check())
+                  @if (auth()->check())
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ (request()->is('admin/profile')) ? 'active' : '' }}">
+                          <a href="#" class="nav-link {{ request()->is('admin/profile') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-users"></i>
                               <p>
                                   Profile
@@ -221,7 +217,7 @@
                           </a>
                           <ul class="nav nav-treeview">
                               <li class="nav-item">
-                                  <a href="{{ route('backend.profile',auth()->user()) }}" class="nav-link">
+                                  <a href="{{ route('backend.profile', auth()->user()) }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
                                       <p>View Profile</p>
                                   </a>
@@ -230,9 +226,10 @@
                           </ul>
                       </li>
                   @endif
-                  @if(auth()->user()->hasAnyRole(['super admin', 'developer']))
+                  @if (auth()->user()->hasAnyRole(['super admin', 'developer']))
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ (request()->is('admin/permissions')) ? 'active' : '' }}">
+                          <a href="#"
+                              class="nav-link {{ request()->is('admin/permissions') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-ban"></i>
                               <p>
                                   Permissions
@@ -246,13 +243,13 @@
                                       <p>View Permissions</p>
                                   </a>
                               </li>
-                             
+
                           </ul>
                       </li>
                   @endif
-                  @if(auth()->user()->hasAnyRole(['super admin', 'developer']))
+                  @if (auth()->user()->hasAnyRole(['super admin', 'developer']))
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ (request()->is('admin/roles')) ? 'active' : '' }}">
+                          <a href="#" class="nav-link {{ request()->is('admin/roles') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-tasks"></i>
                               <p>
                                   Roles
@@ -270,9 +267,9 @@
                           </ul>
                       </li>
                   @endif
-                  @if(auth()->user()->hasAnyRole(['super admin', 'developer']))
+                  @if (auth()->user()->hasAnyRole(['super admin', 'developer']))
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ (request()->is('admin/sessions')) ? 'active' : '' }}">
+                          <a href="#" class="nav-link {{ request()->is('admin/sessions') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-calendar"></i>
                               <p>
                                   Session
@@ -296,9 +293,9 @@
                           </ul>
                       </li>
                   @endif
-                  @if(auth()->user()->hasAnyRole(['super admin', 'developer']))
+                  @if (auth()->user()->hasAnyRole(['super admin', 'developer']))
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ (request()->is('admin/terms')) ? 'active' : '' }}">
+                          <a href="#" class="nav-link {{ request()->is('admin/terms') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-calendar-alt"></i>
                               <p>
                                   Terms
@@ -328,9 +325,9 @@
                           </ul>
                       </li>
                   @endif
-                  @if(auth()->user()->hasAnyRole(['super admin', 'developer']))
+                  @if (auth()->user()->hasAnyRole(['super admin', 'developer']))
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ (request()->is('admin/parents')) ? 'active' : '' }}">
+                          <a href="#" class="nav-link {{ request()->is('admin/parents') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-user-tie"></i>
                               <p>
                                   Guardians
@@ -348,9 +345,10 @@
                           </ul>
                       </li>
                   @endif
-                  @if(auth()->user()->hasAnyRole(['super admin', 'developer','bursar','accountant']))
+                  @if (auth()->user()->hasAnyRole(['super admin', 'developer', 'bursar', 'accountant']))
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ (request()->is('admin/bursaries')) ? 'active' : '' }}">
+                          <a href="#"
+                              class="nav-link {{ request()->is('admin/bursaries') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-credit-card"></i>
                               <p>
                                   Bursary
@@ -368,9 +366,10 @@
                           </ul>
                       </li>
                   @endif
-                  @if(auth()->user()->hasAnyRole(['super admin', 'developer']))
+                  @if (auth()->user()->hasAnyRole(['super admin', 'developer']))
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ (request()->is('admin/admission-management')) ? 'active' : '' }}">
+                          <a href="#"
+                              class="nav-link {{ request()->is('admin/admission-management') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-university"></i>
                               <p>
                                   Admissions

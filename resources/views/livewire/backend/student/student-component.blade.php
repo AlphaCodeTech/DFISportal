@@ -835,13 +835,14 @@
 
                                     <!-- form start -->
                                     <form wire:submit.prevent='promote'>
-                    
+
                                         <div class="card-body">
 
                                             <div class="form-group">
                                                 <label for="old_level_name">Old Level</label>
                                                 <input readonly type="text" name="old_level_name"
-                                                    class="form-control" value="{{ optional($selectedStudent->level)->name }}">
+                                                    class="form-control "
+                                                    value="{{ optional($selectedStudent->level)->name }}">
                                             </div>
                                             @error('old_level_name')
                                                 <p class="alert alert-danger">{{ $message }}</p>
@@ -850,7 +851,8 @@
                                             <div class="form-group">
                                                 <label for="old_class_name">Old Class</label>
                                                 <input readonly type="text" name="old_class_name"
-                                                    class="form-control" value="{{ optional($selectedStudent->class)->name }}">
+                                                    class="form-control"
+                                                    value="{{ optional($selectedStudent->class)->name }}">
                                             </div>
                                             @error('old_class_name')
                                                 <p class="alert alert-danger">{{ $message }}</p>
@@ -870,34 +872,37 @@
 
                                         <div class="form-group">
                                             <label for="new_level_id">New Level</label>
-                                            <select wire:model.defer='promoteData.new_level_id' class="form-control">
+                                            <select wire:model.defer='promoteData.new_level_id'
+                                                class="form-control @error('new_level_id') is-invalid @enderror">
                                                 <option value="" selected>Select New Level</option>
                                                 @foreach ($levels as $level)
                                                     <option value="{{ $level->id }}"
                                                         {{ optional($selectedStudent->level)->id == $level->id ? 'selected' : '' }}>
                                                         {{ $level->name }}</option>
                                                 @endforeach
+                                                @error('new_level_id')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
                                             </select>
                                         </div>
-                                        @error('new_level_id')
-                                            <p class="alert alert-danger">{{ $message }}</p>
-                                        @enderror
+
 
                                         <div class="form-group">
                                             <label for="new_class_id">New class</label>
-                                            <select wire:model.defer='promoteData.new_class_id' class="form-control">
+                                            <select wire:model.defer='promoteData.new_class_id'
+                                                class="form-control @error('new_class_id') is-invalid @enderror">
                                                 <option value="" selected>Select New Class</option>
                                                 @foreach ($classes as $class)
                                                     <option value="{{ $class->id }}"
                                                         {{ optional($selectedStudent->class)->id == $class->id ? 'selected' : '' }}>
                                                         {{ $class->name }}</option>
                                                 @endforeach
+                                                @error('new_class_id')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
                                             </select>
                                         </div>
-                                        @error('new_class_id')
-                                            <p class="alert alert-danger">{{ $message }}</p>
-                                        @enderror
-
+         
                                         <div class="card-footer text-right">
                                             <button type="submit" class="btn btn-success">Promote</button>
                                         </div>
