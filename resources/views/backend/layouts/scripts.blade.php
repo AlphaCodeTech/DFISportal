@@ -79,6 +79,10 @@
         toastr.success(event.detail.message, 'Success!');
     });
 
+    window.addEventListener('hide-view', function(event) {
+        $('#view').modal('hide');
+    });
+
     window.addEventListener('hide-profile', function(event) {
         $('#profile').modal('hide');
         toastr.success(event.detail.message, 'Success!');

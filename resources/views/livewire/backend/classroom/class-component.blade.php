@@ -298,9 +298,23 @@
                                                     Assign Subject To Class</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                @can('assign subject to classroom')
+                                                @can('assign subject')
                                                     <a role="button" class="btn btn-success"
                                                         wire:click='showAssign({{ optional($selectedClass)->id }})'>Continue</a>
+                                                @endcan
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Print Class Data</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                @can('assign subject')
+                                                    <a role="button" class="btn btn-info"
+                                                        wire:click='printData({{ optional($selectedClass)->id }})'>Print</a>
                                                 @endcan
                                             </div>
                                         </div>

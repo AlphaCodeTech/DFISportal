@@ -2,12 +2,13 @@
 
 namespace App\Http\Livewire\Backend\Classroom;
 
+use App\Models\User;
 use App\Models\Clazz;
 use App\Models\Level;
 use App\Models\Subject;
-use App\Models\User;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Validator;
 
 class ClassroomComponent extends Component
@@ -85,7 +86,6 @@ class ClassroomComponent extends Component
     public function show(Clazz $class)
     {
         $this->selectedClass = $class;
-        // dd($this->selectedClass->roles);
         $this->dispatchBrowserEvent('show-view');
     }
 
@@ -106,13 +106,11 @@ class ClassroomComponent extends Component
     {
         $this->selectedClass = $clazz;
         $this->subject_ids = $clazz->subjects->pluck('id')->toArray();
-        // dd($this->subject_ids);
         $this->dispatchBrowserEvent('show-assign');
     }
 
     public function assign()
     {
-
         $data = Validator::make($this->state, [
             'class_id' => 'required|exists:classes,id',
         ])->validate();
@@ -120,9 +118,33 @@ class ClassroomComponent extends Component
         $id = $data['class_id'];
 
         $class = Clazz::find($id);
-   
+
         $class->subjects()->sync($this->subject_ids);
 
         $this->dispatchBrowserEvent('hide-assign', ['message' => 'Subjects assigned to class successfully!']);
+    }
+
+    public function printData(Clazz $clazz)
+    {
+        $class = $clazz;
+
+        if ($class) {
+
+            $this->dispatchBrowserEvent('hide-view');
+            $path = public_path() . '/frontend/logo.png';
+            $type = pathinfo($path, PATHINFO_EXTENSION);
+            $data = file_get_contents($path);
+            $image = 'data:image/' . $type . ';base64,' . base64_encode($data);
+
+            $pdf = Pdf::loadView('livewire.backend.classroom.print', ['class' => $class, 'image' => $image])->setPaper('a4', 'landscape')->output();
+
+            return response()->streamDownload(
+                fn () => print($pdf),
+                $class->name . '.pdf'
+            );
+        } else {
+            alert('Sorry', 'No Student in this class', 'error');
+            return redirect()->back();
+        }
     }
 }
