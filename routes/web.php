@@ -10,6 +10,7 @@ use App\Http\Livewire\Backend\Level\LevelComponent;
 use App\Http\Livewire\Backend\Profile\ProfileComponent;
 use App\Http\Livewire\Backend\Student\StudentComponent;
 use App\Http\Livewire\Backend\Classroom\ClassroomComponent;
+use App\Http\Livewire\Backend\Department\DepartmentComponent;
 use App\Http\Livewire\Backend\Permission\PermissionComponent;
 use App\Http\Livewire\Backend\Subject\SubjectComponent;
 
@@ -52,8 +53,6 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     // ! Classes
     Route::get('classrooms', ClassroomComponent::class)->name('backend.classrooms');
     
-    Route::get('/print-class-student-date/{id}', [ClassController::class, 'printClassData'])->name('class.students');
-
     // ! Users
     Route::get('users', UserComponent::class)->name('backend.users')->middleware(['role:developer|super admin']);
 
@@ -70,8 +69,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     // ! Roles
     Route::get('roles', RoleComponent::class)->name('backend.roles');
 
-    // ! Categories
-    Route::resource('category', CategoryController::class);
+    // ! Departments
+    Route::get('departments', DepartmentComponent::class)->name('backend.departments');
 
     // ! Academic Sessions
     Route::resource('session', SessionController::class);

@@ -136,24 +136,18 @@
                   @if (auth()->user()->hasAnyRole(['super admin', 'developer']))
                       <li class="nav-item">
                           <a href="#"
-                              class="nav-link {{ request()->is('admin/departments.*') ? 'active' : '' }}">
+                              class="nav-link {{ request()->is('admin/departments') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-list-alt"></i>
                               <p>
-                                  Categories
+                                  Departments
                                   <i class="fas fa-angle-left right"></i>
                               </p>
                           </a>
                           <ul class="nav nav-treeview">
                               <li class="nav-item">
-                                  <a href="{{ route('category.index') }}" class="nav-link">
+                                  <a href="{{ route('backend.departments') }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
                                       <p>View Categories</p>
-                                  </a>
-                              </li>
-                              <li class="nav-item">
-                                  <a href="{{ route('category.create') }}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>Add Category</p>
                                   </a>
                               </li>
 
