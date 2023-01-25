@@ -4,8 +4,8 @@ namespace App\Http\Livewire\Backend\Student;
 
 use App\Models\User;
 use App\Models\Clazz;
+use App\Models\Guardian;
 use App\Models\Level;
-use App\Models\Parents;
 use App\Models\Student;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -25,7 +25,7 @@ class StudentComponent extends Component
     public $state = [];
     public $promoteData = [];
     public $authUser;
-    public $parents;
+    public $guardians;
     public $classes;
     public $levels;
 
@@ -34,7 +34,7 @@ class StudentComponent extends Component
     {
         $this->levels = Level::all();
         $this->classes = Clazz::orderBy('name', 'asc')->get();
-        $this->parents = Parents::all();
+        $this->guardians = Guardian::all();
         $this->authUser = $user;
         $this->selectedStudent = $this->authUser; //!Please this is for error handling
     }
@@ -48,7 +48,7 @@ class StudentComponent extends Component
             $students = $teacher->students->where('admitted', true);
             return view('livewire.backend.student.student-component', compact('students'))->layout('backend.layouts.app');
         } else {
-            $students = Student::with(['parent', 'class'])
+            $students = Student::with(['guardian', 'class'])
                 ->where('admitted', true)
                 ->latest()
                 ->get();
@@ -93,7 +93,7 @@ class StudentComponent extends Component
             "introducer" => 'nullable',
             "status" => 'nullable',
             "driver" => 'nullable',
-            "parent_id" => 'nullable|exists:parents,id',
+            "parent_id" => 'nullable|exists:gurad$guardians,id',
             "class_id" => 'required|exists:classes,id',
             "photo" => 'required|file|mimes:jpg,png,jpeg',
             "birth_certificate" => 'nullable|file|mimes:pdf',
@@ -155,7 +155,7 @@ class StudentComponent extends Component
             "introducer" => 'nullable',
             "status" => 'nullable',
             "driver" => 'nullable',
-            "parent_id" => 'nullable|exists:parents,id',
+            "guardian_id" => 'nullable|exists:guardians,id',
             "class_id" => 'required|exists:classes,id',
             "photo" => 'nullable|image|mimes:jpg,png,jpeg',
             "birth_certificate" => 'nullable|file|mimes:jpg,png,jpeg,pdf',
@@ -203,7 +203,6 @@ class StudentComponent extends Component
 
     public function viewImmunizationCard()
     {
-        // dd($this->selectedStudent->immunization_card);
         if ($this->selectedStudent->immunization_card == null) {
             $this->dispatchBrowserEvent('not-found', ['message' => 'This student Immunization Card have not been uploaded']);
             return;
@@ -212,7 +211,7 @@ class StudentComponent extends Component
         return response()->file(public_path($this->selectedStudent->immunization_card), [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; 
-            filename="'. $this->selectedStudent->surname .'"'
+            filename="' . $this->selectedStudent->surname . '"'
         ]);
     }
 
@@ -224,7 +223,9 @@ class StudentComponent extends Component
         }
 
         return response()->file(public_path($this->selectedStudent->birth_certificate), [
-            'Content-Type' => 'application/pdf'
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; 
+            filename="' . $this->selectedStudent->surname . '"'
         ]);
     }
 
@@ -233,8 +234,8 @@ class StudentComponent extends Component
         $this->selectedStudent = $student;
 
         $this->student = $student;
-  
-        $this->dispatchBrowserEvent('show-promote');        
+
+        $this->dispatchBrowserEvent('show-promote');
     }
 
     public function promote()

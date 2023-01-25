@@ -33,9 +33,9 @@ class Student extends Model
         return $this->belongsTo(Clazz::class);
     }
 
-    public function parent()
+    public function guardian()
     {
-        return $this->belongsTo(Parents::class,'parent_id');
+        return $this->belongsTo(Guardian::class);
     }
 
     public function level()

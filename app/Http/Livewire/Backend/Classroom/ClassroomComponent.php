@@ -30,9 +30,9 @@ class ClassroomComponent extends Component
     public function mount()
     {
         $this->subjects = Subject::all();
-        $this->selectedClass = Clazz::first();
+        // $this->selectedClass = Clazz::first();
         $this->levels = Level::all();
-        $this->teachers = User::role('teacher')->get() ?? User::all();
+        $this->teachers = User::role('teacher')->get();
     }
 
     public function render()

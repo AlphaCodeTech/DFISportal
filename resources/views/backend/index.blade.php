@@ -66,7 +66,7 @@
                             <div class="info-box mb-3">
                                 <span class="info-box-icon bg-success elevation-1"><i class="fas fa-user-tie"></i></span>
                                 @php
-                                    $parent_count = App\Models\Parents::count();
+                                    $parent_count = App\Models\Guardian::count();
                                 @endphp
                                 <div class="info-box-content">
                                     <span class="info-box-text">Parents</span>

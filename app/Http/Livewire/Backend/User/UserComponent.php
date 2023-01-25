@@ -42,6 +42,7 @@ class UserComponent extends Component
     {
         $this->isEditing = false;
         $this->state = [];
+        $this->role = [];
         $this->dispatchBrowserEvent('show-form');
     }
 
@@ -83,7 +84,7 @@ class UserComponent extends Component
         $this->isEditing = true;
         $this->state = $user->toArray();
         unset($this->state['photo']);
-        $this->photo = null;
+        // $this->photo = null;
         $this->dispatchBrowserEvent('show-form');
     }
 
@@ -100,16 +101,11 @@ class UserComponent extends Component
         $data =  Validator::make($this->state, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $this->user->id,
-            'password' => 'sometimes|confirmed',
             'department_id' => 'nullable|exists:departments,id',
             'level_id' => 'nullable|exists:levels,id',
             "photo" => 'nullable|image|mimes:jpg,png,jpeg',
             'status' => 'required|in:1,0',
         ])->validate();
-
-        if (array_key_exists('password', $data)) {
-            $data['password'] = Hash::make($data['password']);
-        }
 
         if (array_key_exists('photo', $this->state)) {
             $path = $this->photo->store('staff');

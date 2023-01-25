@@ -13,20 +13,20 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('parents', function (Blueprint $table) {
+        Schema::create('guardians', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->text('residential_address');
-            $table->string('religion');
-            $table->string('nationality');
-            $table->string('state');
-            $table->string('lga');
-            $table->string('occupation');
-            $table->text('business_address');
             $table->string('password');
             $table->string('phone');
             $table->string('relationship');
+            $table->text('residential_address')->nullable();
+            $table->string('religion')->nullable();
+            $table->string('nationality')->nullable();
+            $table->string('state')->nullable();
+            $table->string('lga')->nullable();
+            $table->string('occupation')->nullable();
+            $table->text('business_address')->nullable();
             $table->text('family_history')->nullable();
             $table->string('id_card')->nullable();
             $table->softDeletes();
@@ -41,6 +41,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('parents');
+        Schema::dropIfExists('guardians');
     }
 };

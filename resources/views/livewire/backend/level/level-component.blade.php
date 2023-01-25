@@ -146,7 +146,7 @@
 
                                             <div class="form-group">
                                                 <label for="fee_id">Fees</label>
-                                                <select class="form-control" wire:model.defer='state.fee_id'
+                                                <select class="form-control @error('fee_id') is-invalid @enderror" wire:model.defer='state.fee_id'
                                                     id="fee_id">
                                                     <option value="">Select School Fees</option>
                                                     @foreach ($fees as $fee)

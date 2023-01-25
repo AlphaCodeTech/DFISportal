@@ -22,12 +22,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Users</h1>
+                        <h1>Guardians</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">View Users</li>
+                            <li class="breadcrumb-item active">View Guardians</li>
                         </ol>
                     </div>
                 </div>
@@ -42,9 +42,9 @@
 
                         <div class="card">
                             <div class="card-header">
-                                @can('create user')
+                                @can('create guardian')
                                     <a role="button" class="btn btn-primary" href="#" wire:click='create'>Add
-                                        User</a>
+                                        Guardian</a>
                                 @endcan
                             </div>
                             <!-- /.card-header -->
@@ -53,40 +53,37 @@
                                     <thead>
                                         <tr>
                                             <th>Name</th>
-                                            <th>ID Number</th>
-                                            <th>Role</th>
-                                            <th>Photo</th>
+                                            <th>Wards</th>
+                                            <th>Phone</th>
+                                            <th>Relationship</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($users as $user)
+                                        @foreach ($guardians as $guardian)
                                             <tr>
-                                                <td>{{ $user->name }}</td>
-                                                <td>{{ $user->staff_ID }}</td>
-                                                <td>
-                                                    @if ($user->roles)
-                                                        @foreach ($user->roles as $item)
-                                                            <button
-                                                                class="btn btn-sm btn-warning font-weight-bold text-capitalize">{{ $item->name }}</button>
-                                                        @endforeach
-                                                    @endif
+                                                <td>{{ Str::headline($guardian->name) }}</td>
+                                                <td style="display: flex;">
+                                                    @foreach ($guardian->students as $std)
+                                                        <a wire:click='showStudent({{ $std->id }})' role="button"
+                                                            class="btn btn-sm btn-primary font-weight-bolder text-center mr-2">{{ $std->middlename }}</a>
+                                                    @endforeach
                                                 </td>
-                                                <td class="text-center"><img class="img-thumbnail"
-                                                        src="{{ asset($user->photo) }}" alt="{{ $user->name }}"
-                                                        style="width: 100px; height: 100px;"></td>
+                                                <td>{{ $guardian->phone }}</td>
+                                                <td>{{ $guardian->relationship }}</td>
+
                                                 <td class="d-flex"
                                                     style="justify-content: space-evenly; padding-right: 0;">
-                                                    @can('edit user')
-                                                        <a title="edit" wire:click="edit({{ $user->id }})"
+                                                    @can('edit guardian')
+                                                        <a title="edit" wire:click="edit({{ $guardian->id }})"
                                                             role="button" class="btn btn-success"><i
                                                                 class="fas fa-edit"></i></a>
                                                     @endcan
-                                                    <button wire:click="show({{ $user->id }})" role="button"
+                                                    <button wire:click="show({{ $guardian->id }})" role="button"
                                                         class="btn btn-warning"><i class="fas fa-eye"
-                                                            title="view user"></i></button>
-                                                    @can('delete user')
-                                                        <button wire:click='confirmDelete({{ $user->id }})'
+                                                            title="view role"></i></button>
+                                                    @can('delete guardian')
+                                                        <button wire:click='confirmDelete({{ $guardian->id }})'
                                                             title="delete" type="submit" role="button"
                                                             class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                                     @endcan
@@ -98,9 +95,9 @@
                                     <tfoot>
                                         <tr>
                                             <th>Name</th>
-                                            <th>ID Number</th>
-                                            <th>Role</th>
-                                            <th>Photo</th>
+                                            <th>Wards</th>
+                                            <th>Phone</th>
+                                            <th>Relationship</th>
                                             <th>Action</th>
                                         </tr>
                                     </tfoot>
@@ -124,7 +121,7 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">{{ $isEditing ? 'Edit User' : 'Add New User' }}</h4>
+                    <h4 class="modal-title">{{ $isEditing ? 'Edit Guardian' : 'Add New Guardian' }}</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -144,10 +141,10 @@
                                         <div class="card-body">
 
                                             <div class="form-group">
-                                                <label for="name">Fullname</label>
+                                                <label for="name">Name</label>
                                                 <input wire:model.defer='state.name' type="text"
                                                     class="form-control @error('name') is-invalid @enderror"
-                                                    id="name" placeholder="Enter surname"
+                                                    id="name" placeholder="Enter name"
                                                     value="{{ old('name') }}">
                                                 @error('name')
                                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -157,8 +154,8 @@
 
                                             <div class="form-group">
                                                 <label for="email">Email</label>
-                                                <input wire:model.defer='state.email' type="email"
-                                                    class="form-control  @error('email') is-invalid @enderror"
+                                                <input wire:model.defer='state.email' type="text"
+                                                    class="form-control @error('email') is-invalid @enderror"
                                                     id="email" placeholder="Enter email"
                                                     value="{{ old('email') }}">
                                                 @error('email')
@@ -167,46 +164,45 @@
 
                                             </div>
 
-                                            @if (!$isEditing)
-                                                <div class="form-group">
-                                                    <label for="password">Password</label>
-                                                    <input wire:model.defer='state.password' name="password"
-                                                        type="password"
-                                                        class="form-control  @error('password') is-invalid @enderror"
-                                                        id="password" placeholder="Enter password">
-                                                    @error('password')
-                                                        <div class="invalid-feedback">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label for="password_confirmation">Confirm Password</label>
-                                                    <input wire:model.defer='state.password_confirmation'
-                                                        type="password" name="password_confirmation"
-                                                        class="form-control  @error('password') is-invalid @enderror"
-                                                        id="confirm_password" placeholder="Confirm password">
-                                                    @error('password_confirmation')
-                                                        <div class="invalid-feedback">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-                                            @endif
-
                                             <div class="form-group">
-                                                <label for="status">Status</label>
-                                                <select wire:model.defer="state.status"
-                                                    class="form-control  @error('status') is-invalid @enderror"
-                                                    id="status">
-                                                    <option value="">Select Status</option>
-                                                    <option value="1"
-                                                        @if ($isEditing) {{ $state['status'] == '1' ? 'selected' : '' }}@else {{ old('status') == '1' ? 'selected' : '' }} @endif>
-                                                        Active</option>
-                                                    <option value="0"
-                                                        @if ($isEditing) {{ $state['status'] == '0' ? 'selected' : '' }}@else {{ old('status') == '0' ? 'selected' : '' }} @endif>
-                                                        Inactive</option>
-                                                </select>
-                                                @error('status')
+                                                <label for="phone">Phone Number</label>
+                                                <input wire:model.defer='state.phone' type="text"
+                                                    class="form-control @error('phone') is-invalid @enderror"
+                                                    id="phone" placeholder="Enter phone"
+                                                    value="{{ old('phone') }}">
+                                                @error('phone')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
+
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="relationship">Relationship with Child</label>
+                                                <input wire:model.defer='state.relationship' type="text"
+                                                    class="form-control @error('relationship') is-invalid @enderror"
+                                                    id="relationship" placeholder="Enter relationship"
+                                                    value="{{ old('relationship') }}">
+                                                @error('relationship')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="password">Password</label>
+                                                <input wire:model.defer='state.password' type="password"
+                                                    class="form-control @error('password') is-invalid @enderror"
+                                                    id="password" placeholder="Enter password"
+                                                    value="{{ old('password') }}">
+                                                @error('password')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+
+                                            </div>
+
+                                            <div class="card-footer text-right">
+                                                <button type="submit"
+                                                    class="btn btn-primary">{{ $isEditing ? 'Update' : 'Create' }}</button>
                                             </div>
                                         </div>
                                         <!-- /.card-body -->
@@ -215,103 +211,7 @@
                                 <!-- /.card -->
 
                             </div>
-                            <div class="col-md-6">
-                                <!-- general form elements -->
-                                <div class="card card-primary">
 
-                                    <div class="card-body">
-
-                                        <div class="form-group">
-                                            <label for="category">Employee Department</label>
-                                            @php
-                                                $departments = App\Models\Department::all();
-                                            @endphp
-                                            <select wire:model.defer='state.department_id'
-                                                class="form-control  @error('department_id') is-invalid @enderror"
-                                                id="category">
-                                                <option value="">Employee Department</option>
-                                                @foreach ($departments as $department)
-                                                    <option value="{{ $department->id }}"
-                                                        {{ old('department_id') == $department->id ? 'selected' : '' }}>
-                                                        {{ $department->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('department_id')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="level_id">Category</label>
-                                            @php
-                                                $levels = App\Models\Level::all();
-                                            @endphp
-                                            <select wire:model.defer='state.level_id' name="level_id"
-                                                class="form-control  @error('level_id') is-invalid @enderror"
-                                                id="class_id">
-                                                <option value="">Select Category</option>
-                                                @foreach ($levels as $level)
-                                                    <option value="{{ $level->id }}"
-                                                        {{ old('level_id') == $level->id ? 'selected' : '' }}>
-                                                        {{ $level->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('level_id')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="role">Role or Postion</label>
-
-                                            @foreach ($roles as $ro)
-                                                <div class="form-check">
-                                                    <input wire:model.defer='role' class="form-check-input"
-                                                        type="checkbox" value="{{ $ro->id }}"
-                                                        {{ $isEditing ? (in_array($ro->id, $role) ? 'checked' : '') : '' }}>
-                                                    <label
-                                                        class="form-check-label font-weight-bold">{{ $ro->name }}</label>
-                                                </div>
-                                            @endforeach
-
-                                            @error('role')
-                                                <div class="invalid-feedback">{{ $message }}</div>
-                                            @enderror
-
-
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="photo">File input</label>
-                                            <div class="input-group">
-                                                <div class="custom-file">
-                                                    <input wire:model.defer='photo' type="file"
-                                                        class="custom-file-input  @error('photo') is-invalid @enderror"
-                                                        id="photo">
-                                                    <label class="custom-file-label" for="photo">Choose
-                                                        file</label>
-                                                </div>
-
-                                            </div>
-                                            @error('photo')
-                                                <div class=" alert alert-danger">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-
-                                        <div class="card-footer text-right">
-                                            <button type="submit"
-                                                class="btn btn-primary">{{ $isEditing ? 'Update' : 'Create' }}</button>
-                                        </div>
-
-                                    </div>
-                                    <!-- /.card-body -->
-
-                                    </form>
-                                </div>
-                                <!-- /.card -->
-
-                            </div>
                             <!--/.col (left) -->
 
                             <!--/.col (right) -->
@@ -330,11 +230,11 @@
     </div>
 
 
-    <div class="modal fade" id="view">
+    <div class="modal fade" id="view" wire:ignore.self>
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">View User</h4>
+                    <h4 class="modal-title">View Guardian</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -347,22 +247,15 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="d-flex flex-column align-items-center text-center">
-                                            <img src="{{ asset($selectedUser->photo ?? '') }}"
-                                                alt="{{ $selectedUser->name ?? '' }}" class="rounded-circle"
-                                                width="150">
                                             <div class="mt-3">
-                                                <h4>{{ $selectedUser->name ?? '' }}
+                                                <h4>{{ optional($selectedGuardian)->name }}
                                                 </h4>
                                                 <p class="text-secondary mb-1">
-                                                    {{ $selectedUser->staff_ID ?? '' }}
+                                                    {{ optional($selectedGuardian)->email }}
                                                 </p>
-                                                <p class="text-muted font-size-sm font-weight-bold">
-                                                    {{ $selectedUser->roles[0]->name ?? '' }}
+                                                <p class="text-muted font-size-sm">
+                                                    {{ optional($selectedGuardian)->residential_address }}
                                                 </p>
-                                                <button class="btn btn-primary">
-                                                    Transfer
-                                                </button>
-                                                <button class="btn btn-outline-primary">Status</button>
                                             </div>
                                         </div>
                                     </div>
@@ -377,7 +270,7 @@
                                                     Full Name</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                {{ ucwords($selectedUser->name) ?? '' }}
+                                                {{ ucwords(optional($selectedGuardian)->name) }}
                                             </div>
                                         </div>
                                         <hr>
@@ -387,64 +280,7 @@
                                                     Email</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                {{ ucwords($selectedUser->email) ?? '' }}
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Roles</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                @foreach ($selectedUser->roles as $role)
-                                                    <button
-                                                        class="btn btn-sm btn-warning font-weight-bold text-capitalize">{{ $role->name }}</button>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Permissions</h6>
-                                            </div>
-
-                                            <div class="col-sm-9 text-secondary">
-                                                @foreach ($selectedUser->getAllPermissions() as $perm)
-                                                    <button
-                                                        class="btn btn-sm btn-warning font-weight-bold text-capitalize">{{ $perm->name }}</button>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Staff ID</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                {{ ucwords($selectedUser->staff_ID) ?? '' }}
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Gender</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                {{ ucfirst(optional($selectedUser->detail)->gender) }}
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Date of Birth</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                {{ optional($selectedUser->detail)->dob }}
+                                                {{ ucfirst(optional($selectedGuardian)->email) }}
                                             </div>
                                         </div>
                                         <hr>
@@ -454,29 +290,38 @@
                                                     Phone</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                {{ optional($selectedUser->detail)->phone }}
+                                                {{ ucfirst(optional($selectedGuardian)->phone) }}
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <h6 class="mb-0 font-weight-bold">
-                                                    Department</h6>
+                                                    Relationship With Child
+                                                </h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-
-                                                {{ ucwords(optional($selectedUser->department)->name) }}
-
+                                                {{ ucfirst(optional($selectedGuardian)->relationship) }}
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <h6 class="mb-0 font-weight-bold">
-                                                    Category</h6>
+                                                    State</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedUser->level)->name) }}
+                                                {{ optional($selectedGuardian)->state }}
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    LGA</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                {{ optional($selectedGuardian)->lga }}
                                             </div>
                                         </div>
                                         <hr>
@@ -486,27 +331,7 @@
                                                     Religion</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedUser->detail)->religion) }}
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Marital Status</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedUser->detail)->marital_status) }}
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Blood Group</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedUser->detail)->blood_group) }}
+                                                {{ optional($selectedGuardian)->religion }}
                                             </div>
                                         </div>
                                         <hr>
@@ -516,57 +341,291 @@
                                                     Nationality</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedUser->detail)->nationality) }}
+                                                {{ ucwords(optional($selectedGuardian)->nationality) }}
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <h6 class="mb-0 font-weight-bold">
-                                                    Qualification</h6>
+                                                    Occupation</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedUser->detail)->qualification) }}
+                                                {{ ucwords(optional($selectedGuardian)->occupation) }}
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <h6 class="mb-0 font-weight-bold">
-                                                    Bank</h6>
+                                                    Residential Address</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedUser->detail)->bank) }}
+                                                {{ ucwords(optional($selectedGuardian)->residential_address) }}
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <h6 class="mb-0 font-weight-bold">
-                                                    Account Number</h6>
+                                                    Business Address</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedUser->detail)->account_number) }}
+                                                {{ ucwords(optional($selectedGuardian)->business_address) }}
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <h6 class="mb-0 font-weight-bold">
-                                                    Account Name</h6>
+                                                    Family History</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedUser->detail)->account_name) }}
+                                                {{ ucwords(optional($selectedGuardian)->family_history) }}
                                             </div>
                                         </div>
                                         <hr>
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <h6 class="mb-0 font-weight-bold">
-                                                    Address</h6>
+                                                    ID Card</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedUser->detail)->address) }}
+                                                <a wire:click='viewIDCard' class="btn btn-sm btn-info">View
+                                                    ID Card</a>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+
+    <div class="modal fade" id="view-student" wire:ignore.self>
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">View Student</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="d-flex flex-column align-items-center text-center">
+                                            <img src="{{ asset(optional($selectedStudent)->photo) }}" alt="Admin"
+                                                class="rounded-circle" width="150">
+                                            <div class="mt-3">
+                                                <h4>{{ optional($selectedStudent)->surname . ' ' . optional($selectedStudent)->middlename }}
+                                                </h4>
+                                                <p class="text-secondary mb-1">
+                                                    {{ optional($selectedStudent)->admno }}
+                                                </p>
+
+                                                <button class="btn btn-primary">
+                                                    Promote
+                                                </button>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card mb-3">
+                                    <div class="card-body text-left">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Full Name</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                {{ ucwords(optional($selectedStudent)->surname . ' ' . optional($selectedStudent)->middlename . ' ' . optional($selectedStudent)->lastname) }}
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Gender</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                {{ ucfirst(optional($selectedStudent)->gender) }}
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Date of Birth</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                {{ optional($selectedStudent)->dob }}
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Blood Group</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                {{ optional($selectedStudent)->blood_group }}
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Genotype</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                {{ optional($selectedStudent)->genotype }}
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Allergies</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                {{ optional($selectedStudent)->allergies }}
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Admission Date</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                {{ optional($selectedStudent)->admission_date }}
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Guardian</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                {{ ucwords(optional($selectedStudent->guardian)->name ?? null) }}
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Disabilities</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                {{ ucwords(optional($selectedStudent)->disabilities) }}
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Previous School</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                {{ ucwords(optional($selectedStudent)->prevSchool) }}
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Why Student Left Formal School</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                {{ ucwords(optional($selectedStudent)->reason) }}
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Who Introduced Student</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                {{ ucwords(optional($selectedStudent)->introducer) }}
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Driver</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                {{ ucwords(optional($selectedStudent)->driver) }}
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Immunization Card</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                <a wire:click='viewImmunizationCard' class="btn btn-sm btn-info">View
+                                                    Immunization Card</a>
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Birth Certificate</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                <a wire:click='viewBirthCertificate' class="btn btn-sm btn-info">View
+                                                    Birth Certificate</a>
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Class</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                {{ ucwords(optional($selectedStudent->class)->name) }}
                                             </div>
                                         </div>
                                         <hr>

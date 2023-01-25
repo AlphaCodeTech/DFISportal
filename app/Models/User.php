@@ -58,7 +58,7 @@ class User extends Authenticatable
         parent::boot();
 
         self::creating(function ($model) {
-            $model->staff_ID = "DFIS/SEC/STAFF" . date('Y') . '/' . rand(10000, 99999);
+            $model->staff_ID = "DFIS/SEC/STAFF/" . date('Y') . '/' . rand(10000, 99999);
         });
     }
 

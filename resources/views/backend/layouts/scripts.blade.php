@@ -49,6 +49,13 @@
         }, 'show');
     });
 
+    window.addEventListener('show-student', function() {
+        $('#view-student').modal({
+            backdrop: 'static',
+            keyboard: false
+        }, 'show');
+    });
+
     window.addEventListener('show-promote', function() {
         $('#promote').modal({
             backdrop: 'static',

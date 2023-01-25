@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('middlename');
             $table->string('admno');
             $table->string('gender');
+            $table->string('dob');
             $table->string('blood_group')->nullable();
             $table->string('genotype')->nullable();
             $table->string('allergies')->nullable();
@@ -28,9 +29,8 @@ return new class extends Migration
             $table->string('reason')->nullable();
             $table->string('introducer')->nullable();
             $table->string('driver')->nullable();
-            $table->string('dob');
             $table->string('admission_date');
-            $table->foreignId('parent_id')->nullable()->constrained('parents');
+            $table->foreignId('guardian_id')->nullable()->constrained('guardians');
             $table->foreignId('class_id')->constrained('classes');
             $table->string('photo');
             $table->string('birth_certificate')->nullable();

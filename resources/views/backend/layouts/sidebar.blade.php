@@ -306,7 +306,7 @@
                           </a>
                           <ul class="nav nav-treeview">
                               <li class="nav-item">
-                                  <a href="{{ route('parent.index') }}" class="nav-link">
+                                  <a href="{{ route('backend.parents') }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
                                       <p>View Parents</p>
                                   </a>

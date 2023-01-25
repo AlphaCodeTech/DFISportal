@@ -82,16 +82,11 @@ class TermComponent extends Component
                 Rule::unique('terms')
                     ->where(
                         fn ($query) => $query
-                            ->where([
-                                'session_id' => $this->state['session_id'],
-                                'type' => $this->state['type']
-                            ])
+                            ->where(['session_id' => $this->state['session_id'], 'type' => $this->state['type']])
                     )->ignore($this->term->id)
             ],
             'type' => ['required'],
-        ], [
-            'session_id.unique' => 'Term is already existing',
-        ])->validate();
+        ], ['session_id.unique' => 'Term have been created'])->validate();
 
         $this->term->update($data);
 

@@ -367,7 +367,7 @@
                                                     class="form-control @error('class_id') is-invalid @enderror"
                                                     id="class_id">
                                                     <option value="">Select a class</option>
-                                                    <option value="{{ $selectedClass->id }}" selected>{{ $selectedClass->name }}
+                                                    <option value="{{ optional($selectedClass)->id }}" selected>{{ optional($selectedClass)->name }}
                                                     </option>
 
                                                 </select>

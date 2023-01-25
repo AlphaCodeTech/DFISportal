@@ -11,6 +11,7 @@ use App\Http\Livewire\Backend\Profile\ProfileComponent;
 use App\Http\Livewire\Backend\Student\StudentComponent;
 use App\Http\Livewire\Backend\Classroom\ClassroomComponent;
 use App\Http\Livewire\Backend\Department\DepartmentComponent;
+use App\Http\Livewire\Backend\Guardian\GuardianComponent;
 use App\Http\Livewire\Backend\Permission\PermissionComponent;
 use App\Http\Livewire\Backend\Session\SessionComponent;
 use App\Http\Livewire\Backend\Subject\SubjectComponent;
@@ -33,7 +34,7 @@ Route::get('/storages',function(){
 
 
 // ! Backend Routes
-Route::prefix('admin')->middleware('auth')->group(function () {
+Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/', function () {
         return view('backend.index');
     })->name('admin.index');
@@ -78,7 +79,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('sessions', SessionComponent::class)->name('backend.sessions');
 
     // ! Parents
-    Route::resource('parent', ParentsController::class);
+    Route::get('parents', GuardianComponent::class)->name('backend.parents');
 
     // ! Bursary
     Route::resource('bursary', BursaryController::class);

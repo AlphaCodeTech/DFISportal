@@ -424,18 +424,18 @@
 
 
                                         <div class="form-group">
-                                            <label for="parent_id">Guardian</label>
-                                            <select wire:model.defer='state.parent_id'
-                                                class="form-control @error('parent_id') is-invalid @enderror"
-                                                id="parent_id">
+                                            <label for="guardian_id">Guardian</label>
+                                            <select wire:model.defer='state.guardian_id'
+                                                class="form-control @error('guardian_id') is-invalid @enderror"
+                                                id="guardian_id">
                                                 <option value="">Guardian</option>
-                                                @foreach ($parents as $parent)
+                                                @foreach ($guardians as $parent)
                                                     <option value="{{ $parent->id }}"
-                                                        {{ old('parent_id') == "$parent->id" ? 'selected' : '' }}>
+                                                        {{ old('guardian_id') == "$parent->id" ? 'selected' : '' }}>
                                                         {{ $parent->name }}</option>
                                                 @endforeach
                                             </select>
-                                            @error('parent_id')
+                                            @error('guardian_id')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
@@ -704,7 +704,7 @@
                                                     Guardian</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedStudent->parent)->name ?? null) }}
+                                                {{ ucwords(optional($selectedStudent->guardian)->name ?? null) }}
                                             </div>
                                         </div>
                                         <hr>
