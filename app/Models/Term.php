@@ -16,10 +16,6 @@ class Term extends Model
         return $this->belongsTo(Session::class);
     }
 
-    public function term_type()
-    {
-        return $this->belongsTo(TermType::class);
-    }
 
     public function finances()
     {

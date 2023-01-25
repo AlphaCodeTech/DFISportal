@@ -190,12 +190,6 @@
                                       <p>View Users</p>
                                   </a>
                               </li>
-                              {{-- <li class="nav-item">
-                                  <a href="{{ route('user.create') }}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>Add User</p>
-                                  </a>
-                              </li> --}}
 
                           </ul>
                       </li>
@@ -266,21 +260,15 @@
                           <a href="#" class="nav-link {{ request()->is('admin/sessions') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-calendar"></i>
                               <p>
-                                  Session
+                                  Sessions
                                   <i class="fas fa-angle-left right"></i>
                               </p>
                           </a>
                           <ul class="nav nav-treeview">
                               <li class="nav-item">
-                                  <a href="{{ route('session.index') }}" class="nav-link">
+                                  <a href="{{ route('backend.sessions') }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
                                       <p>View Sessions</p>
-                                  </a>
-                              </li>
-                              <li class="nav-item">
-                                  <a href="{{ route('session.create') }}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>Add Session</p>
                                   </a>
                               </li>
 
@@ -298,21 +286,9 @@
                           </a>
                           <ul class="nav nav-treeview">
                               <li class="nav-item">
-                                  <a href="{{ route('term.index') }}" class="nav-link">
+                                  <a href="{{ route('backend.terms') }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
                                       <p>View Terms</p>
-                                  </a>
-                              </li>
-                              <li class="nav-item">
-                                  <a href="{{ route('term.create') }}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>Add Terms</p>
-                                  </a>
-                              </li>
-                              <li class="nav-item">
-                                  <a href="{{ route('termtype.create') }}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>Add TermType</p>
                                   </a>
                               </li>
 

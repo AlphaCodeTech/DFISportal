@@ -12,7 +12,9 @@ use App\Http\Livewire\Backend\Student\StudentComponent;
 use App\Http\Livewire\Backend\Classroom\ClassroomComponent;
 use App\Http\Livewire\Backend\Department\DepartmentComponent;
 use App\Http\Livewire\Backend\Permission\PermissionComponent;
+use App\Http\Livewire\Backend\Session\SessionComponent;
 use App\Http\Livewire\Backend\Subject\SubjectComponent;
+use App\Http\Livewire\Backend\Term\TermComponent;
 
 // ! Frontend Routes
 
@@ -73,7 +75,7 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('departments', DepartmentComponent::class)->name('backend.departments');
 
     // ! Academic Sessions
-    Route::resource('session', SessionController::class);
+    Route::get('sessions', SessionComponent::class)->name('backend.sessions');
 
     // ! Parents
     Route::resource('parent', ParentsController::class);
@@ -82,9 +84,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::resource('bursary', BursaryController::class);
 
     // ! Terms
-    Route::resource('term', TermController::class);
-    Route::get('/termtypes', [TermController::class, 'createTermType'])->name('termtype.create');
-    Route::post('/termtypes', [TermController::class, 'storeTermType'])->name('termtype.store');
+    Route::get('terms', TermComponent::class)->name('backend.terms');
+   
 });
 
 
