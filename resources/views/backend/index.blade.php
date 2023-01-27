@@ -1,4 +1,7 @@
 <x-admin-layout>
+    @push('extra-css')
+        <link rel="stylesheet" href="{{ asset('backend/plugins/fullcalendar3/fullcalendar.min.css') }}" />
+    @endpush
     <div>
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
@@ -18,7 +21,7 @@
                 </div><!-- /.container-fluid -->
             </div>
             <!-- /.content-header -->
-    
+
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
@@ -26,8 +29,9 @@
                     <div class="row">
                         <div class="col-12 col-sm-6 col-md-3">
                             <div class="info-box">
-                                <span class="info-box-icon bg-info elevation-1"><i class="fas fa-graduation-cap"></i></span>
-    
+                                <span class="info-box-icon bg-info elevation-1"><i
+                                        class="fas fa-graduation-cap"></i></span>
+
                                 <div class="info-box-content">
                                     <span class="info-box-text">Students</span>
                                     <span class="info-box-number">
@@ -47,7 +51,7 @@
                             <div class="info-box mb-3">
                                 <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-users"></i></span>
                                 @php
-                                    $staff_count = App\Models\User::count();
+                                    $staff_count = App\Models\User::notRole('teacher')->count();
                                 @endphp
                                 <div class="info-box-content">
                                     <span class="info-box-text">Staffs</span>
@@ -58,13 +62,14 @@
                             <!-- /.info-box -->
                         </div>
                         <!-- /.col -->
-    
+
                         <!-- fix for small devices only -->
                         <div class="clearfix hidden-md-up"></div>
-    
+
                         <div class="col-12 col-sm-6 col-md-3">
                             <div class="info-box mb-3">
-                                <span class="info-box-icon bg-success elevation-1"><i class="fas fa-user-tie"></i></span>
+                                <span class="info-box-icon bg-success elevation-1"><i
+                                        class="fas fa-user-tie"></i></span>
                                 @php
                                     $parent_count = App\Models\Guardian::count();
                                 @endphp
@@ -80,10 +85,12 @@
                         <div class="col-12 col-sm-6 col-md-3">
                             <div class="info-box mb-3">
                                 <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-cog"></i></span>
-    
+                                @php
+                                    $teacher_count = App\Models\User::role('teacher')->count();
+                                @endphp
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Others</span>
-                                    <span class="info-box-number">coming</span>
+                                    <span class="info-box-text">Teachers</span>
+                                    <span class="info-box-number">{{ $teacher_count }}</span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>
@@ -92,28 +99,29 @@
                         <!-- /.col -->
                     </div>
                     <!-- /.row -->
-                    {{-- 
+
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h5 class="card-title">Monthly Recap Report</h5>
-    
+                                    <h5 class="card-title">School Events Calendar</h5>
+
                                     <div class="card-tools">
                                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                             <i class="fas fa-minus"></i>
                                         </button>
                                         <div class="btn-group">
-                                            <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
+                                            <button type="button" class="btn btn-tool dropdown-toggle"
+                                                data-toggle="dropdown">
                                                 <i class="fas fa-wrench"></i>
                                             </button>
-                                            <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                            {{-- <div class="dropdown-menu dropdown-menu-right" role="menu">
                                                 <a href="#" class="dropdown-item">Action</a>
                                                 <a href="#" class="dropdown-item">Another action</a>
                                                 <a href="#" class="dropdown-item">Something else here</a>
                                                 <a class="dropdown-divider"></a>
                                                 <a href="#" class="dropdown-item">Separated link</a>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                         <button type="button" class="btn btn-tool" data-card-widget="remove">
                                             <i class="fas fa-times"></i>
@@ -123,65 +131,13 @@
                                 <!-- /.card-header -->
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-8">
-                                            <p class="text-center">
-                                                <strong>Sales: 1 Jan, 2014 - 30 Jul, 2014</strong>
-                                            </p>
-    
-                                            <div class="chart">
-                                                <!-- Sales Chart Canvas -->
-                                                <canvas id="salesChart" height="180" style="height: 180px;"></canvas>
-                                            </div>
-                                            <!-- /.chart-responsive -->
-                                        </div>
-                                        <!-- /.col -->
-                                        <div class="col-md-4">
-                                            <p class="text-center">
-                                                <strong>Goal Completion</strong>
-                                            </p>
-    
-                                            <div class="progress-group">
-                                                Add Products to Cart
-                                                <span class="float-right"><b>160</b>/200</span>
-                                                <div class="progress progress-sm">
-                                                    <div class="progress-bar bg-primary" style="width: 80%"></div>
-                                                </div>
-                                            </div>
-                                            <!-- /.progress-group -->
-    
-                                            <div class="progress-group">
-                                                Complete Purchase
-                                                <span class="float-right"><b>310</b>/400</span>
-                                                <div class="progress progress-sm">
-                                                    <div class="progress-bar bg-danger" style="width: 75%"></div>
-                                                </div>
-                                            </div>
-    
-                                            <!-- /.progress-group -->
-                                            <div class="progress-group">
-                                                <span class="progress-text">Visit Premium Page</span>
-                                                <span class="float-right"><b>480</b>/800</span>
-                                                <div class="progress progress-sm">
-                                                    <div class="progress-bar bg-success" style="width: 60%"></div>
-                                                </div>
-                                            </div>
-    
-                                            <!-- /.progress-group -->
-                                            <div class="progress-group">
-                                                Send Inquiries
-                                                <span class="float-right"><b>250</b>/500</span>
-                                                <div class="progress progress-sm">
-                                                    <div class="progress-bar bg-warning" style="width: 50%"></div>
-                                                </div>
-                                            </div>
-                                            <!-- /.progress-group -->
-                                        </div>
+                                        <div class="col-md-12" id="fullcalendar"></div>
                                         <!-- /.col -->
                                     </div>
                                     <!-- /.row -->
                                 </div>
                                 <!-- ./card-body -->
-                                <div class="card-footer">
+                                {{-- <div class="card-footer">
                                     <div class="row">
                                         <div class="col-sm-3 col-6">
                                             <div class="description-block border-right">
@@ -224,15 +180,15 @@
                                         </div>
                                     </div>
                                     <!-- /.row -->
-                                </div>
+                                </div> --}}
                                 <!-- /.card-footer -->
                             </div>
                             <!-- /.card -->
                         </div>
                         <!-- /.col -->
-                    </div> --}}
+                    </div>
                     <!-- /.row -->
-    
+
                     <!-- Main row -->
                     {{-- <div class="row">
                         <!-- Left col -->
@@ -907,4 +863,168 @@
             <!-- /.content -->
         </div>
     </div>
+
+    <div class="modal fade" id="event">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Event Name</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input placeholder="Enter Event name" type="text" class="form-control" id="name">
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="save">Save Event</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    @push('extra-js')
+        <script src="{{ asset('backend/plugins/moment/moment.min.js') }}"></script>
+        <script src="{{ asset('backend/plugins/fullcalendar3/fullcalendar.min.js') }}"></script>
+        <script>
+            $(document).ready(function() {
+                var SITEURL = "{{ url('/') }}";
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                eventsData = @json($eventsData);
+
+                var calendar = $('#fullcalendar').fullCalendar({
+                    themeSystem: 'bootstrap4',
+                    header: {
+                        left: 'prev, next, today',
+                        center: 'title',
+                        right: 'month, agendaWeek, agendaDay',
+                    },
+                    editable: true,
+                    events: eventsData,
+                    displayEventTime: true,
+                    // eventRender: function(events, element, view) {
+                    //     if (events.allDay == true) {
+                    //         events.allDayDefault = true;
+                    //         events.allDay = true;
+                    //     } else {
+                    //         event.allDay = false;
+                    //     }
+                    // },
+                    selectable: true,
+                    selectHelper: true,
+                    select: function(start, end, allDay) {
+
+                        $('#event').modal('show');
+
+                        $('#save').click(function() {
+                            let name = $('#name').val();
+                            let start_date = moment(start).format('YYYY-MM-DD HH:mm:ss');
+                            let end_date = moment(end).format('YYYY-MM-DD HH:mm:ss');
+
+                            if (name) {
+                                $.ajax({
+                                    url: SITEURL + "/admin/update-event",
+                                    data: {
+                                        name: name,
+                                        start: start_date,
+                                        end: end_date,
+                                        type: 'create'
+                                    },
+                                    type: "POST",
+                                    success: function(data) {
+                                        $('#event').modal('hide');
+                                        $('#name').val('');
+                                        displayMessage("Event created.");
+                                        calendar.fullCalendar('renderEvent', {
+                                            id: data.id,
+                                            title: data.name,
+                                            start: data.start,
+                                            end: data.end,
+                                            color: data.color,
+                                            allDay: allDay
+                                        }, true);
+
+                                        calendar.fullCalendar('unselect');
+                                    },
+                                    error: function(e) {
+                                        toastr.error(e.responseJSON.message)
+                                        $('#event').modal('hide');
+                                    }
+                                });
+                            }
+                        });
+
+                    },
+                    eventDrop: function(event, delta) {
+                        let start_date = moment(event.start).format('YYYY-MM-DD HH:mm:ss');
+                        let end_date = moment(event.end).format('YYYY-MM-DD HH:mm:ss');
+
+                        $.ajax({
+                            url: SITEURL + '/admin/update-event',
+                            data: {
+                                title: event.title,
+                                start: start_date,
+                                end: end_date,
+                                id: event.id,
+                                type: 'edit'
+                            },
+                            type: "POST",
+                            success: function(response) {
+                                displayMessage("Event updated");
+                            },
+                            error: function(e) {
+                                toastr.error(e.responseJSON.message)
+
+                            }
+                        });
+                    },
+                    eventClick: function(event) {
+                        var eventDelete = confirm("Are you sure you want to delete this event?");
+                        if (eventDelete) {
+                            $.ajax({
+                                type: "POST",
+                                url: SITEURL + '/admin/update-event',
+                                data: {
+                                    id: event.id,
+                                    type: 'delete'
+                                },
+                                success: function(response) {
+                                    calendar.fullCalendar('removeEvents', event.id);
+                                    displayMessage("Event removed");
+                                },
+                                error: function(e) {
+                                    toastr.error(e.responseJSON.message)
+                                }
+                            });
+                        }
+                    },
+                    selectAllow: function(event) {
+                        return moment(event.start).utcOffset(false).isSame(moment(event.end).subtract(1,
+                            'second').utcOffset(false), 'day');
+                    },
+
+                });
+
+                $('#event').on('hidden.bs.modal', function() {
+                    $('#save').unbind();
+                });
+
+
+
+            });
+
+            function displayMessage(message) {
+                toastr.success(message, 'Event');
+            }
+        </script>
+    @endpush
 </x-admin-layout>

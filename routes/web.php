@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BackendIndexController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\HomeController;
@@ -11,6 +12,7 @@ use App\Http\Livewire\Backend\Profile\ProfileComponent;
 use App\Http\Livewire\Backend\Student\StudentComponent;
 use App\Http\Livewire\Backend\Classroom\ClassroomComponent;
 use App\Http\Livewire\Backend\Department\DepartmentComponent;
+use App\Http\Livewire\Backend\Event\EventComponent;
 use App\Http\Livewire\Backend\Guardian\GuardianComponent;
 use App\Http\Livewire\Backend\Permission\PermissionComponent;
 use App\Http\Livewire\Backend\Session\SessionComponent;
@@ -27,7 +29,7 @@ Route::get('/school-fees-verification/{phone?}', [PaymentController::class, 'ver
 Route::post('/school-fees-verification', [PaymentController::class, 'verify'])->name('verify');
 Route::post('/student-admissions', [AdmissionController::class, 'store'])->name('admission.store');
 
-Route::get('/storages',function(){
+Route::get('/storages', function () {
     Artisan::call('storage:link');
     dd('success');
 });
@@ -35,13 +37,12 @@ Route::get('/storages',function(){
 
 // ! Backend Routes
 Route::prefix('admin')->middleware(['auth'])->group(function () {
-    Route::get('/', function () {
-        return view('backend.index');
-    })->name('admin.index');
+    Route::get('/', [BackendIndexController::class, 'index'])->name('backend.index');
+    Route::post('/update-event', [BackendIndexController::class, 'calendarEvents'])->name('event.update')->middleware('permission:create event');
 
     // ! Students
     Route::get('students/{user}', StudentComponent::class)->name('backend.students');
-    
+
     Route::get('student/admit/{id}', [AdmissionManagementController::class, 'admit'])->name('student.admit');
 
     // ! Subjects
@@ -55,19 +56,22 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     // ! Classes
     Route::get('classrooms', ClassroomComponent::class)->name('backend.classrooms');
-    
+
     // ! Users
-    Route::get('users', UserComponent::class)->name('backend.users')->middleware(['role:developer|super admin']);
+    Route::get('users', UserComponent::class)->name('backend.users')->middleware(['role:developer|super admin|teacher']);
 
     // ! Profiles
     Route::get('profile/{user}', ProfileComponent::class)->name('backend.profile');
 
+    // ! Events
+    Route::get('events', EventComponent::class)->name('backend.events');
+
     // ! Admissions
     Route::resource('admission', AdmissionManagementController::class);
-    Route::get('offer-admission/{student}', [AdmissionManagementController::class,'admit'])->name('admission.offer');
+    Route::get('offer-admission/{student}', [AdmissionManagementController::class, 'admit'])->name('admission.offer');
 
     // ! Permissions
-    Route::get('permissions', PermissionComponent::class)->name('backend.permissions');
+    Route::get('permissions', PermissionComponent::class)->name('backend.permissions')->middleware(['role:developer|super admin']);
 
     // ! Roles
     Route::get('roles', RoleComponent::class)->name('backend.roles');
@@ -86,9 +90,8 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     // ! Terms
     Route::get('terms', TermComponent::class)->name('backend.terms');
-   
 });
 
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

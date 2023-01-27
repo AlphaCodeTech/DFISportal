@@ -216,6 +216,8 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
         'PDF' => Barryvdh\DomPDF\Facade\Pdf::class,
+        'QS' => App\Helpers\QS::class,
+        'Nav' => App\Helpers\Sidebar::class,
 
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),

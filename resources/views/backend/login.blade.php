@@ -21,7 +21,7 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="{{ route('admin.index') }}"><b>DFIS </b></a>
+            <a href="{{ route('backend.index') }}"><b>DFIS </b></a>
         </div>
         <!-- /.login-logo -->
         <div class="card">
