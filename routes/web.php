@@ -1,23 +1,25 @@
 <?php
 
-use App\Http\Controllers\BackendIndexController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\BackendIndexController;
 use App\Http\Livewire\Backend\Fees\FeesComponent;
 use App\Http\Livewire\Backend\Role\RoleComponent;
+use App\Http\Livewire\Backend\Term\TermComponent;
 use App\Http\Livewire\Backend\User\UserComponent;
+use App\Http\Livewire\Backend\Student\StudentList;
+use App\Http\Livewire\Backend\Event\EventComponent;
 use App\Http\Livewire\Backend\Level\LevelComponent;
 use App\Http\Livewire\Backend\Profile\ProfileComponent;
+use App\Http\Livewire\Backend\Session\SessionComponent;
+use App\Http\Livewire\Backend\Settings\SystemComponent;
 use App\Http\Livewire\Backend\Student\StudentComponent;
+use App\Http\Livewire\Backend\Subject\SubjectComponent;
+use App\Http\Livewire\Backend\Guardian\GuardianComponent;
 use App\Http\Livewire\Backend\Classroom\ClassroomComponent;
 use App\Http\Livewire\Backend\Department\DepartmentComponent;
-use App\Http\Livewire\Backend\Event\EventComponent;
-use App\Http\Livewire\Backend\Guardian\GuardianComponent;
 use App\Http\Livewire\Backend\Permission\PermissionComponent;
-use App\Http\Livewire\Backend\Session\SessionComponent;
-use App\Http\Livewire\Backend\Subject\SubjectComponent;
-use App\Http\Livewire\Backend\Term\TermComponent;
 
 // ! Frontend Routes
 
@@ -42,6 +44,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     // ! Students
     Route::get('students/{user}', StudentComponent::class)->name('backend.students');
+    Route::get('students/list/{class}', StudentList::class)->name('students.list');
 
     Route::get('student/admit/{id}', [AdmissionManagementController::class, 'admit'])->name('student.admit');
 
@@ -92,6 +95,10 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('terms', TermComponent::class)->name('backend.terms');
 });
 
+Route::prefix('settings')->middleware(['auth'])->group(function () {
+    Route::get('academic', SystemComponent::class)->name('setting.system');
+});
 
 
+//! Continue on settings and then student promotion features
 require __DIR__ . '/auth.php';

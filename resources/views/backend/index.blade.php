@@ -927,8 +927,8 @@
 
                         $('#save').click(function() {
                             let name = $('#name').val();
-                            let start_date = moment(start).format('YYYY-MM-DD HH:mm:ss');
-                            let end_date = moment(end).format('YYYY-MM-DD HH:mm:ss');
+                            let start_date = moment(start).format('DD/MM/YYYY');
+                            let end_date = moment(end).format('DD/MM/YYYY');
 
                             if (name) {
                                 $.ajax({
@@ -965,8 +965,8 @@
 
                     },
                     eventDrop: function(event, delta) {
-                        let start_date = moment(event.start).format('YYYY-MM-DD HH:mm:ss');
-                        let end_date = moment(event.end).format('YYYY-MM-DD HH:mm:ss');
+                        let start_date = moment(event.start).format('YYYY-MM-DD');
+                        let end_date = moment(event.end).format('YYYY-MM-DD');
 
                         $.ajax({
                             url: SITEURL + '/admin/update-event',
@@ -1018,8 +1018,8 @@
                     $('#save').unbind();
                 });
 
-
-
+                $('.fc-event').css('font-size','18px');
+                $('.fc').css('background-color','#93CA7D');
             });
 
             function displayMessage(message) {

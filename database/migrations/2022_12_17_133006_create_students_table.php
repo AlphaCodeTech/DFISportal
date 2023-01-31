@@ -32,11 +32,14 @@ return new class extends Migration
             $table->string('admission_date');
             $table->foreignId('guardian_id')->nullable()->constrained('guardians');
             $table->foreignId('class_id')->constrained('classes');
+            $table->foreignId('section_id')->nullable()->constrained('class_sections','id');
             $table->string('photo');
             $table->string('birth_certificate')->nullable();
             $table->string('immunization_card')->nullable();
             $table->boolean('status')->default(true); 
             $table->boolean('admitted')->default(false); 
+            $table->boolean('graduated')->default(0);
+            $table->string('graduation_date')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

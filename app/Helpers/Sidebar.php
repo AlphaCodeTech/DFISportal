@@ -58,6 +58,7 @@ class Sidebar
     {
         return ['teacher', 'super admin','developer'];
     }
+
     public static function getTeamUser()
     {
         return ['super admin','developer','teacher'];
@@ -67,6 +68,7 @@ class Sidebar
     {
         return auth()->check();
     }
+
     public static function getTeamPermission()
     {
         return ['super admin','developer'];
@@ -104,6 +106,11 @@ class Sidebar
     public static function getTeamAdmission()
     {
         return ['teacher', 'super admin','developer'];
+    }
+
+    public static function getTeamSetting()
+    {
+        return ['super admin','developer'];
     }
 
     public static function getTeamAdministrative()
@@ -203,6 +210,11 @@ class Sidebar
     }
 
     public static function userCanSeeEvent()
+    {
+        return Auth::user()->hasAnyRole(self::getTeamEvent());
+    }
+
+    public static function userCanSeeSetting()
     {
         return Auth::user()->hasAnyRole(self::getTeamEvent());
     }

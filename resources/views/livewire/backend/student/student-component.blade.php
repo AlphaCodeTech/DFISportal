@@ -100,7 +100,7 @@
                         <div class="card">
                             <div class="card-header">
                                 @can('create student')
-                                    <a role="button" class="btn btn-primary" href="#" wire:click='create'>Add
+                                    <a role="button" class="btn btn-primary" href="#" wire:click='create'>Admit
                                         Student</a>
                                 @endcan
                             </div>
@@ -190,7 +190,7 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">{{ $isEditing ? 'Edit Student' : 'Add New Student' }}</h4>
+                    <h4 class="modal-title">{{ $isEditing ? 'Edit Student' : 'Admit New Student' }}</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

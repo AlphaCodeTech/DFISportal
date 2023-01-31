@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Backend\Level;
 use App\Models\Fee;
 use App\Models\Level;
 use Livewire\Component;
+use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Validator;
 
@@ -48,6 +49,19 @@ class LevelComponent extends Component
             'fee_id' => 'required|exists:fees,id',
         ])->validate();
 
+        $words = explode(" ", $data['name']);
+        $initials = null;
+
+        if (count($words) > 1) {;
+            foreach ($words as $w) {
+                $initials .= $w[0];
+            }
+        }else{
+            $initials = $words[0][0] . '' . $words[0][1];
+        }
+
+        $data['code'] = Str::upper($initials);
+
         Level::create($data);
 
         $this->dispatchBrowserEvent('hide-modal', ['message' => 'Level created successfully!']);
@@ -64,10 +78,22 @@ class LevelComponent extends Component
     public function update()
     {
         $data =  Validator::make($this->state, [
-            'name' => 'required|unique:levels,name,'.$this->level->id,
+            'name' => 'required|unique:levels,name,' . $this->level->id,
             'fee_id' => 'required|exists:fees,id',
         ])->validate();
 
+        $words = explode(" ", $data['name']);
+        $initials = null;
+        
+        if (count($words) > 1) {;
+            foreach ($words as $w) {
+                $initials .= $w[0];
+            }
+        }else{
+            $initials = $words[0][0] . '' . $words[0][1];
+        }
+
+        $data['code'] = Str::upper($initials);
 
         $this->level->update($data);
 

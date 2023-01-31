@@ -51,6 +51,7 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+
         'staff' => [
             'driver' => 'local',
             'root' => storage_path('app/staff'),
@@ -58,9 +59,18 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+        
         'parent' => [
             'driver' => 'local',
             'root' => storage_path('app/parent'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+
+        'setting' => [
+            'driver' => 'local',
+            'root' => storage_path('app/setting'),
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
             'throw' => false,
@@ -96,6 +106,7 @@ return [
         public_path('student') => storage_path('app/student'),
         public_path('staff') => storage_path('app/staff'),
         public_path('parent') => storage_path('app/parent'),
+        public_path('setting') => storage_path('app/setting'),
     ],
 
 ];

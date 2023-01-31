@@ -55,7 +55,7 @@
                                         <tr>
                                             <th>Name</th>
                                             <th>Level</th>
-                                            <th>Teacher</th>
+                                            <th>Teachers</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -90,7 +90,7 @@
                                         <tr>
                                             <th>Name</th>
                                             <th>Level</th>
-                                            <th>Teacher</th>
+                                            <th>Teachers</th>
                                             <th>Action</th>
                                         </tr>
                                     </tfoot>

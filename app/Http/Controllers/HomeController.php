@@ -8,7 +8,6 @@ class HomeController extends Controller
 {
     public function index(User $user)
     {
-        dd($user);
         return view('frontend.index');
     }
 

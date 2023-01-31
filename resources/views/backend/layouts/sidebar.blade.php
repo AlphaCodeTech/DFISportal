@@ -61,10 +61,28 @@
                           </a>
                           <ul class="nav nav-treeview">
                               <li class="nav-item">
-                                  <a href="{{ route('backend.students', ['user' => auth()->user()]) }}" class="nav-link">
+                                  <a href="{{ route('backend.students', ['user' => auth()->user()]) }}"
+                                      class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
                                       <p>View Students</p>
                                   </a>
+                              </li>
+                              <li class="nav-item">
+                                  <a href="#" class="nav-link">
+                                      <i class="far fa-circle nav-icon"></i>
+                                      <p>Students Informations</p>
+                                  </a>
+                                  <ul class="nav nav-treeview">
+                                      @foreach (App\Models\Clazz::orderBy('name')->get() as $class)
+                                          <li class="nav-item ml-4">
+                                              <a href="{{ route('students.list', ['class' => $class->id ]) }}"
+                                                  class="nav-link">
+                                                  <i class="far fa-circle nav-icon"></i>
+                                                  <p>{{ $class->name }}</p>
+                                              </a>
+                                          </li>
+                                      @endforeach
+                                  </ul>
                               </li>
 
                           </ul>
@@ -134,8 +152,7 @@
                   @endif
                   @if (Nav::userCanSeeDepartment())
                       <li class="nav-item">
-                          <a href="#"
-                              class="nav-link {{ request()->is('admin/departments') ? 'active' : '' }}">
+                          <a href="#" class="nav-link {{ request()->is('admin/departments') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-list-alt"></i>
                               <p>
                                   Departments
@@ -316,8 +333,7 @@
                   @endif
                   @if (Nav::userCanSeeBursary())
                       <li class="nav-item">
-                          <a href="#"
-                              class="nav-link {{ request()->is('admin/bursaries') ? 'active' : '' }}">
+                          <a href="#" class="nav-link {{ request()->is('admin/bursaries') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-credit-card"></i>
                               <p>
                                   Bursary
@@ -371,6 +387,27 @@
                                   <a href="{{ route('backend.events') }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
                                       <p>View Events</p>
+                                  </a>
+                              </li>
+
+                          </ul>
+                      </li>
+                  @endif
+                  @if (Nav::userCanSeeSetting())
+                      <li class="nav-item">
+                          <a href="#"
+                              class="nav-link {{ request()->is('admin/admission-management') ? 'active' : '' }}">
+                              <i class="nav-icon fas fa-cog"></i>
+                              <p>
+                                  Settings
+                                  <i class="fas fa-angle-left right"></i>
+                              </p>
+                          </a>
+                          <ul class="nav nav-treeview">
+                              <li class="nav-item">
+                                  <a href="{{ route('setting.system') }}" class="nav-link">
+                                      <i class="far fa-circle nav-icon"></i>
+                                      <p>System Settings</p>
                                   </a>
                               </li>
 
