@@ -8,6 +8,7 @@ return [
      */
     'settings' => [
         SystemSettings::class,
+        AcademicSettings::class,
     ],
 
     /*

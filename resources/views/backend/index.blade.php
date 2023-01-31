@@ -1018,8 +1018,8 @@
                     $('#save').unbind();
                 });
 
-                $('.fc-event').css('font-size','18px');
-                $('.fc').css('background-color','#93CA7D');
+                $('.fc-event').css('font-size', '18px');
+                $('.fc').css('background-color', '#93CA7D');
             });
 
             function displayMessage(message) {

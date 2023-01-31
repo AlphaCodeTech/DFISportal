@@ -6,12 +6,12 @@ use Spatie\LaravelSettings\Settings;
 
 class SystemSetting extends Settings
 {
-    public $name;
-    public $acr;
-    public $email;
-    public $phone;
-    public $logo;
-    public $address;
+    public string $name;
+    public string $acr;
+    public string $email;
+    public string $phone;
+    public string $logo;
+    public string $address;
 
 
     public static function group(): string

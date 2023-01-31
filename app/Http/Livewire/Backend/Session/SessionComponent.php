@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Backend\Session;
 
 use App\Models\Session;
 use Livewire\Component;
-use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Validator;
 
@@ -37,8 +36,6 @@ class SessionComponent extends Component
     {
         $data =  Validator::make($this->state, [
             'name' => 'required|unique:sessions,name',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
         ])->validate();
 
         Session::create($data);
@@ -59,8 +56,6 @@ class SessionComponent extends Component
     {
         $data =  Validator::make($this->state, [
             'name' => 'required|unique:sessions,name,' . $this->session->id,
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
         ])->validate();
 
         $this->session->update($data);

@@ -20,6 +20,7 @@ use App\Http\Livewire\Backend\Guardian\GuardianComponent;
 use App\Http\Livewire\Backend\Classroom\ClassroomComponent;
 use App\Http\Livewire\Backend\Department\DepartmentComponent;
 use App\Http\Livewire\Backend\Permission\PermissionComponent;
+use App\Http\Livewire\Backend\Settings\AcademicComponent;
 
 // ! Frontend Routes
 
@@ -96,7 +97,8 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 });
 
 Route::prefix('settings')->middleware(['auth'])->group(function () {
-    Route::get('academic', SystemComponent::class)->name('setting.system');
+    Route::get('system', SystemComponent::class)->name('setting.system');
+    Route::get('academic', AcademicComponent::class)->name('setting.academic');
 });
 
 

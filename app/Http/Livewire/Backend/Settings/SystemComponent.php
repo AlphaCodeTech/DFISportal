@@ -12,7 +12,6 @@ class SystemComponent extends Component
     use WithFileUploads;
 
     public $logo;
-    public $role = [];
     public $state = [];
 
     public function mount(SystemSetting $setting)
@@ -54,6 +53,6 @@ class SystemComponent extends Component
 
         $systemSetting->save();
 
-        $this->dispatchBrowserEvent('hide-modal', ['message' => 'Sytem SettingU pdated Successfully!']);
+        $this->dispatchBrowserEvent('hide-modal', ['message' => 'Sytem Setting Updated Successfully!']);
     }
 }

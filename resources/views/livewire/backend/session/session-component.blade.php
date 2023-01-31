@@ -53,8 +53,6 @@
                                     <thead>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Start Date</th>
-                                            <th>End Date</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -62,8 +60,6 @@
                                         @foreach ($sessions as $session)
                                             <tr>
                                                 <td>{{ Str::headline($session->name) }}</td>
-                                                <td>{{ Str::headline($session->start_date) }}</td>
-                                                <td>{{ Str::headline($session->end_date) }}</td>
 
                                                 <td class="d-flex"
                                                     style="justify-content: space-evenly; padding-right: 0;">
@@ -88,8 +84,6 @@
                                     <tfoot>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Start Date</th>
-                                            <th>End Date</th>
                                             <th>Action</th>
                                         </tr>
                                     </tfoot>
@@ -142,42 +136,6 @@
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
 
-                                            </div>
-
-                                            
-                                            <div class="form-group">
-                                                <label>Start Date: </label>
-                                                <div data-date="12-02-2012" data-date-format="dd-mm-yyyy"
-                                                    class="input-group date">
-                                                    <input wire:model.defer='state.start_date' id="start_date" type="text"
-                                                        class="form-control @error('start_date') is-invalid @enderror"
-                                                        autocomplete="off" value="{{ old('start_date') }}" />
-                                                    <div class="input-group-append">
-                                                        <div class="input-group-text"><i class="fa fa-calendar"></i>
-                                                        </div>
-                                                    </div>
-                                                    @error('start_date')
-                                                        <div class="invalid-feedback">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
-                                            </div>
-
-                                            
-                                            <div class="form-group">
-                                                <label>End Date: </label>
-                                                <div data-date="12-02-2012" data-date-format="dd-mm-yyyy"
-                                                    class="input-group date">
-                                                    <input wire:model.defer='state.end_date' id="end_date" type="text"
-                                                        class="form-control @error('end_date') is-invalid @enderror"
-                                                        autocomplete="off" value="{{ old('end_date') }}" />
-                                                    <div class="input-group-append">
-                                                        <div class="input-group-text"><i class="fa fa-calendar"></i>
-                                                        </div>
-                                                    </div>
-                                                    @error('end_date')
-                                                        <div class="invalid-feedback">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
                                             </div>
 
                                             <div class="card-footer text-right">
@@ -253,28 +211,7 @@
                                         </div>
                                         <hr>
 
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Start Date</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedSession)->start_date) ?? '' }}
-                                            </div>
-                                        </div>
-                                        <hr>
-
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    End Date</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedSession)->end_date) ?? '' }}
-                                            </div>
-                                        </div>
-                                        <hr>
-
+                                
                                     </div>
                                 </div>
                             </div>

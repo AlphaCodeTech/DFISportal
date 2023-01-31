@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Parents;
+use App\Settings\SystemSetting;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,20 +25,9 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(SystemSetting $systemSetting)
     {
-        Blade::directive('parent', function () {
-            $isAuth = false;
-            if (auth()->user() instanceof Parents) {
-                dd('ok');
-                $isAuth = true;
-            }
-
-            return "<?php if (" . intval($isAuth) . ") { ?>";
-        });
-
-        Blade::directive('endparent', function () {
-            return "<?php } ?>";
-        });
+        $appSettings = $systemSetting;
+        View::share('appSettings', $appSettings); 
     }
 }

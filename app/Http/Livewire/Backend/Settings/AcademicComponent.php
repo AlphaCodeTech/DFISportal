@@ -2,58 +2,50 @@
 
 namespace App\Http\Livewire\Backend\Settings;
 
+use App\Repositories\ClassRepository;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use App\Settings\SystemSetting;
+use App\Settings\AcademicSetting;
 use Illuminate\Support\Facades\Validator;
 
-class SystemComponent extends Component
+class AcademicComponent extends Component
 {
     use WithFileUploads;
 
-    public $logo;
-    public $role = [];
     public $state = [];
+    public $classLevels;
 
-    public function mount(SystemSetting $setting)
+    public function mount(AcademicSetting $setting, ClassRepository $classRepository)
     {
         $this->state = $setting->toArray();
+        $this->classLevels = $classRepository->getLevels();
+        // dd($this->state);
     }
 
     public function render()
     {
-        return view('livewire.backend.settings.system-component')->layout('backend.layouts.app');
+        return view('livewire.backend.settings.academic-component')->layout('backend.layouts.app');
     }
 
-    public function update(SystemSetting $systemSetting)
+    public function update(AcademicSetting $academicSetting)
     {
 
         $data =  Validator::make($this->state, [
-            'name' => 'required',
-            'acr' => 'required',
-            'phone' => 'required',
-            'email' => 'required|email',
-            'address' => 'required',
+            'term_begins' => 'required',
+            'term_ends' => 'required',
+            'current_session' => 'required',
+            'lock_exam' => 'required',
         ])->validate();
 
-        if ($this->logo) {
-            $this->state['logo'] = $this->logo;
 
-            Validator::make($this->state, [
-                'logo' => 'required|image|mimes:jpg,png,gif',
-            ])->validate();
-            $data['logo'] =  $this->logo->store('setting');
-        }
 
-        $systemSetting->name = $data['name'];
-        $systemSetting->acr = $data['acr'];
-        $systemSetting->email = $data['email'];
-        $systemSetting->phone = $data['phone'];
-        $systemSetting->address = $data['address'];
-        $systemSetting->logo = $data['logo'] ?? $this->state['logo'];
+        $academicSetting->term_begins = $data['term_begins'];
+        $academicSetting->term_ends = $data['term_ends'];
+        $academicSetting->current_session = $data['current_session'];
+        $academicSetting->lock_exam = $data['lock_exam'];
 
-        $systemSetting->save();
+        $academicSetting->save();
 
-        $this->dispatchBrowserEvent('hide-modal', ['message' => 'Sytem SettingU pdated Successfully!']);
+        $this->dispatchBrowserEvent('hide-modal', ['message' => 'Academic Setting Updated Successfully!']);
     }
 }

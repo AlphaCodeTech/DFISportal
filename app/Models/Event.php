@@ -26,6 +26,7 @@ class Event extends Model
             set: fn ($value) => Carbon::createFromFormat('d/m/Y', $value)->format('Y-m-d'),
         );
     }
+    
     protected function end(): Attribute
     {
         return Attribute::make(
