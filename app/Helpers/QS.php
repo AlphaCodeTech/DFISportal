@@ -10,72 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class QS
 {
-    public static function displayError($errors)
-    {
-        foreach ($errors as $err) {
-            $data[] = $err;
-        }
-        return '
-                <div class="alert alert-danger alert-styled-left alert-dismissible">
-									<button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
-									<span class="font-weight-semibold">Oops!</span> ' .
-            implode(' ', $data) . '
-							    </div>
-                ';
-    }
-
     public static function getAppCode()
     {
         return self::getSetting('system_title') ?: 'CJ';
-    }
-
-    public static function getDefaultUserImage()
-    {
-        return asset('global_assets/images/user.png');
-    }
-
-    public static function getPanelOptions()
-    {
-        return '    <div class="header-elements">
-                    <div class="list-icons">
-                        <a class="list-icons-item" data-action="collapse"></a>
-                        <a class="list-icons-item" data-action="remove"></a>
-                    </div>
-                </div>';
-    }
-
-    public static function displaySuccess($msg)
-    {
-        return '
-            <div class="alert alert-success alert-bordered">
-                    <button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button> ' .
-            $msg . '  </div>
-                ';
-    }
-
-    public static function getTeamSA()
-    {
-        return ['admin', 'super_admin'];
-    }
-
-    public static function getTeamAccount()
-    {
-        return ['admin', 'super_admin', 'accountant'];
-    }
-
-    public static function getTeamSAT()
-    {
-        return ['admin', 'super_admin', 'teacher'];
-    }
-
-    public static function getTeamAcademic()
-    {
-        return ['super admin', 'teacher', 'developer'];
-    }
-
-    public static function getTeamAdministrative()
-    {
-        return ['admin', 'super_admin', 'accountant'];
     }
 
     public static function hash($id)

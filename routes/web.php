@@ -15,12 +15,14 @@ use App\Http\Livewire\Backend\Profile\ProfileComponent;
 use App\Http\Livewire\Backend\Session\SessionComponent;
 use App\Http\Livewire\Backend\Settings\SystemComponent;
 use App\Http\Livewire\Backend\Student\StudentComponent;
+use App\Http\Livewire\Backend\Student\StudentPromotion;
 use App\Http\Livewire\Backend\Subject\SubjectComponent;
+use App\Http\Livewire\Backend\Classroom\ClassroomSection;
 use App\Http\Livewire\Backend\Guardian\GuardianComponent;
+use App\Http\Livewire\Backend\Settings\AcademicComponent;
 use App\Http\Livewire\Backend\Classroom\ClassroomComponent;
 use App\Http\Livewire\Backend\Department\DepartmentComponent;
 use App\Http\Livewire\Backend\Permission\PermissionComponent;
-use App\Http\Livewire\Backend\Settings\AcademicComponent;
 
 // ! Frontend Routes
 
@@ -46,6 +48,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     // ! Students
     Route::get('students/{user}', StudentComponent::class)->name('backend.students');
     Route::get('students/list/{class}', StudentList::class)->name('students.list');
+    Route::get('student-promotion/{from_class?}/{from_section?}/{to_class?}/{to_section?}', StudentPromotion::class)->name('students.promotion');
 
     Route::get('student/admit/{id}', [AdmissionManagementController::class, 'admit'])->name('student.admit');
 
@@ -60,6 +63,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     // ! Classes
     Route::get('classrooms', ClassroomComponent::class)->name('backend.classrooms');
+    Route::get('class-sections/{classSection}', ClassroomSection::class)->name('class.sections');
 
     // ! Users
     Route::get('users', UserComponent::class)->name('backend.users')->middleware(['role:developer|super admin|teacher']);

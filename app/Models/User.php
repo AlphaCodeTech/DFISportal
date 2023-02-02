@@ -114,4 +114,9 @@ class User extends Authenticatable
             });
         });
     }
+
+    public function section()
+    {
+        return $this->belongsTo(ClassSection::class);
+    }
 }

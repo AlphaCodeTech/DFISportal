@@ -27,12 +27,23 @@
 @stack('extra-js')
 
 <script>
-
     window.addEventListener('show-form', function() {
         $('#form').modal({
             backdrop: 'static',
             keyboard: false
         }, 'show');
+    });
+
+    window.addEventListener('show-section', function() {
+        $('#section').modal({
+            backdrop: 'static',
+            keyboard: false
+        }, 'show');
+    });
+
+    window.addEventListener('hide-section', function() {
+        $('#section').modal('hide');
+        toastr.success(event.detail.message, 'Success!');
     });
 
     window.addEventListener('edit-form', function() {

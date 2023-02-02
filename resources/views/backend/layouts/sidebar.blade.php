@@ -4,7 +4,7 @@
       <a href="/" class="brand-link">
           <img src="{{ asset($appSettings->logo) ?? asset('backend/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
               class="brand-image img-circle elevation-3" style="opacity: .8">
-          <span class="brand-text font-weight-light ">{{ Str::upper($appSettings->acr ) ?? 'PORTAL'}}</span>
+          <span class="brand-text font-weight-light ">{{ Str::upper($appSettings->acr) ?? 'PORTAL' }}</span>
       </a>
 
       <!-- Sidebar -->
@@ -52,7 +52,7 @@
                   </li>
                   @if (Nav::userCanSeeStudent())
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ request()->is('admin/students') ? 'active' : '' }}">
+                          <a href="#" class="nav-link {{ in_array(Route::currentRouteName(), ['students.promotion', 'students.list','backend.students']) ? 'active' : '' }}">
                               <i class="nav-icon fas fa-graduation-cap"></i>
                               <p>
                                   Students
@@ -75,13 +75,35 @@
                                   <ul class="nav nav-treeview">
                                       @foreach (App\Models\Clazz::orderBy('name')->get() as $class)
                                           <li class="nav-item ml-4">
-                                              <a href="{{ route('students.list', ['class' => $class->id ]) }}"
+                                              <a href="{{ route('students.list', ['class' => $class->id]) }}"
                                                   class="nav-link">
                                                   <i class="far fa-circle nav-icon"></i>
                                                   <p>{{ $class->name }}</p>
                                               </a>
                                           </li>
                                       @endforeach
+                                  </ul>
+                              </li>
+                              <li class="nav-item">
+                                  <a href="#" class="nav-link">
+                                      <i class="far fa-circle nav-icon"></i>
+                                      <p>Promotion</p>
+                                  </a>
+                                  <ul class="nav nav-treeview">
+                                      <li class="nav-item ml-4">
+                                          <a href="{{ route('students.promotion') }}"
+                                              class="nav-link">
+                                              <i class="far fa-circle nav-icon"></i>
+                                              <p>Promote Students</p>
+                                          </a>
+                                      </li>
+                                      <li class="nav-item ml-4">
+                                          <a href="{{ route('students.list', ['class' => $class->id]) }}"
+                                              class="nav-link">
+                                              <i class="far fa-circle nav-icon"></i>
+                                              <p>Manage Promotions</p>
+                                          </a>
+                                      </li>
                                   </ul>
                               </li>
 

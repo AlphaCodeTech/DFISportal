@@ -7,8 +7,10 @@ use App\Models\Clazz;
 use App\Models\Level;
 use App\Models\Subject;
 use Livewire\Component;
+use App\Models\ClassSection;
 use Livewire\WithFileUploads;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 
 class ClassroomComponent extends Component
@@ -56,7 +58,17 @@ class ClassroomComponent extends Component
             'user_id' => 'nullable|exists:users,id',
         ])->validate();
 
-        Clazz::create($data);
+        $class = Clazz::create([
+            'name' => $data['name'],
+            'level_id' => $data['level_id'],
+        ]);
+
+        ClassSection::create([
+            'class_id' => $class->id,
+            'name' => "A",
+            'active' => 1,
+            'user_id' => $data['user_id'],
+        ]);
 
         $this->dispatchBrowserEvent('hide-modal', ['message' => 'Classroom created successfully!']);
     }
@@ -64,9 +76,43 @@ class ClassroomComponent extends Component
     public function edit(Clazz $class)
     {
         $this->class = $class;
+        foreach($class->sections as $section){
+            dd($section->teachers);
+        };
         $this->isEditing = true;
         $this->state = $class->toArray();
         $this->dispatchBrowserEvent('show-form');
+    }
+
+    public function classSection(Clazz $class)
+    {
+        $this->selectedClass = $class;
+        $this->state = $class->toArray();
+        $this->dispatchBrowserEvent('show-section');
+    }
+
+    public function addSection()
+    {
+        $data = validator::make($this->state, [
+            's_name' => [
+                'required',
+                Rule::unique('class_sections', 'name')
+                    ->where(fn ($query) => $query
+                        ->where('class_id', $this->selectedClass->id))
+            ],
+
+            'active' => 'required',
+            'user_id' => 'required',
+        ])->validate();
+
+        ClassSection::create([
+            'class_id' => $this->selectedClass->id,
+            'name' => ucwords($data['s_name']),
+            'active' => $data['active'],
+            'user_id' => $data['user_id'],
+        ]);
+
+        $this->dispatchBrowserEvent('hide-section', ['message' => 'Section Added to Class successfully!']);
     }
 
     public function update()

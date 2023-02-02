@@ -12,7 +12,7 @@ class ClassRepository
 
     public function all()
     {
-        return Clazz::orderBy('name', 'asc')->with('class_type')->get();
+        return Clazz::orderBy('name', 'asc')->with('level')->get();
     }
 
     public function getMC($data)
@@ -84,7 +84,7 @@ class ClassRepository
 
     public function getAllSections()
     {
-        return ClassSection::orderBy('name', 'asc')->with(['my_class', 'teacher'])->get();
+        return ClassSection::orderBy('name', 'asc')->with(['class', 'teacher'])->get();
     }
 
     public function getClassSections($class_id)

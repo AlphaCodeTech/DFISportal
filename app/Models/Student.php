@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Znck\Eloquent\Traits\BelongsToThrough;
 
 class Student extends Model
 {
     use HasFactory,
-    \Znck\Eloquent\Traits\BelongsToThrough,
-    SoftDeletes;
-    
+        BelongsToThrough,
+        SoftDeletes;
+
 
     protected $guarded = [];
 
@@ -23,7 +24,7 @@ class Student extends Model
     {
         parent::boot();
 
-        self::creating(function($model){
+        self::creating(function ($model) {
             $model->admno = "DFIS/SEC/" . date('Y') . '/' . rand(10000, 99999);
         });
     }
@@ -40,7 +41,7 @@ class Student extends Model
 
     public function level()
     {
-        return $this->belongsToThrough(Level::class,Clazz::class);
+        return $this->belongsToThrough(Level::class, Clazz::class);
     }
 
     public function finances()

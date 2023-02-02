@@ -2,14 +2,12 @@
 
 namespace App\Http\Livewire\Backend\Student;
 
-use App\Models\User;
 use App\Models\Clazz;
 use App\Models\Guardian;
 use App\Models\Level;
 use App\Models\Student;
 use App\Repositories\ClassRepository;
 use App\Repositories\StudentRepository;
-use Illuminate\Support\Facades\App;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Validator;

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Class Data</title>
+    <title>Section Data</title>
     <link rel="stylesheet" href="{{ public_path('backend/dist/css/adminlte.min.css') }}">
 
 </head>
@@ -39,7 +39,7 @@
                             <h4 class="text-center">OWERRI NORTH, IMO STATE</h4>
                         </div>
                         <div class="col-md-12">
-                            <h4 class="text-center text-uppercase">{{ $class->name }} Students</h4>
+                            <h4 class="text-center text-uppercase">{{ $section->class->name .' '. $section->name }} Students</h4>
                         </div>
                     </div>
 
@@ -56,7 +56,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($class->students as $student)
+                                @foreach ($section->class->students as $student)
                                     <tr>
                                         <td>{{ ucwords($student->surname . ' ' . $student->middlename . ' ' . $student->lastname) }}
                                         </td>

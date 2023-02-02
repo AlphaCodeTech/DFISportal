@@ -51,7 +51,7 @@ class StudentRepository {
 
     public function getRecord(array $data)
     {
-        return $this->activeStudents()->where($data)->with('user');
+        return $this->activeStudents()->where($data);
     }
 
     public function getRecordByUserIDs($ids)

@@ -13,6 +13,11 @@ class Clazz extends Model
 
     protected $table = 'classes';
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     public function students()
     {
         return $this->hasMany(Student::class, 'class_id');
@@ -23,13 +28,18 @@ class Clazz extends Model
         return $this->belongsTo(Level::class);
     }
 
-    public function teacher()
+    public function teachers()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->hasManyThrough(User::class, ClassSection::class, 'user_id','id');
     }
 
     public function subjects()
     {
         return $this->belongsToMany(Subject::class, 'class_subjects', 'class_id')->withTimestamps();
+    }
+
+    public function sections()
+    {
+        return $this->hasMany(ClassSection::class, 'class_id');
     }
 }
