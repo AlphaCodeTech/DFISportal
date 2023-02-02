@@ -23,6 +23,6 @@ class ClassSection extends Model
 
     public function students()
     {
-        return $this->hasMany(Student::class);
+        return $this->hasManyThrough(Student::class, Clazz::class,'section_id');
     }
 }

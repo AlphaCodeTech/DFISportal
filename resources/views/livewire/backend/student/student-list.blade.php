@@ -100,7 +100,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <ul class="nav nav-tabs nav-tabs-highlight">
-                                    <li class="nav-item"> <a wire:click='allStudent' class="nav-link active show"
+                                    <li class="nav-item"> <a wire:click='allStudent' class="nav-link active"
                                             data-toggle="tab">All
                                             {{ $class_name . '\'s' }} Students</a></li>
                                     <li class="nav-item dropdown" style="width: 150px;">
@@ -137,7 +137,7 @@
                                                 </td>
                                                 <td>{{ $student->admno }}</td>
                                                 <td>{{ $student->class->name }}</td>
-                                                <td class="text-center"><img class="img-thumbnail"
+                                                <td class="text-center"><img class="img-thumbnail img-responsive"
                                                         src="{{ asset($student->photo) }}" alt="{{ $student->name }}"
                                                         style="width: 100px; height: 100px;"></td>
                                                 <td class="text-center">
@@ -147,11 +147,11 @@
                                                 <td class="d-flex"
                                                     style="justify-content: space-evenly; padding-right: 0;">
                                                     @can('edit student')
-                                                        <a title="edit" wire:click="edit({{ $student->id }})"
+                                                        <a title="edit" wire:click="edit({{ $student }})"
                                                             role="button" class="btn btn-success"><i
                                                                 class="fas fa-edit"></i></a>
                                                     @endcan
-                                                    <button wire:click="show({{ $student->id }})" role="button"
+                                                    <button wire:click="show({{ $student }})" role="button"
                                                         class="btn btn-warning"><i class="fas fa-eye"
                                                             title="view student"></i></button>
                                                     @can('delete student')
@@ -456,6 +456,7 @@
                                         <div class="form-group">
                                             <label for="class_id">Class</label>
                                             <select wire:model.defer='state.class_id'
+                                                wire:change='updateSection($event.target.value)'
                                                 class="form-control @error('class_id') is-invalid @enderror"
                                                 id="class_id">
                                                 <option value="">Select Class</option>
@@ -469,6 +470,25 @@
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
+
+                                        @if (!is_null($selectedClass))
+                                            <div class="form-group">
+                                                <label for="section_id">Section</label>
+                                                <select wire:model='state.section_id'
+                                                    class="form-control @error('section_id') is-invalid @enderror"
+                                                    id="section_id">
+                                                    <option value="" selected>Select Section</option>
+                                                    @foreach ($ClassSections as $section)
+                                                        <option value="{{ $section->id }}"
+                                                            {{ old('section_id') == "$section->id" ? 'selected' : '' }}>
+                                                            {{ $section->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('section_id')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+                                        @endif
 
 
                                         <div class="form-group">
@@ -571,7 +591,6 @@
                                     </div>
                                     <!-- /.card-body -->
 
-
                                     </form>
                                 </div>
                                 <!-- /.card -->
@@ -594,355 +613,400 @@
         <!-- /.modal-dialog -->
     </div>
 
-
-    <div class="modal fade" id="view" wire:ignore.self>
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">View Student</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="d-flex flex-column align-items-center text-center">
-                                            <img src="{{ asset(optional($selectedStudent)->photo) }}" alt="Admin"
-                                                class="rounded-circle" width="150">
-                                            <div class="mt-3">
-                                                <h4>{{ optional($selectedStudent)->surname . ' ' . optional($selectedStudent)->middlename }}
-                                                </h4>
-                                                <p class="text-secondary mb-1">
-                                                    {{ optional($selectedStudent)->admno }}
-                                                </p>
-
-                                                <button class="btn btn-primary">
-                                                    Promote
-                                                </button>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card mb-3">
-                                    <div class="card-body text-left">
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Full Name</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedStudent)->surname . ' ' . optional($selectedStudent)->middlename . ' ' . optional($selectedStudent)->lastname) }}
-                                            </div>
-                                        </div>
-                                        <hr>
-
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Gender</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                {{ ucfirst(optional($selectedStudent)->gender) }}
-                                            </div>
-                                        </div>
-                                        <hr>
-
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Date of Birth</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                {{ optional($selectedStudent)->dob }}
-                                            </div>
-                                        </div>
-                                        <hr>
-
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Blood Group</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                {{ optional($selectedStudent)->blood_group }}
-                                            </div>
-                                        </div>
-                                        <hr>
-
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Genotype</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                {{ optional($selectedStudent)->genotype }}
-                                            </div>
-                                        </div>
-                                        <hr>
-
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Allergies</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                {{ optional($selectedStudent)->allergies }}
-                                            </div>
-                                        </div>
-                                        <hr>
-
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Admission Date</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                {{ optional($selectedStudent)->admission_date }}
-                                            </div>
-                                        </div>
-                                        <hr>
-
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Guardian</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedStudent->guardian)->name ?? null) }}
-                                            </div>
-                                        </div>
-                                        <hr>
-
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Disabilities</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedStudent)->disabilities) }}
-                                            </div>
-                                        </div>
-                                        <hr>
-
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Previous School</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedStudent)->prevSchool) }}
-                                            </div>
-                                        </div>
-                                        <hr>
-
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Why Student Left Formal School</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedStudent)->reason) }}
-                                            </div>
-                                        </div>
-                                        <hr>
-
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Who Introduced Student</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedStudent)->introducer) }}
-                                            </div>
-                                        </div>
-                                        <hr>
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Driver</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedStudent)->driver) }}
-                                            </div>
-                                        </div>
-                                        <hr>
-
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Immunization Card</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <a wire:click='viewImmunizationCard' class="btn btn-sm btn-info">View
-                                                    Immunization Card</a>
-                                            </div>
-                                        </div>
-                                        <hr>
-
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Birth Certificate</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <a wire:click='viewBirthCertificate' class="btn btn-sm btn-info">View
-                                                    Birth Certificate</a>
-                                            </div>
-                                        </div>
-                                        <hr>
-
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Class</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedStudent->class)->name) }}
-                                            </div>
-                                        </div>
-                                        <hr>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <!-- /.row -->
+    @if (!is_null($selectedStudent))
+        <div class="modal fade" id="view" wire:ignore.self>
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">View Student</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <div class="modal-body">
 
-                </div>
-            </div>
-            <!-- /.modal-content -->
-        </div>
-        <!-- /.modal-dialog -->
-    </div>
-
-    <div class="modal fade" id="promote" wire:ignore.self>
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Promote Student</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <!-- left column -->
-                            <div class="col-md-6">
-                                <!-- general form elements -->
-                                <div class="card card-primary">
-
-                                    <!-- form start -->
-                                    <form wire:submit.prevent='promote'>
-
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <div class="card">
                                         <div class="card-body">
+                                            <div class="d-flex flex-column align-items-center text-center">
+                                                <img src="{{ asset(optional($selectedStudent)->photo) }}"
+                                                    alt="Admin" class="rounded-circle" width="150">
+                                                <div class="mt-3">
+                                                    <h4>{{ optional($selectedStudent)->surname . ' ' . optional($selectedStudent)->middlename }}
+                                                    </h4>
+                                                    <p class="text-secondary mb-1">
+                                                        {{ optional($selectedStudent)->admno }}
+                                                    </p>
 
-                                            <div class="form-group">
-                                                <label for="old_level_name">Old Level</label>
-                                                <input readonly type="text" name="old_level_name"
-                                                    class="form-control "
-                                                    value="{{ optional($selectedStudent->level)->name }}">
+                                                    <button class="btn btn-primary">
+                                                        Promote
+                                                    </button>
+
+                                                </div>
                                             </div>
-                                            @error('old_level_name')
-                                                <p class="alert alert-danger">{{ $message }}</p>
-                                            @enderror
-
-                                            <div class="form-group">
-                                                <label for="old_class_name">Old Class</label>
-                                                <input readonly type="text" name="old_class_name"
-                                                    class="form-control"
-                                                    value="{{ optional($selectedStudent->class)->name }}">
-                                            </div>
-                                            @error('old_class_name')
-                                                <p class="alert alert-danger">{{ $message }}</p>
-                                            @enderror
-
-
                                         </div>
-                                        <!-- /.card-body -->
-                                </div>
-                                <!-- /.card -->
-                            </div>
-                            <div class="col-md-6">
-                                <!-- general form elements -->
-                                <div class="card card-primary">
-
-                                    <div class="card-body">
-
-                                        <div class="form-group">
-                                            <label for="new_level_id">New Level</label>
-                                            <select wire:model.defer='promoteData.new_level_id'
-                                                class="form-control @error('new_level_id') is-invalid @enderror">
-                                                <option value="" selected>Select New Level</option>
-                                                @foreach ($levels as $level)
-                                                    <option value="{{ $level->id }}"
-                                                        {{ optional($selectedStudent->level)->id == $level->id ? 'selected' : '' }}>
-                                                        {{ $level->name }}</option>
-                                                @endforeach
-                                                @error('new_level_id')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-                                            </select>
-                                        </div>
-
-
-                                        <div class="form-group">
-                                            <label for="new_class_id">New class</label>
-                                            <select wire:model.defer='promoteData.new_class_id'
-                                                class="form-control @error('new_class_id') is-invalid @enderror">
-                                                <option value="" selected>Select New Class</option>
-                                                @foreach ($classes as $class)
-                                                    <option value="{{ $class->id }}"
-                                                        {{ optional($selectedStudent->class)->id == $class->id ? 'selected' : '' }}>
-                                                        {{ $class->name }}</option>
-                                                @endforeach
-                                                @error('new_class_id')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-                                            </select>
-                                        </div>
-
-                                        <div class="card-footer text-right">
-                                            <button type="submit" class="btn btn-success">Promote</button>
-                                        </div>
-
                                     </div>
-                                    <!-- /.card-body -->
-
-
                                 </div>
-                                <!-- /.card -->
-                                </form>
-                            </div>
-                            <!--/.col (left) -->
+                                <div class="col-md-8">
+                                    <div class="card mb-3">
+                                        <div class="card-body text-left">
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0 font-weight-bold">
+                                                        Full Name</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    {{ ucwords(optional($selectedStudent)->surname . ' ' . optional($selectedStudent)->middlename . ' ' . optional($selectedStudent)->lastname) }}
+                                                </div>
+                                            </div>
+                                            <hr>
 
-                            <!--/.col (right) -->
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0 font-weight-bold">
+                                                        Gender</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    {{ ucfirst(optional($selectedStudent)->gender) }}
+                                                </div>
+                                            </div>
+                                            <hr>
+
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0 font-weight-bold">
+                                                        Date of Birth</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    {{ optional($selectedStudent)->dob }}
+                                                </div>
+                                            </div>
+                                            <hr>
+
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0 font-weight-bold">
+                                                        Blood Group</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    {{ optional($selectedStudent)->blood_group }}
+                                                </div>
+                                            </div>
+                                            <hr>
+
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0 font-weight-bold">
+                                                        Genotype</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    {{ optional($selectedStudent)->genotype }}
+                                                </div>
+                                            </div>
+                                            <hr>
+
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0 font-weight-bold">
+                                                        Allergies</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    {{ optional($selectedStudent)->allergies }}
+                                                </div>
+                                            </div>
+                                            <hr>
+
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0 font-weight-bold">
+                                                        Admission Date</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    {{ optional($selectedStudent)->admission_date }}
+                                                </div>
+                                            </div>
+                                            <hr>
+
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0 font-weight-bold">
+                                                        Guardian</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    {{ ucwords(optional($selectedStudent->guardian)->name ?? null) }}
+                                                </div>
+                                            </div>
+                                            <hr>
+
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0 font-weight-bold">
+                                                        Disabilities</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    {{ ucwords(optional($selectedStudent)->disabilities) }}
+                                                </div>
+                                            </div>
+                                            <hr>
+
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0 font-weight-bold">
+                                                        Previous School</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    {{ ucwords(optional($selectedStudent)->prevSchool) }}
+                                                </div>
+                                            </div>
+                                            <hr>
+
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0 font-weight-bold">
+                                                        Why Student Left Formal School</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    {{ ucwords(optional($selectedStudent)->reason) }}
+                                                </div>
+                                            </div>
+                                            <hr>
+
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0 font-weight-bold">
+                                                        Who Introduced Student</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    {{ ucwords(optional($selectedStudent)->introducer) }}
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0 font-weight-bold">
+                                                        Driver</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    {{ ucwords(optional($selectedStudent)->driver) }}
+                                                </div>
+                                            </div>
+                                            <hr>
+
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0 font-weight-bold">
+                                                        Immunization Card</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <a wire:click='viewImmunizationCard'
+                                                        class="btn btn-sm btn-info">View
+                                                        Immunization Card</a>
+                                                </div>
+                                            </div>
+                                            <hr>
+
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0 font-weight-bold">
+                                                        Birth Certificate</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    <a wire:click='viewBirthCertificate'
+                                                        class="btn btn-sm btn-info">View
+                                                        Birth Certificate</a>
+                                                </div>
+                                            </div>
+                                            <hr>
+
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0 font-weight-bold">
+                                                        Class</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    {{ ucwords(optional($selectedStudent->class)->name) }}
+                                                </div>
+                                            </div>
+                                            <hr>
+
+                                            <div class="row">
+                                                <div class="col-sm-3">
+                                                    <h6 class="mb-0 font-weight-bold">
+                                                        Class Section</h6>
+                                                </div>
+                                                <div class="col-sm-9 text-secondary">
+                                                    {{ ucwords(optional($selectedStudent->section)->name) }}
+                                                </div>
+                                            </div>
+                                            <hr>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- /.row -->
                         </div>
-                        <!-- /.row -->
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
                     </div>
                 </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
-                </div>
+                <!-- /.modal-content -->
             </div>
-            <!-- /.modal-content -->
+            <!-- /.modal-dialog -->
         </div>
-        <!-- /.modal-dialog -->
-    </div>
+    @endif
+
+    @if (!is_null($selectedStudent))
+        <div class="modal fade" id="promote" wire:ignore.self>
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Promote Student</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <!-- left column -->
+                                <div class="col-md-12">
+                                    <!-- general form elements -->
+                                    <div class="card card-primary">
+
+                                        <!-- form start -->
+                                        <form wire:submit.prevent='promote'>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="card-body">
+
+                                                        <div class="form-group">
+                                                            <label for="old_level_name">Old Level</label>
+                                                            <input readonly type="text" name="old_level_name"
+                                                                class="form-control "
+                                                                value="{{ optional($selectedStudent->level)->name }}">
+                                                        </div>
+                                                        @error('old_level_name')
+                                                            <p class="alert alert-danger">{{ $message }}</p>
+                                                        @enderror
+
+                                                        <div class="form-group">
+                                                            <label for="old_class_name">Old Class</label>
+                                                            <input readonly type="text" name="old_class_name"
+                                                                class="form-control"
+                                                                value="{{ optional($selectedStudent->class)->name }}">
+                                                        </div>
+                                                        @error('old_class_name')
+                                                            <p class="alert alert-danger">{{ $message }}</p>
+                                                        @enderror
+
+                                                        <div class="form-group">
+                                                            <label for="old_section_name">Old Section</label>
+                                                            <input readonly type="text" name="old_section_name"
+                                                                class="form-control"
+                                                                value="{{ optional($selectedStudent->section)->name }}">
+                                                        </div>
+                                                        @error('old_section_name')
+                                                            <p class="alert alert-danger">{{ $message }}</p>
+                                                        @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="card-body">
+
+                                                        <div class="form-group">
+                                                            <label for="new_level_id">New Level</label>
+                                                            <select wire:model='promoteData.new_level_id'
+                                                                wire:change='updateClass($event.target.value)'
+                                                                class="form-control @error('new_level_id') is-invalid @enderror">
+                                                                <option value="" selected>Select New Level
+                                                                </option>
+                                                                @foreach ($levels as $level)
+                                                                    <option value="{{ $level->id }}"
+                                                                        {{ optional($selectedStudent->level)->id == $level->id ? 'selected' : '' }}>
+                                                                        {{ $level->name }}</option>
+                                                                @endforeach
+                                                                @error('new_level_id')
+                                                                    <div class="invalid-feedback">{{ $message }}
+                                                                    </div>
+                                                                @enderror
+                                                            </select>
+                                                        </div>
+
+                                                        @if (!is_null($selectedLevel))
+                                                            <div class="form-group">
+                                                                <label for="new_class_id">New class</label>
+                                                                <select wire:model.defer='promoteData.new_class_id'
+                                                                    wire:change='updateSection($event.target.value)'
+                                                                    class="form-control @error('new_class_id') is-invalid @enderror select">
+                                                                    <option value="" selected>Select New Class
+                                                                    </option>
+                                                                    @foreach ($promoteClasses->classes as $class)
+                                                                        <option value="{{ $class->id }}">
+                                                                            {{ $class->name }}</option>
+                                                                    @endforeach
+                                                                    @error('new_class_id')
+                                                                        <div class="invalid-feedback">{{ $message }}
+                                                                        </div>
+                                                                    @enderror
+                                                                </select>
+                                                            </div>
+                                                        @endif
+
+                                                        @if (!is_null($selectedClass))
+                                                            <div class="form-group">
+                                                                <label for="new_section_id">New Section</label>
+                                                                <select wire:model.defer='promoteData.new_section_id'
+                                                                    class="form-control @error('new_section_id') is-invalid @enderror">
+                                                                    <option value="" selected>Select New Section
+                                                                    </option>
+                                                                    @foreach ($sections as $section)
+                                                                        <option value="{{ $section->id }}">
+                                                                            {{ $section->name }}</option>
+                                                                    @endforeach
+                                                                    @error('new_section_id')
+                                                                        <div class="invalid-feedback">{{ $message }}
+                                                                        </div>
+                                                                    @enderror
+                                                                </select>
+                                                            </div>
+                                                        @endif
+
+                                                        <div class="card-footer text-right">
+                                                            <button type="submit"
+                                                                class="btn btn-success">Promote</button>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <!-- /.card-body -->
+                                    </div>
+                                    <!-- /.card -->
+                                </div>
+
+                                <!--/.col (left) -->
+
+                                <!--/.col (right) -->
+                            </div>
+                            <!-- /.row -->
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+    @endif
 
     @push('extra-js')
         <!-- DataTables  & Plugins -->

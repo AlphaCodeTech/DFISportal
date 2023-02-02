@@ -7,6 +7,8 @@ use App\Models\Clazz;
 use App\Models\Guardian;
 use App\Models\Level;
 use App\Models\Student;
+use App\Repositories\ClassRepository;
+use Illuminate\Support\Facades\App;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Validator;
@@ -19,7 +21,9 @@ class StudentComponent extends Component
     public $immunization_card;
     public $birth_certificate;
     public $student;
-    public $selectedStudent;
+    public $selectedStudent = null;
+    public $selectedClass = null;
+    public $selectedLevel = null;
     public $isEditing = false;
     public $toBeDeleted = null;
     public $state = [];
@@ -27,16 +31,19 @@ class StudentComponent extends Component
     public $authUser;
     public $guardians;
     public $classes;
+    public $promoteClasses;
     public $levels;
+    public $sections;
 
 
     public function mount(User $user)
     {
+        $this->sections = collect();
+        $this->promoteClasses = collect();
         $this->levels = Level::all();
         $this->classes = Clazz::orderBy('name', 'asc')->get();
         $this->guardians = Guardian::all();
         $this->authUser = $user;
-        $this->selectedStudent = $this->authUser; //!Please this is for error handling
     }
 
     protected $listeners = ['delete' => 'destroy'];
@@ -60,7 +67,23 @@ class StudentComponent extends Component
     {
         $this->isEditing = false;
         $this->state = [];
+        $this->selectedClass = null;
         $this->dispatchBrowserEvent('show-form');
+    }
+
+    public function updateSection($value)
+    {
+        $classRepository = App::make(ClassRepository::class);
+        $this->selectedClass = $value;
+        $this->sections = $classRepository->getClassSections($value);
+    }
+
+    public function updateClass($value)
+    {
+        $classRepository = App::make(ClassRepository::class);
+        $this->selectedLevel = $value;
+        $this->selectedClass = null;
+        $this->promoteClasses = $classRepository->findLevel($value);
     }
 
     public function store()
@@ -95,6 +118,7 @@ class StudentComponent extends Component
             "driver" => 'nullable',
             "parent_id" => 'nullable|exists:gurad$guardians,id',
             "class_id" => 'required|exists:classes,id',
+            "section_id" => 'required|exists:class_sections,id',
             "photo" => 'required|file|mimes:jpg,png,jpeg',
             "birth_certificate" => 'nullable|file|mimes:pdf',
             "immunization_card" => 'nullable|file|mimes:pdf'
@@ -126,6 +150,7 @@ class StudentComponent extends Component
     {
         $this->student = $student;
         $this->isEditing = true;
+        $this->updateSection($student->class->id);
         $this->state = $student->toArray();
         unset($this->state['photo']);
         unset($this->state['immunization_card']);
@@ -157,6 +182,7 @@ class StudentComponent extends Component
             "driver" => 'nullable',
             "guardian_id" => 'nullable|exists:guardians,id',
             "class_id" => 'required|exists:classes,id',
+            "section_id" => 'required|exists:class_sections,id',
             "photo" => 'nullable|image|mimes:jpg,png,jpeg',
             "birth_certificate" => 'nullable|file|mimes:jpg,png,jpeg,pdf',
             "immunization_card" => 'nullable|file|mimes:jpg,png,jpeg,pdf'
@@ -242,9 +268,11 @@ class StudentComponent extends Component
     {
         $data = Validator::make($this->promoteData, [
             'new_class_id' => 'required|exists:classes,id',
+            'new_section_id' => 'required|exists:class_sections,id',
         ])->validate();
 
         $this->student->class_id = $data['new_class_id'];
+        $this->student->section_id = $data['new_section_id'];
         $this->student->save();
 
         $this->dispatchBrowserEvent('hide-promote', ['message' => 'Student promoted successfully!']);

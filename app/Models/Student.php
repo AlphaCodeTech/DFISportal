@@ -53,4 +53,10 @@ class Student extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function section()
+    {
+        return $this->belongsTo(ClassSection::class);
+    }
+
 }

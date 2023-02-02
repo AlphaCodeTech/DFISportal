@@ -76,9 +76,8 @@ class ClassroomComponent extends Component
     public function edit(Clazz $class)
     {
         $this->class = $class;
-        foreach($class->sections as $section){
-            dd($section->teachers);
-        };
+        // foreach($class->sections as $section){
+        // };
         $this->isEditing = true;
         $this->state = $class->toArray();
         $this->dispatchBrowserEvent('show-form');

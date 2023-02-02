@@ -3,13 +3,14 @@
 namespace App\Http\Livewire\Backend\Student;
 
 use App\Models\Clazz;
-use App\Models\Guardian;
 use App\Models\Level;
 use App\Models\Student;
+use Livewire\Component;
+use App\Models\Guardian;
+use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\App;
 use App\Repositories\ClassRepository;
 use App\Repositories\StudentRepository;
-use Livewire\Component;
-use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Validator;
 
 class StudentList extends Component
@@ -21,21 +22,26 @@ class StudentList extends Component
     public $birth_certificate;
     public $student;
     public $selectedStudent;
+    public $selectedClass = null;
+    public $selectedLevel = null;
     public $isEditing = false;
     public $toBeDeleted = null;
     public $state = [];
     public $promoteData = [];
     public $guardians;
     public $classes;
+    public $ClassSections;
     public $levels;
     public $class_id;
     public $class_name;
+    public $promoteClasses;
     public $filter = false;
     public $section_id = null;
 
 
     public function mount(Clazz $class)
     {
+        $this->ClassSections = collect();
         $this->class_id = $class->id;
         $this->class_name = $class->name;
         $this->levels = Level::all();
@@ -46,12 +52,27 @@ class StudentList extends Component
 
     protected $listeners = ['delete' => 'destroy'];
 
-    public function render(ClassRepository $class,StudentRepository $student)
+    public function render(ClassRepository $class, StudentRepository $student)
     {
         $sections = $class->getClassSections($this->class_id);
         $students = $this->filter ? $student->findStudentsBySection($this->section_id) : $student->findStudentsByClass($this->class_id);
-           
-        return view('livewire.backend.student.student-list', compact('students','sections'))->layout('backend.layouts.app');
+
+        return view('livewire.backend.student.student-list', compact('students', 'sections'))->layout('backend.layouts.app');
+    }
+
+    public function updateSection($value)
+    {
+        $classRepository = App::make(ClassRepository::class);
+        $this->selectedClass = $value;
+        $this->ClassSections = $classRepository->getClassSections($value);
+    }
+
+    public function updateClass($value)
+    {
+        $classRepository = App::make(ClassRepository::class);
+        $this->selectedLevel = $value;
+        $this->selectedClass = null;
+        $this->promoteClasses = $classRepository->findLevel($value);
     }
 
     public function allStudent()
@@ -107,6 +128,7 @@ class StudentList extends Component
             "driver" => 'nullable',
             "guardian_id" => 'nullable|exists:guardians,id',
             "class_id" => 'required|exists:classes,id',
+            "section_id" => 'required|exists:class_sections,id',
             "photo" => 'nullable|image|mimes:jpg,png,jpeg',
             "birth_certificate" => 'nullable|file|mimes:jpg,png,jpeg,pdf',
             "immunization_card" => 'nullable|file|mimes:jpg,png,jpeg,pdf'
@@ -192,9 +214,11 @@ class StudentList extends Component
     {
         $data = Validator::make($this->promoteData, [
             'new_class_id' => 'required|exists:classes,id',
+            'new_section_id' => 'required|exists:class_sections,id',
         ])->validate();
 
         $this->student->class_id = $data['new_class_id'];
+        $this->student->section_id = $data['new_section_id'];
         $this->student->save();
 
         $this->dispatchBrowserEvent('hide-promote', ['message' => 'Student promoted successfully!']);

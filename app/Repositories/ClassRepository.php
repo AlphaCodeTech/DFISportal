@@ -45,14 +45,14 @@ class ClassRepository
         return Level::orderBy('name', 'asc')->get();
     }
 
-    public function findLevel($class_type_id)
+    public function findLevel($level_id)
     {
-        return Level::find($class_type_id);
+        return Level::find($level_id);
     }
 
     public function findLevelByClass($class_id)
     {
-        return Level::find($this->find($class_id)->class_type_id);
+        return Level::find($this->find($class_id)->level_id);
     }
 
     /************* Section *******************/
@@ -92,6 +92,7 @@ class ClassRepository
         return ClassSection::where('class_id', $class_id)->orderBy('name', 'asc')->get();
     }
 
+
     /************* Subject *******************/
 
     public function createSubject($data)
@@ -106,12 +107,12 @@ class ClassRepository
 
     public function findSubjectByClass($class_id, $order_by = 'name')
     {
-        return $this->getSubject(['my_class_id'=> $class_id])->orderBy($order_by)->get();
+        return $this->getSubject(['my_class_id' => $class_id])->orderBy($order_by)->get();
     }
 
     public function findSubjectByTeacher($teacher_id, $order_by = 'name')
     {
-        return $this->getSubject(['teacher_id'=> $teacher_id])->orderBy($order_by)->get();
+        return $this->getSubject(['teacher_id' => $teacher_id])->orderBy($order_by)->get();
     }
 
     public function getSubject($data)
@@ -138,5 +139,4 @@ class ClassRepository
     {
         return Subject::orderBy('name', 'asc')->with(['my_class', 'teacher'])->get();
     }
-
 }

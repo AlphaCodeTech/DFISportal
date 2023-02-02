@@ -91,8 +91,8 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h4 class="text-uppercase fontweight-bold">Promote Students from <span
-                                            class="text-danger">{{ $d['old_year'] }}</span> to <span
-                                            class="text-success">{{ $d['new_year'] }}</span> </h4>
+                                            class="text-danger">{{ $data['old_year'] }}</span> to <span
+                                            class="text-success">{{ $data['new_year'] }}</span> </h4>
                                 </div>
 
                                 <!-- form start -->
@@ -104,15 +104,15 @@
                                                 <div class="form-group">
                                                     <label for="from_class">From Class</label>
 
-                                                    <select wire:model="selectedFromClasses"
-                                                        class="form-control @error('selectedFromClasses') is-invalid @enderror">
+                                                    <select wire:model="selectedFromClass"
+                                                        class="form-control @error('selectedFromClass') is-invalid @enderror">
                                                         <option value="">Select Class</option>
                                                         @foreach ($fromClasses as $c)
                                                             <option value="{{ $c->id }}">{{ $c->name }}
                                                             </option>
                                                         @endforeach
                                                     </select>
-                                                    @error('selectedFromClasses')
+                                                    @error('selectedFromClass')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
                                                 </div>
@@ -120,18 +120,18 @@
 
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label for="selectedFromSections">From Section</label>
-                                                    <select wire:model='selectedFromSections' id="selectedFromSections"
-                                                        class="form-control @error('selectedFromSections') is-invalid @enderror">
+                                                    <label for="selectedFromSection">From Section</label>
+                                                    <select wire:model='selectedFromSection' id="selectedFromSection"
+                                                        class="form-control @error('selectedFromSection') is-invalid @enderror">
                                                         <option value="">Select Section</option>
-                                                        @if (!is_null($selectedFromClasses))
+                                                        @if (!is_null($selectedFromClass))
                                                             @foreach ($fromSections as $section)
                                                                 <option value="{{ $section->id }}">{{ $section->name }}
                                                                 </option>
                                                             @endforeach
                                                         @endif
                                                     </select>
-                                                    @error('selectedFromSections')
+                                                    @error('selectedFromSection')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
                                                 </div>
@@ -139,17 +139,17 @@
 
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label for="selectedToClasses">To Class</label>
-                                                    <select wire:model='selectedToClasses'
-                                                        class="form-control @error('selectedToClasses') is-invalid @enderror"
-                                                        id="selectedToClasses">
+                                                    <label for="selectedToClass">To Class</label>
+                                                    <select wire:model='selectedToClass'
+                                                        class="form-control @error('selectedToClass') is-invalid @enderror"
+                                                        id="selectedToClass">
                                                         <option value="">Select Class</option>
                                                         @foreach ($toClasses as $c)
                                                             <option value="{{ $c->id }}">{{ $c->name }}
                                                             </option>
                                                         @endforeach
                                                     </select>
-                                                    @error('selectedToClasses')
+                                                    @error('selectedToClass')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
                                                 </div>
@@ -157,12 +157,12 @@
 
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <label for="selectedToSections">To Section</label>
-                                                    <select wire:model='selectedToSections'
-                                                        class="form-control @error('selectedToSections') is-invalid @enderror"
-                                                        id="selectedToSections">
+                                                    <label for="selectedToSection">To Section</label>
+                                                    <select wire:model='selectedToSection'
+                                                        class="form-control @error('selectedToSection') is-invalid @enderror"
+                                                        id="selectedToSection">
                                                         <option value="">Select Section</option>
-                                                        @if (!is_null($selectedToClasses))
+                                                        @if (!is_null($selectedToClass))
                                                             @foreach ($toSections as $section)
                                                                 <option value="{{ $section->id }}">
                                                                     {{ $section->name }}
@@ -170,7 +170,7 @@
                                                             @endforeach
                                                         @endif
                                                     </select>
-                                                    @error('selectedToSections')
+                                                    @error('selectedToSection')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
                                                 </div>
@@ -223,8 +223,7 @@
                                                                 alt="{{ $student->name }}"
                                                                 style="width: 100px; height: 100px;"></td>
 
-                                                        <td
-                                                            style="justify-content: space-evenly; padding-right: 0;">
+                                                        <td style="justify-content: space-evenly; padding-right: 0;">
                                                             <select wire:model='p'
                                                                 class="form-control @error('p') is-invalid @enderror"
                                                                 id="p">
