@@ -119,6 +119,102 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+    <div class="modal fade" id="form" wire:ignore.self>
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">{{ $isEditing ? 'Edit Classrom' : 'Add New Classrom' }}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <!-- left column -->
+                            <div class="col-md-6">
+                                <!-- general form elements -->
+                                <div class="card card-primary">
+
+                                    <!-- form start -->
+                                    <form method="POST" wire:submit.prevent="{{ $isEditing ? 'update' : 'store' }}"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="card-body">
+
+                                            <div class="form-group">
+                                                <label for="name">Name</label>
+                                                <input wire:model.defer='state.name' type="text"
+                                                    class="form-control @error('name') is-invalid @enderror"
+                                                    id="name" placeholder="Enter name"
+                                                    value="{{ old('name') }}">
+                                                @error('name')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="level_id">Level</label>
+                                                <select wire:model.defer='state.level_id'
+                                                    class="form-control @error('level_id') is-invalid @enderror"
+                                                    id="level_id">
+                                                    <option value="">Select Level</option>
+                                                    @foreach ($levels as $level)
+                                                        <option value="{{ $level->id }}">{{ $level->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('level_id')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="user_id">Teacher</label>
+                                                <select wire:model.defer='state.user_id'
+                                                    class="form-control @error('user_id') is-invalid @enderror"
+                                                    id="user_id">
+                                                    <option value="">Select Teacher</option>
+                                                    @foreach ($teachers as $teacher)
+                                                        <option value="{{ $teacher->id }}">{{ $teacher->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('user_id')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="card-footer text-right">
+                                                <button type="submit"
+                                                    class="btn btn-primary">{{ $isEditing ? 'Update' : 'Create' }}</button>
+                                            </div>
+                                        </div>
+                                        <!-- /.card-body -->
+                                    </form>
+                                </div>
+                                <!-- /.card -->
+
+                            </div>
+
+                            <!--/.col (left) -->
+
+                            <!--/.col (right) -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    {{-- <button type="button" class="btn btn-primary">Save changes</button> --}}
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
 
     <div class="modal fade" id="section" wire:ignore.self>
         <div class="modal-dialog modal-xl">

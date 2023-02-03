@@ -76,8 +76,7 @@ class ClassroomComponent extends Component
     public function edit(Clazz $class)
     {
         $this->class = $class;
-        // foreach($class->sections as $section){
-        // };
+        
         $this->isEditing = true;
         $this->state = $class->toArray();
         $this->dispatchBrowserEvent('show-form');
@@ -123,7 +122,10 @@ class ClassroomComponent extends Component
         ])->validate();
 
 
-        $this->class->update($data);
+        $this->class->update([
+            'name' => $data['name'],
+            'level_id' => $data['level_id'],
+        ]);
 
         $this->dispatchBrowserEvent('hide-modal', ['message' => 'Class updated successfully!']);
     }

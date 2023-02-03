@@ -18,21 +18,21 @@ class Promotion extends Model
 
     public function fromClass()
     {
-        return $this->belongsTo(Clazz::class, 'from_class');
+        return $this->belongsTo(Clazz::class, 'current_class');
     }
 
     public function fromSection()
     {
-        return $this->belongsTo(ClassSection::class, 'from_section');
+        return $this->belongsTo(ClassSection::class, 'current_section');
     }
 
     public function toSection()
     {
-        return $this->belongsTo(ClassSection::class, 'to_section');
+        return $this->belongsTo(ClassSection::class, 'next_section');
     }
 
     public function toClass()
     {
-        return $this->belongsTo(Clazz::class, 'to_class');
+        return $this->belongsTo(Clazz::class, 'next_class');
     }
 }

@@ -98,7 +98,7 @@ class StudentRepository {
 
     public function getAllPromotions()
     {
-        return Promotion::with(['student', 'fc', 'tc', 'fs', 'ts'])->where(['from_session' => Qs::getCurrentSession(), 'to_session' => Qs::getNextSession()])->get();
+        return Promotion::with(['student', 'fromClass', 'toClass', 'fromSection', 'toSection'])->where(['current_session' => Qs::getCurrentSession(), 'next_session' => Qs::getNextSession()])->get();
     }
 
     public function getPromotions(array $where)

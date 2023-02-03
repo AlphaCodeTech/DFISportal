@@ -16,13 +16,13 @@ return new class extends Migration
         Schema::create('promotions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('student_id')->constrained('students');
-            $table->foreignId('from_class')->constrained('classes');
-            $table->foreignId('from_section')->constrained('class_sections');
-            $table->foreignId('to_class')->constrained('classes');
-            $table->foreignId('to_section')->constrained('class_sections');
+            $table->foreignId('current_class')->constrained('classes');
+            $table->foreignId('current_section')->constrained('class_sections');
+            $table->foreignId('next_class')->constrained('classes');
+            $table->foreignId('next_section')->constrained('class_sections');
             $table->boolean('graduated')->default(0);
-            $table->string('from_session');
-            $table->string('to_session');
+            $table->string('current_session');
+            $table->string('next_session');
             $table->string('status');
             $table->timestamps();
         });

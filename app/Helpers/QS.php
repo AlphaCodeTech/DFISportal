@@ -2,10 +2,11 @@
 
 namespace App\Helpers;
 
-use App\Models\Setting;
-use App\Models\StudentRecord;
-use App\Models\Subject;
 use Hashids\Hashids;
+use App\Models\Student;
+use App\Models\Subject;
+use App\Settings\AcademicSetting;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
 class QS
@@ -137,12 +138,12 @@ class QS
     public static function userIsMyChild($student_id, $parent_id)
     {
         $data = ['user_id' => $student_id, 'my_parent_id' => $parent_id];
-        return StudentRecord::where($data)->exists();
+        return Student::where($data)->exists();
     }
 
     public static function getSRByUserID($user_id)
     {
-        return StudentRecord::where('user_id', $user_id)->first();
+        return Student::where('user_id', $user_id)->first();
     }
 
     public static function getPTA()
@@ -194,7 +195,8 @@ class QS
 
     public static function getSetting($type)
     {
-        return Setting::where('type', $type)->first()->description;
+        $academicSetting = App::make(AcademicSetting::class);
+        return $academicSetting->$type;
     }
 
     public static function getCurrentSession()
@@ -216,7 +218,7 @@ class QS
 
     public static function findMyChildren($parent_id)
     {
-        return StudentRecord::where('my_parent_id', $parent_id)->with(['user', 'my_class'])->get();
+        return Student::where('my_parent_id', $parent_id)->with(['user', 'my_class'])->get();
     }
 
     public static function findTeacherSubjects($teacher_id)
@@ -226,7 +228,7 @@ class QS
 
     public static function findStudentRecord($user_id)
     {
-        return StudentRecord::where('user_id', $user_id)->first();
+        return Student::where('user_id', $user_id)->first();
     }
 
     public static function getMarkType($class_type)

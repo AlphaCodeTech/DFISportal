@@ -4,13 +4,15 @@ namespace App\Http\Livewire\Backend\Student;
 
 use App\Models\User;
 use App\Models\Clazz;
-use App\Models\Guardian;
 use App\Models\Level;
 use App\Models\Student;
-use App\Repositories\ClassRepository;
-use Illuminate\Support\Facades\App;
 use Livewire\Component;
+use App\Models\Guardian;
 use Livewire\WithFileUploads;
+use App\Settings\AcademicSetting;
+use Illuminate\Support\Facades\App;
+use App\Repositories\ClassRepository;
+use App\Repositories\StudentRepository;
 use Illuminate\Support\Facades\Validator;
 
 class StudentComponent extends Component
@@ -257,6 +259,7 @@ class StudentComponent extends Component
 
     public function showPromote(Student $student)
     {
+        // dd(Student::where('id', '>', $student->id)->min('id'));
         $this->selectedStudent = $student;
 
         $this->student = $student;
@@ -271,9 +274,59 @@ class StudentComponent extends Component
             'new_section_id' => 'required|exists:class_sections,id',
         ])->validate();
 
-        $this->student->class_id = $data['new_class_id'];
-        $this->student->section_id = $data['new_section_id'];
-        $this->student->save();
+        // $this->student->class_id = $data['new_class_id'];
+        // $this->student->section_id = $data['new_section_id'];
+        // $this->student->save();
+
+        $settings = App::make(AcademicSetting::class);
+        $studentRepository = App::make(StudentRepository::class);
+
+        $current_session = $settings->current_session;
+        $data = [];
+        $old_yr = explode('-', $current_session);
+        $new_year = ++$old_yr[0] . '-' . ++$old_yr[1];
+        $student = $studentRepository->getRecord(['class_id' => $this->selectedStudent->class->id, 'section_id' => $this->selectedStudent->section->id])->get()->sortBy('name');
+        // dd($student);
+        if ($student->count() < 1) {
+            $this->dispatchBrowserEvent('hide-modal', ['message' => 'Student Record Not Found!']);
+        }
+
+
+        if ($this->p === 'P') { // Promote
+            $data['class_id'] = $this->selectedFromClass;
+            $data['section_id'] = $this->selectedToSection;
+        }
+
+        //todo add P to the form next
+
+        if ($this->p === 'D') { // Don't Promote
+            $data['class_id'] = $this->selectedFromClass;
+            $data['section_id'] = $this->selectedToSection;
+        }
+        if ($this->p === 'G') { // Graduated
+            $data['class_id'] = $this->selectedFromClass;
+            $data['section_id'] = $this->selectedToSection;
+            $data['graduated'] = 1;
+            $data['graduation_date'] = $current_session;
+        }
+
+        $studentRepository->updateRecord($student->id, $data);
+
+        //            Insert New Promotion Data
+        $promote['from_class'] = $this->selectedFromClass;
+        $promote['from_section'] = $this->selectedFromSection;
+        $promote['graduated'] = ($this->p === 'G') ? 1 : 0;
+        $promote['to_class'] = in_array($this->p, ['D', 'G']) ? $this->selectedFromClass : $this->selectedToClass;
+        $promote['to_section'] = in_array($this->p, ['D', 'G']) ? $this->selectedFromSection : $this->selectedToSection;
+        $promote['student_id'] = $student->id;
+        $promote['from_session'] = $current_session;
+        $promote['to_session'] = $new_year;
+        $promote['status'] = $this->p;
+
+        $studentRepository->createPromotion($promote);
+
+        toast('Class Promoted Successfully', 'success');
+        return redirect()->route('students.promotion');
 
         $this->dispatchBrowserEvent('hide-promote', ['message' => 'Student promoted successfully!']);
     }

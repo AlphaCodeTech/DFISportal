@@ -52,7 +52,7 @@
                   </li>
                   @if (Nav::userCanSeeStudent())
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ in_array(Route::currentRouteName(), ['students.promotion', 'students.list','backend.students']) ? 'active' : '' }}">
+                          <a href="#" class="nav-link {{ in_array(Route::currentRouteName(), ['students.promotion', 'students.list','backend.students','students.promotion_manage']) ? 'active' : '' }}">
                               <i class="nav-icon fas fa-graduation-cap"></i>
                               <p>
                                   Students
@@ -98,10 +98,17 @@
                                           </a>
                                       </li>
                                       <li class="nav-item ml-4">
-                                          <a href="{{ route('students.list', ['class' => $class->id]) }}"
+                                          <a href="{{ route('students.promotion_manage') }}"
                                               class="nav-link">
                                               <i class="far fa-circle nav-icon"></i>
                                               <p>Manage Promotions</p>
+                                          </a>
+                                      </li>
+                                      <li class="nav-item ml-4">
+                                          <a href="{{ route('students.graduated') }}"
+                                              class="nav-link">
+                                              <i class="far fa-circle nav-icon"></i>
+                                              <p>Manage Graduation</p>
                                           </a>
                                       </li>
                                   </ul>
