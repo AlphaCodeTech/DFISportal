@@ -28,11 +28,6 @@ class Clazz extends Model
         return $this->belongsTo(Level::class);
     }
 
-    public function teachers()
-    {
-        return $this->hasManyThrough(User::class, ClassSection::class, 'user_id','id');
-    }
-
     public function subjects()
     {
         return $this->belongsToMany(Subject::class, 'class_subjects', 'class_id')->withTimestamps();
@@ -42,4 +37,5 @@ class Clazz extends Model
     {
         return $this->hasMany(ClassSection::class, 'class_id');
     }
+
 }

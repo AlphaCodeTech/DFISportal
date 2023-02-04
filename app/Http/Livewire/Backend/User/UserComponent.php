@@ -2,10 +2,13 @@
 
 namespace App\Http\Livewire\Backend\User;
 
+use App\Helpers\QS;
 use App\Models\User;
 use Livewire\Component;
+use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use Spatie\Permission\Models\Role;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -15,13 +18,15 @@ class UserComponent extends Component
 
     public $photo;
     public $user;
-    public $role = [];
+    public $rl = [];
     public $roles;
     public $userRoles = [];
     public $selectedUser;
     public $isEditing = false;
     public $toBeDeleted = null;
     public $state = [];
+    protected $filter = false;
+    protected $role_name;
 
 
     public function mount()
@@ -32,9 +37,12 @@ class UserComponent extends Component
 
     protected $listeners = ['delete' => 'destroy'];
 
-    public function render()
+    public function render(UserRepository $userRepository)
     {
-        $users = User::with('roles')->get();
+        $user_roles = $userRepository->getAllUsersWithRoles();
+    
+        // $roles = $userRepository->getAllRoles();
+        $users = $this->filter ? $userRepository->getUserRolesByName($this->role_name) : $user_roles;
         return view('livewire.backend.user.user-component', compact('users'))->layout('backend.layouts.app');
     }
 
@@ -42,8 +50,19 @@ class UserComponent extends Component
     {
         $this->isEditing = false;
         $this->state = [];
-        $this->role = [];
+        $this->rl = [];
         $this->dispatchBrowserEvent('show-form');
+    }
+
+    public function getAllUsers()
+    {
+        $this->filter = false;
+    }
+
+    public function reloadInfo($name)
+    {
+        $this->filter = true;
+        $this->role_name = Str::lower($name);
     }
 
     public function store()
@@ -56,7 +75,7 @@ class UserComponent extends Component
             'password' => 'required|confirmed',
             'department_id' => 'nullable|exists:departments,id',
             'level_id' => 'nullable|exists:levels,id',
-            'role' => 'nullable:exists:roles,id',
+            'rl' => 'nullable:exists:roles,id',
             "photo" => 'required|image|mimes:jpg,png,jpeg',
             'status' => 'required|in:1,0',
         ])->validate();
@@ -70,8 +89,8 @@ class UserComponent extends Component
 
         $user = User::create($data);
 
-        if ($this->role) {
-            $user->assignRole(($this->role));
+        if ($this->rl) {
+            $user->assignRole(($this->rl));
         }
 
         $this->dispatchBrowserEvent('hide-modal', ['message' => 'User created successfully!']);
@@ -80,7 +99,7 @@ class UserComponent extends Component
     public function edit(User $user)
     {
         $this->user = $user;
-        $this->role = $this->user->roles->pluck('id')->toArray();
+        $this->rl = $this->user->roles->pluck('id')->toArray();
         $this->isEditing = true;
         $this->state = $user->toArray();
         unset($this->state['photo']);
@@ -94,8 +113,8 @@ class UserComponent extends Component
             $this->state['photo'] = $this->photo;
         }
 
-        if ($this->role) {
-            $this->user->syncRoles(array_unique($this->role));
+        if ($this->rl) {
+            $this->user->syncRoles(array_unique($this->rl));
         }
 
         $data =  Validator::make($this->state, [

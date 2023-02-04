@@ -42,10 +42,23 @@
 
                         <div class="card">
                             <div class="card-header">
-                                @can('create user')
-                                    <a role="button" class="btn btn-primary" href="#" wire:click='create'>Add
-                                        User</a>
-                                @endcan
+
+                                <ul class="nav nav-tabs nav-tabs-highlight">
+                                    @can('create user')
+                                        <a role="button" class="btn btn-primary" href="#" wire:click='create'>Add
+                                            User</a>
+                                    @endcan
+                                    <a href="#" class="nav-link dropdown-toggle ml-4" data-toggle="dropdown">Filter
+                                        Users</a>
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        <a wire:click="getAllUsers" class="dropdown-item">All Users</a>
+                                        @foreach ($roles as $role)
+                                            <a wire:click='reloadInfo("{{ $role->name }}")' class="dropdown-item"
+                                                data-toggle="tab">{{ Str::ucfirst($role->name) }}</a>
+                                        @endforeach
+                                    </div>
+                                    </li>
+                                </ul>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -267,15 +280,15 @@
 
                                             @foreach ($roles as $ro)
                                                 <div class="form-check">
-                                                    <input wire:model.defer='role' class="form-check-input"
+                                                    <input wire:model.defer='rl' class="form-check-input"
                                                         type="checkbox" value="{{ $ro->id }}"
-                                                        {{ $isEditing ? (in_array($ro->id, $role) ? 'checked' : '') : '' }}>
+                                                        {{ $isEditing ? (in_array($ro->id, $rl) ? 'checked' : '') : '' }}>
                                                     <label
                                                         class="form-check-label font-weight-bold">{{ $ro->name }}</label>
                                                 </div>
                                             @endforeach
 
-                                            @error('role')
+                                            @error('rl')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
 

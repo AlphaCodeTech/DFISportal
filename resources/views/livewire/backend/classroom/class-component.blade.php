@@ -41,12 +41,14 @@
                     <div class="col-12">
 
                         <div class="card">
-                            <div class="card-header">
+                            <div class="card-header d-flex justify-content-between align-items-center">
                                 @can('create classroom')
                                     <a role="button" class="btn btn-primary" href="#" wire:click='create'>Add
                                         Classroom</a>
                                 @endcan
-
+                                <h5 class="ml-3 bg-warning p-3">NOTE: When a class is created, section <span
+                                        class="text-blue">A</span> is automatically created for the
+                                    class, you can edit it later </h5>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -66,8 +68,13 @@
                                                 <td>{{ Str::headline($class->level->name) }}</td>
                                                 <td>
                                                     @foreach ($class->sections as $section)
-                                                        <a class="btn btn-sm btn-warning font-weight-bold text-capitalize"
-                                                            href="{{ route('class.sections', $section->id) }}">{{ $section->name }}</a>
+                                                        @if ($section->active === 1)
+                                                            <a class="btn btn-sm btn-success font-weight-bold text-capitalize"
+                                                                href="{{ route('class.sections', $section->id) }}">{{ Str::ucfirst($class->name . ' ' . $section->name) }}</a>
+                                                        @else
+                                                            <a class="btn btn-sm btn-secondary font-weight-bold text-capitalize"
+                                                                href="{{ route('class.sections', $section->id) }}">{{ Str::ucfirst($class->name . ' ' . $section->name) }}</a>
+                                                        @endif
                                                     @endforeach
                                                 </td>
                                                 <td class="d-flex"
@@ -119,6 +126,7 @@
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
+
     <div class="modal fade" id="form" wire:ignore.self>
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -170,7 +178,8 @@
                                                 @enderror
                                             </div>
 
-                                            <div class="form-group">
+                                            <div class="form-group"
+                                                style="display: {{ $isEditing ? 'none' : 'block' }}">
                                                 <label for="user_id">Teacher</label>
                                                 <select wire:model.defer='state.user_id'
                                                     class="form-control @error('user_id') is-invalid @enderror"
@@ -214,7 +223,6 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
-
 
     <div class="modal fade" id="section" wire:ignore.self>
         <div class="modal-dialog modal-xl">

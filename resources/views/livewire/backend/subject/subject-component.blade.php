@@ -42,11 +42,24 @@
 
                         <div class="card">
                             <div class="card-header">
-                                @can('create subject')
-                                    <a role="button" class="btn btn-primary" href="#" wire:click='create'>Add
-                                        Subject</a>
-                                   
-                                @endcan
+                                <ul class="nav nav-tabs nav-tabs-highlight">
+                                    @can('create subject')
+                                        <a role="button" class="btn btn-primary" href="#" wire:click='create'>Add
+                                            Subject</a>
+                                    @endcan
+                                    <li class="nav-item dropdown ml-3" style="width: 150px;">
+                                        <a href="#" class="nav-link dropdown-toggle"
+                                            data-toggle="dropdown">Filter Subjects</a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a wire:click='allClasses' class="dropdown-item">All Classes</a>
+                                            @foreach ($classes as $class)
+                                                <a wire:click='reloadInfo({{ $class->id }})' class="dropdown-item"
+                                                    data-toggle="tab">{{ $class->name }}</a>
+                                            @endforeach
+                                        </div>
+                                    </li>
+                                </ul>
+
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -54,6 +67,7 @@
                                     <thead>
                                         <tr>
                                             <th>Name</th>
+                                            <th>Short Name</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -61,6 +75,7 @@
                                         @foreach ($subjects as $subject)
                                             <tr>
                                                 <td>{{ Str::headline($subject->name) }}</td>
+                                                <td>{{ Str::upper($subject->short_name) }}</td>
 
                                                 <td class="d-flex"
                                                     style="justify-content: space-evenly; padding-right: 0;">
@@ -85,6 +100,7 @@
                                     <tfoot>
                                         <tr>
                                             <th>Name</th>
+                                            <th>Short Name</th>
                                             <th>Action</th>
                                         </tr>
                                     </tfoot>
@@ -134,6 +150,18 @@
                                                     id="name" placeholder="Enter name"
                                                     value="{{ old('name') }}">
                                                 @error('name')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="short_name">Short Name</label>
+                                                <input wire:model.defer='state.short_name' type="text"
+                                                    class="form-control @error('short_name') is-invalid @enderror"
+                                                    id="short_name" placeholder="Enter short name"
+                                                    value="{{ old('short_name') }}">
+                                                @error('short_name')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
 
@@ -210,6 +238,17 @@
                                         </div>
                                         <hr>
 
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Short Name</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                {{ ucwords(optional($selectedSubject)->short_name) ?? '' }}
+                                            </div>
+                                        </div>
+                                        <hr>
+
                                     </div>
                                 </div>
                             </div>
@@ -228,7 +267,7 @@
         <!-- /.modal-dialog -->
     </div>
 
-    
+
     @push('extra-js')
         <!-- DataTables  & Plugins -->
         <script src="{{ asset('backend/plugins/datatables/jquery.dataTables.min.js') }}"></script>

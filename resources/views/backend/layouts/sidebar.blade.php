@@ -52,7 +52,7 @@
                   </li>
                   @if (Nav::userCanSeeStudent())
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ in_array(Route::currentRouteName(), ['students.promotion', 'students.list','backend.students','students.promotion_manage']) ? 'active' : '' }}">
+                          <a href="#" class="nav-link {{ in_array(Route::currentRouteName(), ['students.promotion', 'students.list','backend.students','students.promotion_manage','students.graduated']) ? 'active' : '' }}">
                               <i class="nav-icon fas fa-graduation-cap"></i>
                               <p>
                                   Students
@@ -241,7 +241,7 @@
                   @endif
                   @if (Nav::userCanSeeProfile())
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ request()->is('admin/profile') ? 'active' : '' }}">
+                          <a href="#" class="nav-link {{ request()->is('admin/profile/*') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-users"></i>
                               <p>
                                   Profile

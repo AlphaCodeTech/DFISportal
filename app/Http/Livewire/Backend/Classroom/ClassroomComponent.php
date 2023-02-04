@@ -7,6 +7,7 @@ use App\Models\Clazz;
 use App\Models\Level;
 use App\Models\Subject;
 use Livewire\Component;
+use Illuminate\Support\Str;
 use App\Models\ClassSection;
 use Livewire\WithFileUploads;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -58,6 +59,7 @@ class ClassroomComponent extends Component
             'user_id' => 'nullable|exists:users,id',
         ])->validate();
 
+
         $class = Clazz::create([
             'name' => $data['name'],
             'level_id' => $data['level_id'],
@@ -76,7 +78,7 @@ class ClassroomComponent extends Component
     public function edit(Clazz $class)
     {
         $this->class = $class;
-        
+
         $this->isEditing = true;
         $this->state = $class->toArray();
         $this->dispatchBrowserEvent('show-form');
@@ -118,14 +120,9 @@ class ClassroomComponent extends Component
         $data =  Validator::make($this->state, [
             'name' => 'required|unique:classes,name,' . $this->class->id,
             'level_id' => 'required|exists:levels,id',
-            'user_id' => 'required|exists:users,id',
         ])->validate();
 
-
-        $this->class->update([
-            'name' => $data['name'],
-            'level_id' => $data['level_id'],
-        ]);
+        $this->class->update($data);
 
         $this->dispatchBrowserEvent('hide-modal', ['message' => 'Class updated successfully!']);
     }
@@ -133,6 +130,7 @@ class ClassroomComponent extends Component
     public function show(Clazz $class)
     {
         $this->selectedClass = $class;
+        // dd($class->sections->unique('name'));
         $this->dispatchBrowserEvent('show-view');
     }
 
@@ -144,9 +142,11 @@ class ClassroomComponent extends Component
 
     public function destroy()
     {
-        $class = Clazz::find($this->toBeDeleted);
-        $class->delete();
-        $this->dispatchBrowserEvent('show-confirm', ['message' => 'Classroom deleted successfully!']);
+        // $class = Clazz::find($this->toBeDeleted);
+
+        // $class->delete();
+
+        $this->dispatchBrowserEvent('show-confirm', ['message' => 'Sorry we can\'t perform this operation at the moment','type' => 'error']);
     }
 
     public function showAssign(Clazz $clazz)

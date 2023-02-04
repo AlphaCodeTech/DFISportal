@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Backend\Subject;
 use App\Models\Clazz;
 use App\Models\Subject;
 use Livewire\Component;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 
 class SubjectComponent extends Component
@@ -15,6 +16,8 @@ class SubjectComponent extends Component
     public $state = [];
     public $subject;
     public $classes;
+    public $filter;
+    public $class_id;
     public Subject $selectedSubject;
 
     protected $listeners = ['delete' => 'destroy'];
@@ -26,8 +29,19 @@ class SubjectComponent extends Component
 
     public function render()
     {
-        $subjects = Subject::all();
+        $subjects = $this->filter ? Clazz::find($this->class_id)->subjects : Subject::all();
         return view('livewire.backend.subject.subject-component', compact('subjects'))->layout('backend.layouts.app');
+    }
+
+    public function allClasses()
+    {
+        $this->filter = false;
+    }
+
+    public function reloadInfo($id)
+    {
+        $this->filter = true;
+        $this->class_id = $id;
     }
 
     public function create()
@@ -41,7 +55,10 @@ class SubjectComponent extends Component
     {
         $data =  Validator::make($this->state, [
             'name' => 'required|unique:subjects,name',
+            'short_name' => 'required|unique:subjects,short_name',
         ])->validate();
+
+        $data['short_name'] = Str::upper($data['short_name']);
 
         Subject::create($data);
 
@@ -59,8 +76,11 @@ class SubjectComponent extends Component
     public function update()
     {
         $data =  Validator::make($this->state, [
-            'name' => 'required|unique:subjects,name,'.$this->subject->id,
+            'name' => 'required|unique:subjects,name,' . $this->subject->id,
+            'short_name' => 'required|unique:subjects,short_name',
         ])->validate();
+
+        $data['short_name'] = Str::upper($data['short_name']);
 
         $this->subject->update($data);
 
@@ -70,7 +90,7 @@ class SubjectComponent extends Component
     public function show(Subject $subject)
     {
         $this->selectedSubject = $subject;
-     
+
         $this->dispatchBrowserEvent('show-view');
     }
 

@@ -28,7 +28,6 @@ class ClassroomSection extends Component
     public function mount(ClassSection $classSection)
     {
         $this->section = $classSection;
-        // dd($this->section->teachers);
 
         $this->teachers = User::role('teacher')->get();
     }

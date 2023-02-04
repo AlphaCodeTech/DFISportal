@@ -49,10 +49,6 @@ class Student extends Model
         return $this->hasMany(Finance::class);
     }
 
-    public function user()
-    {
-        return $this->hasMany(User::class);
-    }
 
     public function section()
     {

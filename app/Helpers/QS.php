@@ -79,7 +79,7 @@ class QS
 
     public static function userIsAdmin()
     {
-        return Auth::user()->user_type == 'admin';
+        return Auth::user()->hasRole('super admin');
     }
 
     public static function getUserType()

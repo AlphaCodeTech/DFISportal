@@ -107,7 +107,11 @@
     });
 
     window.addEventListener('show-confirm', function(event) {
-        toastr.success(event.detail.message, 'Success!');
+        if (event.detail.type == 'error') {
+            toastr.error(event.detail.message, 'error!');
+        } else {
+            toastr.success(event.detail.message, 'Success!');
+        }
     });
 
     window.addEventListener('delete-modal', (e) => {

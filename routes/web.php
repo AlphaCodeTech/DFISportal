@@ -28,6 +28,7 @@ use App\Http\Livewire\Backend\Settings\AcademicComponent;
 use App\Http\Livewire\Backend\Classroom\ClassroomComponent;
 use App\Http\Livewire\Backend\Department\DepartmentComponent;
 use App\Http\Livewire\Backend\Permission\PermissionComponent;
+use App\Http\Livewire\Backend\Student\StudentGraduated;
 
 // ! Frontend Routes
 
@@ -54,6 +55,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('students/{user}', StudentComponent::class)->name('backend.students');
     Route::get('students/list/{class}', StudentList::class)->name('students.list');
     Route::get('students-promotion/manage', PromotionManage::class)->name('students.promotion_manage');
+    Route::get('students-graduated', StudentGraduated::class)->name('students.graduated');
     Route::get('student-promotion/{currentClass?}/{currentSection?}/{nextClass?}/{nextSection?}', StudentPromotion::class)->name('students.promotion');
 
     Route::get('student/admit/{id}', [AdmissionManagementController::class, 'admit'])->name('student.admit');

@@ -21,12 +21,12 @@ class StudentRepository {
 
     public function gradStudents()
     {
-        return Student::where(['grad' => 1])->orderByDesc('grad_date');
+        return Student::where(['graduated' => 1])->orderByDesc('graduation_date');
     }
 
     public function allGradStudents()
     {
-        return $this->gradStudents()->with(['my_class', 'section', 'user'])->get()->sortBy('user.name');
+        return $this->gradStudents()->with(['class', 'section'])->get()->sortBy('name');
     }
 
     public function findStudentsBySection($sec_id)

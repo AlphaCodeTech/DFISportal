@@ -4,11 +4,11 @@ namespace App\Repositories;
 
 use App\Models\BloodGroup;
 use App\Models\StaffRecord;
-use App\Models\UserType;
-use App\User;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
 
-
-class UserRepo {
+class UserRepository
+{
 
 
     public function update($id, $data)
@@ -31,14 +31,24 @@ class UserRepo {
         return User::where(['user_type' => $type])->orderBy('name', 'asc')->get();
     }
 
-    public function getAllTypes()
+    public function getAllUsersWithRoles()
     {
-        return UserType::all();
+        return User::with('roles')->get();
+    }
+
+    public function getAllRoles()
+    {
+        return Role::all()->pluck('name');
+    }
+
+    public function getUserRolesByName($name)
+    {
+        return User::role($name)->get();
     }
 
     public function findType($id)
     {
-        return UserType::find($id);
+        return Role::find($id);
     }
 
     public function find($id)
