@@ -7,55 +7,48 @@ use App\Models\Subject;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\App;
-use App\Repositories\UserRepository;
 use App\Repositories\ClassRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Validator;
 
-class SubjectComponent extends Component
+class AssignSubjectToTeacher extends Component
 {
 
     public $isEditing = false;
     public $toBeDeleted = null;
     public $state = [];
-    public $subject;
-    public $classes;
-    public $filter = false;
-    public $class_id;
-    public Subject $selectedSubject;
-
-    public $classSections;
+    public $subjectTeacher;
     public $allClasses;
-    public $subjects;
+    public $filter;
+    public $class_id;
+    public $selectedClass = null;
+    public $selectedSubject = null;
+    public $classSections;
     public $teachers;
-    public $hideTeacher = false;
+    public $subjects;
+    public $subject;
 
     protected $listeners = ['delete' => 'destroy'];
 
-    public function mount(ClassRepository $classRepository, UserRepository $userRepository)
+    public function mount(ClassRepository $classRepository,UserRepository $userRepository)
     {
-        $this->classes = $classRepository->all();
         $this->classSections = collect();
         $this->allClasses = $classRepository->all();
         $this->subjects = $classRepository->getAllSubjects();
         $this->teachers = $userRepository->getUserByRole('teacher');
     }
 
-    public function render()
+    public function render(ClassRepository $classRepository)
     {
-        $subjects = $this->filter ? Clazz::find($this->class_id)->subjects : Subject::all();
-        return view('livewire.backend.subject.subject-component', compact('subjects'))->layout('backend.layouts.app');
+        $classSubjects = $this->filter ? Clazz::find($this->class_id)->subjects : $classRepository->getAllSubjects();
+        return view('livewire.backend.subject.assign-subject-to-teacher', compact('classSubjects'))->layout('backend.layouts.app');
     }
 
     public function updateSection($value)
     {
         $classRepository = App::make(ClassRepository::class);
-        $classLevel = $classRepository->find($value)->level;
-
-        if ($classLevel->code == "JS" || $classLevel->code == "SS") {
-            $this->hideTeacher = true;
-        } else {
-            $this->hideTeacher = false;
-        }
+        $this->selectedClass = $value;
+        $this->classSections = $classRepository->getClassSections($value);
     }
 
     public function allClasses()
@@ -79,23 +72,14 @@ class SubjectComponent extends Component
     public function store()
     {
         $data =  Validator::make($this->state, [
-            'name' => 'required|unique:subjects,name',
-            'class_id' => 'nullable|exists:classes,id',
-            'user_id' => 'nullable|exists:users,id',
-            'short_name' => 'required|unique:subjects,short_name',
+            'user_id' => 'required|exists:users,id',
+            'subject_id' => 'required|exists:subjects,id',
         ])->validate();
 
-        $data['short_name'] = Str::upper($data['short_name']);
+        $subject = Subject::find($data['subject_id']);
+        $subject->teachers()->sync($data['user_id']);
 
-        if ($this->hideTeacher == true) {
-            Subject::create($data);
-        } else {
-            Subject::create([
-                'name' => $data['name'],
-                'short_name' => $data['short_name'],
-            ]);
-        }
-        $this->dispatchBrowserEvent('hide-modal', ['message' => 'Subject created successfully!']);
+        $this->dispatchBrowserEvent('hide-modal', ['message' => 'Subject Assigned to Teacher successfully!']);
     }
 
     public function edit(Subject $subject)

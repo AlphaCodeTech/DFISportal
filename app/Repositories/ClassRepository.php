@@ -137,6 +137,6 @@ class ClassRepository
 
     public function getAllSubjects()
     {
-        return Subject::orderBy('name', 'asc')->with(['my_class', 'teacher'])->get();
+        return Subject::orderBy('name', 'asc')->with(['class', 'teachers'])->get();
     }
 }

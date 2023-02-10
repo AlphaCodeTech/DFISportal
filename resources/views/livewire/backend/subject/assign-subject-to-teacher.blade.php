@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="{{ asset('backend/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 
         <link rel="stylesheet" href="{{ asset('backend/plugins/select2/css/select2.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('backend/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+        {{-- <link rel="stylesheet" href="{{ asset('backend/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}"> --}}
         <link rel="stylesheet" href="{{ asset('backend/plugins/daterangepicker/daterangepicker.css') }}">
         <link rel="stylesheet"
             href="{{ asset('backend/plugins/vitalets-bootstrap-datepicker-c7af15b/css/datepicker.css') }}">
@@ -22,12 +22,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Roles</h1>
+                        <h1>Assign Subjects</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">View Roles</li>
+                            <li class="breadcrumb-item active">View Assign Subjects</li>
                         </ol>
                     </div>
                 </div>
@@ -42,37 +42,62 @@
 
                         <div class="card">
                             <div class="card-header">
-                                @can('create role')
-                                    <a role="button" class="btn btn-primary" href="#" wire:click='create'>Add
-                                        Role</a>
-                                @endcan
+                                <ul class="nav nav-tabs nav-tabs-highlight">
+                                    @can('create subject')
+                                        <a role="button" class="btn btn-primary" href="#" wire:click='create'>Assign
+                                            Subject</a>
+                                    @endcan
+                                    <li class="nav-item dropdown ml-3" style="width: 150px;">
+                                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Filter
+                                            By Class</a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <a wire:click='allClasses' class="dropdown-item">All Classes</a>
+                                            @foreach ($allClasses as $class)
+                                                <a wire:click='reloadInfo({{ $class->id }})' class="dropdown-item"
+                                                    data-toggle="tab">{{ $class->name }}</a>
+                                            @endforeach
+                                        </div>
+                                    </li>
+                                </ul>
+
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
                                 <table id="example1" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Name</th>
+                                            <th>Subject</th>
+                                            <th>Teacher</th>
+                                            <th>Class</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($roles as $role)
+                                        @foreach ($subjects as $subject)
                                             <tr>
-                                                <td>{{ Str::headline($role->name) }}</td>
+                                                <td>{{ Str::headline($subject->name) }}</td>
+                                                <td>
+                                                    @foreach ($subject->teachers as $teacher)
+                                                        {{ Str::ucfirst($teacher->name) }}
+                                                    @endforeach
+                                                </td>
+                                                <td>
 
+                                                    {{ Str::ucfirst(optional($subject->class)->name) }}
+
+                                                </td>
                                                 <td class="d-flex"
                                                     style="justify-content: space-evenly; padding-right: 0;">
-                                                    @can('edit role')
-                                                        <a title="edit" wire:click="edit({{ $role }})"
+                                                    @can('edit class')
+                                                        <a title="edit" wire:click="edit({{ $subject->id }})"
                                                             role="button" class="btn btn-success"><i
                                                                 class="fas fa-edit"></i></a>
                                                     @endcan
-                                                    <button wire:click="show({{ $role }})" role="button"
+                                                    <button wire:click="show({{ $subject->id }})" role="button"
                                                         class="btn btn-warning"><i class="fas fa-eye"
                                                             title="view role"></i></button>
-                                                    @can('delete role')
-                                                        <button wire:click='confirmDelete({{ $role->id }})'
+                                                    @can('delete class')
+                                                        <button wire:click='confirmDelete({{ $subject->id }})'
                                                             title="delete" type="submit" role="button"
                                                             class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                                     @endcan
@@ -83,7 +108,9 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <th>Name</th>
+                                            <th>Subject</th>
+                                            <th>Class</th>
+                                            <th>Class</th>
                                             <th>Action</th>
                                         </tr>
                                     </tfoot>
@@ -103,11 +130,11 @@
     </div>
     <!-- /.content-wrapper -->
 
-    <div class="modal fade" id="form" wire:ignore.self>
+    <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="form" wire:ignore.self>
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">{{ $isEditing ? 'Edit Role' : 'Add New Role' }}</h4>
+                    <h4 class="modal-title">{{ $isEditing ? 'Edit Assigned Subject' : 'Assign New Subject' }}</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -127,28 +154,72 @@
                                         <div class="card-body">
 
                                             <div class="form-group">
-                                                <label for="name">Name</label>
-                                                <input wire:model.defer='state.name' type="text"
-                                                    class="form-control @error('name') is-invalid @enderror"
-                                                    id="name" placeholder="Enter name"
-                                                    value="{{ old('name') }}">
-                                                @error('name')
+                                                <label for="subject_id">Subject</label>
+                                                <select wire:model.defer='state.subject_id'
+                                                    class="form-control @error('subject_id') is-invalid @enderror"
+                                                    id="subject_id">
+                                                    <option value="">Select Subject</option>
+                                                    @foreach ($subjects as $subject)
+                                                        <option value="{{ $subject->id }}">
+                                                            {{ $subject->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('subject_id')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
-
                                             </div>
-                                            
-                                            <h5>Assign Permission</h5>
 
-                                            @foreach ($permissions as $perm)
-                                                <div class="form-check">
-                                                    <input wire:model.defer='rolePermission' class="form-check-input"
-                                                        type="checkbox" value="{{ $perm->id }}"
-                                                        {{ $isEditing ? (in_array($perm->id, $rolePermission) ? 'checked' : '') : '' }}>
-                                                    <label
-                                                        class="form-check-label font-weight-bold">{{ $perm->name }}</label>
+                                            <div class="form-group">
+                                                <label for="user_id">Teacher</label>
+                                                <select wire:model.defer='state.user_id'
+                                                    class="select2 form-control @error('user_id') is-invalid @enderror"
+                                                    id="user_id" style="width: 100%;">
+                                                    <option value="">Select Teacher</option>
+                                                    @foreach ($teachers as $user)
+                                                        <option value="{{ $user->id }}">
+                                                            {{ $user->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('user_id')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            {{-- <div class="form-group">
+                                                <label for="class_id">Class</label>
+                                                <select wire:model.defer='state.class_id'
+                                                    class="form-control @error('class_id') is-invalid @enderror"
+                                                    id="class_id">
+                                                    <option value="">Select Class</option>
+                                                    @foreach ($allClasses as $class)
+                                                        <option value="{{ $class->id }}"
+                                                            {{ old('class_id') == "$class->id" ? 'selected' : '' }}>
+                                                            {{ $class->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('class_id')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div> --}}
+
+                                            {{-- @if (!is_null($selectedClass))
+                                                <div class="form-group">
+                                                    <label for="section_id">Section</label>
+                                                    <select wire:model='state.section_id'
+                                                        class="form-control @error('section_id') is-invalid @enderror"
+                                                        id="section_id">
+                                                        <option value="" selected>Select Section</option>
+                                                        @foreach ($classSections as $section)
+                                                            <option value="{{ $section->id }}"
+                                                                {{ old('section_id') == "$section->id" ? 'selected' : '' }}>
+                                                                {{ $section->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('section_id')
+                                                        <div class="invalid-feedback">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
-                                            @endforeach
+                                            @endif --}}
 
                                             <div class="card-footer text-right">
                                                 <button type="submit"
@@ -179,12 +250,11 @@
         <!-- /.modal-dialog -->
     </div>
 
-
     <div class="modal fade" id="view">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">View Role</h4>
+                    <h4 class="modal-title">View Subject</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -199,7 +269,7 @@
                                         <div class="d-flex flex-column align-items-center text-center">
 
                                             <div class="mt-3">
-                                                <h4>{{ Str::headline(optional($selectedRole)->name) ?? '' }}
+                                                <h4>{{ Str::headline(optional($selectedSubject)->name) ?? '' }}
                                                 </h4>
 
                                                 <button class="btn btn-outline-primary">Status</button>
@@ -217,25 +287,18 @@
                                                     Name</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedRole)->name) ?? '' }}
+                                                {{ ucwords(optional($selectedSubject)->name) ?? '' }}
                                             </div>
                                         </div>
                                         <hr>
-                                        
+
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <h6 class="mb-0 font-weight-bold">
-                                                    Role Permissions</h6>
+                                                    Short Name</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                @if (optional($selectedRole)->permissions())
-                                                    {{-- {{ dd($selectedRole->permissions) }} --}}
-                                                    @foreach ($selectedRole->permissions as $item)
-                                                        <button
-                                                            class="btn btn-sm btn-warning font-weight-bold mr-2">{{ $item->name }}</button>
-                                                    @endforeach
-                                                @endif
-
+                                                {{ ucwords(optional($selectedSubject)->short_name) ?? '' }}
                                             </div>
                                         </div>
                                         <hr>
@@ -257,6 +320,7 @@
         </div>
         <!-- /.modal-dialog -->
     </div>
+
 
     @push('extra-js')
         <!-- DataTables  & Plugins -->
@@ -286,13 +350,16 @@
         <script src="{{ asset('backend/plugins/vitalets-bootstrap-datepicker-c7af15b/js/bootstrap-datepicker.js') }}"></script>
         <script>
             $(function() {
-                //Initialize Select2 Elements
-                $('.select2').select2()
+
+                $('.select2').select2({
+                    dropdownParent: $('#form')
+                });
 
                 //Initialize Select2 Elements
-                $('.select2bs4').select2({
-                    theme: 'bootstrap4'
-                })
+                $('.select2').select2({
+                    theme: 'bootstrap4',
+                    dropdownParent: $('#form'),
+                });
 
                 //Date picker
                 $('#dob').datepicker();

@@ -26,9 +26,9 @@ class UserRepository
         return User::create($data);
     }
 
-    public function getUserByType($type)
+    public function getUserByRole($role)
     {
-        return User::where(['user_type' => $type])->orderBy('name', 'asc')->get();
+        return  User::role($role)->orderBy('name', 'asc')->get();
     }
 
     public function getAllUsersWithRoles()

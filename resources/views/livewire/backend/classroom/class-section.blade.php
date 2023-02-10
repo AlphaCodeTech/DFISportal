@@ -52,7 +52,6 @@
                                         <tr>
                                             <th>Name</th>
                                             <th>Class</th>
-                                            <th>Teacher</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -61,11 +60,7 @@
                                         <tr>
                                             <td>{{ Str::headline($section->name) }}</td>
                                             <td>{{ Str::headline($section->class->name) }}</td>
-                                            <td>
-                                                <a class="btn btn-sm btn-warning font-weight-bold text-capitalize"
-                                                    href="">{{ $section->teacher->name }}</a>
 
-                                            </td>
                                             <td>{{ $section->active ? 'Active' : 'Inactive' }}</td>
                                             <td class="d-flex" style="justify-content: space-evenly; padding-right: 0;">
                                                 @can('edit class')
@@ -90,7 +85,6 @@
                                         <tr>
                                             <th>Name</th>
                                             <th>Class</th>
-                                            <th>Teacher</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -145,7 +139,7 @@
                                                 @enderror
 
                                             </div>
-
+                                            {{-- 
                                             <div class="form-group">
                                                 <label for="user_id">Teacher</label>
                                                 <select wire:model.defer='state.user_id'
@@ -160,7 +154,7 @@
                                                 @error('user_id')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
-                                            </div>
+                                            </div> --}}
 
                                             <div class="form-group">
                                                 <label for="active">Status</label>
@@ -259,18 +253,7 @@
                                         </div>
                                         <hr>
 
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Teacher</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                @if ($section != null)
-                                                    {{ ucwords(optional($section->teacher)->name) ?? '' }}
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <hr>
+                                       
                                         @if (count($section->class->students) > 0)
                                             <div class="row">
                                                 <div class="col-sm-3">

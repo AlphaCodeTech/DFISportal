@@ -270,7 +270,7 @@
 
                                             </div>
 
-                                            <div class="form-group">
+                                            {{-- <div class="form-group">
                                                 <label for="user_id">Teacher</label>
                                                 <select wire:model.defer='state.user_id'
                                                     class="form-control @error('user_id') is-invalid @enderror"
@@ -284,7 +284,7 @@
                                                 @error('user_id')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
-                                            </div>
+                                            </div> --}}
 
                                             <div class="form-group">
                                                 <label for="active">Status</label>

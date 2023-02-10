@@ -54,7 +54,7 @@ class ClassroomComponent extends Component
     public function store()
     {
         $data =  Validator::make($this->state, [
-            'name' => 'required|unique:classes,name',
+            'name' => 'required|max:255|unique:classes,name',
             'level_id' => 'required|exists:levels,id',
             'user_id' => 'nullable|exists:users,id',
         ])->validate();
@@ -69,7 +69,6 @@ class ClassroomComponent extends Component
             'class_id' => $class->id,
             'name' => "A",
             'active' => 1,
-            'user_id' => $data['user_id'],
         ]);
 
         $this->dispatchBrowserEvent('hide-modal', ['message' => 'Classroom created successfully!']);
@@ -102,14 +101,12 @@ class ClassroomComponent extends Component
             ],
 
             'active' => 'required',
-            'user_id' => 'required',
         ])->validate();
 
         ClassSection::create([
             'class_id' => $this->selectedClass->id,
             'name' => ucwords($data['s_name']),
             'active' => $data['active'],
-            'user_id' => $data['user_id'],
         ]);
 
         $this->dispatchBrowserEvent('hide-section', ['message' => 'Section Added to Class successfully!']);
@@ -118,7 +115,7 @@ class ClassroomComponent extends Component
     public function update()
     {
         $data =  Validator::make($this->state, [
-            'name' => 'required|unique:classes,name,' . $this->class->id,
+            'name' => 'required|max:255|unique:classes,name,' . $this->class->id,
             'level_id' => 'required|exists:levels,id',
         ])->validate();
 

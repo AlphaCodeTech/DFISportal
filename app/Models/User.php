@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Znck\Eloquent\Traits\BelongsToThrough;
 
 class User extends Authenticatable
 {
@@ -19,7 +20,8 @@ class User extends Authenticatable
         HasFactory,
         Notifiable,
         HasRoles,
-        SoftDeletes;
+        SoftDeletes,
+        BelongsToThrough;
 
     /**
      * The attributes that are mass assignable.
@@ -53,7 +55,7 @@ class User extends Authenticatable
 
     public function classes()
     {
-        return $this->hasMany(Clazz::class, 'user_id');
+        return $this->hasManyThrough(Clazz::class, ClassSection::class);
     }
 
     public static function boot()
@@ -67,7 +69,7 @@ class User extends Authenticatable
 
     public function students()
     {
-        return $this->hasManyThrough(Student::class, Clazz::class, 'user_id', 'class_id');
+        return $this->hasManyThrough(Student::class, ClassSection::class, 'user_id', 'class_id');
     }
 
     public function level()
@@ -118,5 +120,15 @@ class User extends Authenticatable
     public function section()
     {
         return $this->belongsTo(ClassSection::class);
+    }
+
+    public function class()
+    {
+        return $this->hasOneThrough(Clazz::class, ClassSection::class);
+    }
+
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class,'subject_user');
     }
 }

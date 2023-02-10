@@ -52,7 +52,8 @@
                   </li>
                   @if (Nav::userCanSeeStudent())
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ in_array(Route::currentRouteName(), ['students.promotion', 'students.list','backend.students','students.promotion_manage','students.graduated']) ? 'active' : '' }}">
+                          <a href="#"
+                              class="nav-link {{ in_array(Route::currentRouteName(), ['students.promotion', 'students.list', 'backend.students', 'students.promotion_manage', 'students.graduated']) ? 'active' : '' }}">
                               <i class="nav-icon fas fa-graduation-cap"></i>
                               <p>
                                   Students
@@ -91,22 +92,19 @@
                                   </a>
                                   <ul class="nav nav-treeview">
                                       <li class="nav-item ml-4">
-                                          <a href="{{ route('students.promotion') }}"
-                                              class="nav-link">
+                                          <a href="{{ route('students.promotion') }}" class="nav-link">
                                               <i class="far fa-circle nav-icon"></i>
                                               <p>Promote Students</p>
                                           </a>
                                       </li>
                                       <li class="nav-item ml-4">
-                                          <a href="{{ route('students.promotion_manage') }}"
-                                              class="nav-link">
+                                          <a href="{{ route('students.promotion_manage') }}" class="nav-link">
                                               <i class="far fa-circle nav-icon"></i>
                                               <p>Manage Promotions</p>
                                           </a>
                                       </li>
                                       <li class="nav-item ml-4">
-                                          <a href="{{ route('students.graduated') }}"
-                                              class="nav-link">
+                                          <a href="{{ route('students.graduated') }}" class="nav-link">
                                               <i class="far fa-circle nav-icon"></i>
                                               <p>Manage Graduation</p>
                                           </a>
@@ -119,7 +117,7 @@
                   @endif
                   @if (Nav::userCanSeeSubject())
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ request()->is('admin/subjects') ? 'active' : '' }}">
+                          <a href="#" class="nav-link {{ in_array(Route::currentRouteName(), ['backend.subjects','subject.assign']) ? 'active' : ''  }}">
                               <i class="nav-icon fas fa-book"></i>
                               <p>
                                   Subjects
@@ -131,6 +129,19 @@
                                   <a href="{{ route('backend.subjects') }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
                                       <p>View Subjects</p>
+                                  </a>
+                              </li>
+
+                              <li class="nav-item">
+                                  <a href="{{ route('teacher.assign') }}" class="nav-link">
+                                      <i class="far fa-circle nav-icon"></i>
+                                      <p>Teacher Subjects</p>
+                                  </a>
+                              </li>
+                              <li class="nav-item">
+                                  <a href="{{ route('class.assign') }}" class="nav-link">
+                                      <i class="far fa-circle nav-icon"></i>
+                                      <p>Class Subjects</p>
                                   </a>
                               </li>
 
@@ -181,7 +192,8 @@
                   @endif
                   @if (Nav::userCanSeeDepartment())
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ request()->is('admin/departments') ? 'active' : '' }}">
+                          <a href="#"
+                              class="nav-link {{ request()->is('admin/departments') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-list-alt"></i>
                               <p>
                                   Departments

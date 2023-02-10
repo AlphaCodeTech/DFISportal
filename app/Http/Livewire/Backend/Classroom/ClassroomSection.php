@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Backend\Classroom;
 
 use App\Models\User;
-use App\Models\Clazz;
 use Livewire\Component;
 use App\Models\ClassSection;
 use Livewire\WithFileUploads;
@@ -38,36 +37,6 @@ class ClassroomSection extends Component
         return view('livewire.backend.classroom.class-section', compact('section'))->layout('backend.layouts.app');
     }
 
-    public function create()
-    {
-        $this->isEditing = false;
-        $this->state = [];
-        $this->dispatchBrowserEvent('show-form');
-    }
-
-    public function store()
-    {
-        $data =  Validator::make($this->state, [
-            'name' => 'required|unique:classes,name',
-            'level_id' => 'required|exists:levels,id',
-            'user_id' => 'nullable|exists:users,id',
-        ])->validate();
-
-        $class = Clazz::create([
-            'name' => $data['name'],
-            'level_id' => $data['level_id'],
-        ]);
-
-        ClassSection::create([
-            'class_id' => $class->id,
-            'name' => "A",
-            'active' => 1,
-            'user_id' => $data['user_id'],
-        ]);
-
-        $this->dispatchBrowserEvent('hide-modal', ['message' => 'Classroom created successfully!']);
-    }
-
     public function edit(ClassSection $classSection)
     {
         $this->state = $classSection->toArray();
@@ -84,7 +53,6 @@ class ClassroomSection extends Component
                         ->where('class_id', $this->section->class_id))->ignore($this->section->id)
             ],
             'active' => 'required',
-            'user_id' => 'required',
         ])->validate();
 
         $this->section->update($data);

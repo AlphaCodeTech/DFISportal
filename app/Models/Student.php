@@ -49,7 +49,6 @@ class Student extends Model
         return $this->hasMany(Finance::class);
     }
 
-
     public function section()
     {
         return $this->belongsTo(ClassSection::class);

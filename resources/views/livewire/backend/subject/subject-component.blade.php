@@ -42,69 +42,72 @@
 
                         <div class="card">
                             <div class="card-header">
-                                <ul class="nav nav-tabs nav-tabs-highlight">
-                                    @can('create subject')
-                                        <a role="button" class="btn btn-primary" href="#" wire:click='create'>Add
-                                            Subject</a>
-                                    @endcan
-                                    <li class="nav-item dropdown ml-3" style="width: 150px;">
-                                        <a href="#" class="nav-link dropdown-toggle"
-                                            data-toggle="dropdown">Filter Subjects</a>
-                                        <div class="dropdown-menu dropdown-menu-right">
-                                            <a wire:click='allClasses' class="dropdown-item">All Classes</a>
-                                            @foreach ($classes as $class)
-                                                <a wire:click='reloadInfo({{ $class->id }})' class="dropdown-item"
-                                                    data-toggle="tab">{{ $class->name }}</a>
-                                            @endforeach
-                                        </div>
-                                    </li>
-                                </ul>
+                                @can('create subject')
+                                    <a role="button" class="btn btn-primary" href="#" wire:click='create'>Add
+                                        Subject</a>
+                                @endcan
 
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
-                                <table id="example1" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Short Name</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($subjects as $subject)
-                                            <tr>
-                                                <td>{{ Str::headline($subject->name) }}</td>
-                                                <td>{{ Str::upper($subject->short_name) }}</td>
 
-                                                <td class="d-flex"
-                                                    style="justify-content: space-evenly; padding-right: 0;">
-                                                    @can('edit subject')
-                                                        <a title="edit" wire:click="edit({{ $subject->id }})"
-                                                            role="button" class="btn btn-success"><i
-                                                                class="fas fa-edit"></i></a>
-                                                    @endcan
-                                                    <button wire:click="show({{ $subject->id }})" role="button"
-                                                        class="btn btn-warning"><i class="fas fa-eye"
-                                                            title="view role"></i></button>
-                                                    @can('delete subject')
-                                                        <button wire:click='confirmDelete({{ $subject->id }})'
-                                                            title="delete" type="submit" role="button"
-                                                            class="btn btn-danger"><i class="fas fa-trash"></i></button>
-                                                    @endcan
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                @foreach ($classes as $class)
+                                    @if (count($class->subjects) > 0)
+                                        <h4 class="mt-4 p-2 mb-4 bg-primary">{{ $class->name . ' Subjects' }}</h4>
+                                        <table id="example1" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Short Name</th>
+                                                    <th>Teacher</th>
+                                                    <th>Class</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($class->subjects as $subject)
+                                                    <tr>
+                                                        <td>{{ Str::headline($subject->name) }}</td>
+                                                        <td>{{ Str::upper($subject->short_name) }}</td>
+                                                        <td>
+                                                            @foreach ($subject->teachers as $teacher)
+                                                                {{ Str::ucfirst($teacher->name) }}
+                                                            @endforeach
+                                                        </td>
+                                                        <td>{{ Str::ucfirst(optional($subject->class)->name) }}</td>
 
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Short Name</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
+                                                        <td class="d-flex"
+                                                            style="justify-content: space-evenly; padding-right: 0;">
+                                                            @can('edit subject')
+                                                                <a title="edit" wire:click="edit({{ $subject->id }})"
+                                                                    role="button" class="btn btn-success"><i
+                                                                        class="fas fa-edit"></i></a>
+                                                            @endcan
+                                                            <button wire:click="show({{ $subject->id }})"
+                                                                role="button" class="btn btn-warning"><i
+                                                                    class="fas fa-eye" title="view role"></i></button>
+                                                            @can('delete subject')
+                                                                <button wire:click='confirmDelete({{ $subject->id }})'
+                                                                    title="delete" type="submit" role="button"
+                                                                    class="btn btn-danger"><i
+                                                                        class="fas fa-trash"></i></button>
+                                                            @endcan
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <th>Short Name</th>
+                                                    <th>Teacher</th>
+                                                    <th>Class</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    @endif
+                                @endforeach
                             </div>
                             <!-- /.card-body -->
                         </div>
@@ -165,6 +168,42 @@
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
 
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="class_id">Class</label>
+                                                <select wire:model.defer='state.class_id'
+                                                    wire:change='updateSection($event.target.value)'
+                                                    class="form-control @error('class_id') is-invalid @enderror"
+                                                    id="class_id">
+                                                    <option value="">Select Class</option>
+                                                    @foreach ($allClasses as $class)
+                                                        <option value="{{ $class->id }}"
+                                                            {{ old('class_id') == "$class->id" ? 'selected' : '' }}>
+                                                            {{ $class->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('class_id')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+
+                                            <div class="form-group"
+                                                style="display: {{ $hideTeacher ? 'block' : 'none' }}">
+                                                <label for="user_id">Teacher</label>
+                                                <select wire:model.defer='state.user_id'
+                                                    class="form-control @error('user_id') is-invalid @enderror"
+                                                    id="user_id">
+                                                    <option value="">Select Teacher</option>
+                                                    @foreach ($teachers as $user)
+                                                        <option value="{{ $user->id }}">
+                                                            {{ $user->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('user_id')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
                                             </div>
 
                                             <div class="card-footer text-right">

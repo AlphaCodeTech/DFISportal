@@ -1,3 +1,4 @@
+
 <!-- REQUIRED SCRIPTS -->
 <!-- jQuery -->
 <script src="{{ asset('backend/plugins/jquery/jquery.min.js') }}"></script>
@@ -27,6 +28,8 @@
 @stack('extra-js')
 
 <script>
+    $.fn.modal.Constructor.prototype.enforceFocus = function(e) {};
+
     window.addEventListener('show-form', function() {
         $('#form').modal({
             backdrop: 'static',
