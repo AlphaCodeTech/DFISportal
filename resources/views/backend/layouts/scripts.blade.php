@@ -119,13 +119,26 @@
 
     window.addEventListener('delete-modal', (e) => {
         swal({
-            title: 'Are you sure?',
+            title: e.detail.message,
             text: 'This record and it`s details will be permanantly deleted!',
             icon: 'warning',
             buttons: ["Cancel", "Yes!"],
         }).then(function(value) {
             if (value) {
                 Livewire.emit('delete')
+            }
+        });
+    });
+
+    window.addEventListener('detach-modal', (e) => {
+        swal({
+            title: `${e.detail.message}`,
+            text: 'This record and it`s details will be permanantly deleted!',
+            icon: 'warning',
+            buttons: ["Cancel", "Yes!"],
+        }).then(function(value) {
+            if (value) {
+                Livewire.emit('detach')
             }
         });
     });

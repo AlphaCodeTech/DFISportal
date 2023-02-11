@@ -22,12 +22,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Assign Subjects To Class</h1>
+                        <h1>Class Subjects</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">View Assign Subjects</li>
+                            <li class="breadcrumb-item active">View Class Subjects</li>
                         </ol>
                     </div>
                 </div>
@@ -42,66 +42,78 @@
 
                         <div class="card">
                             <div class="card-header">
-                                @can('create subject')
-                                    <a role="button" class="btn btn-primary" href="#" wire:click='create'>Assign
-                                        Subject</a>
-                                @endcan
-
+                                {{--  --}}
                             </div>
                             <!-- /.card-header -->
-                            <div class="card-body">
-                                <table id="example1" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Class</th>
-                                            <th>Subjects</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($classes as $class)
-                                            <tr>
-                                                <td>{{ Str::headline($class->name) }}</td>
+                            @foreach ($classes as $class)
+                                @if (count($class->subjects) > 0)
+                                    <div class="card-body">
+                                        <h4 class="p-4 bg-primary mb-4">{{ $class->name }} Subjects</h4>
+                                        <table id="example1" class="table table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Class</th>
+                                                    <th>Subjects</th>
+                                                    <th>Teachers</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{{ Str::headline($class->name) }}</td>
 
-                                                <td>
-                                                    <div class="row">
-                                                        @foreach ($class->subjects as $subject)
-                                                            <div class="col-md-3 mb-2">
-                                                                <button
-                                                                    class="btn btn-warning">{{ $subject->name }}</button>
-                                                            </div>
-                                                        @endforeach
-                                                    </div>
-                                                </td>
-                                                <td class="d-flex"
-                                                    style="justify-content: space-evenly; padding-right: 0;">
-                                                    @can('edit class')
-                                                        <a title="edit" wire:click="edit({{ $class->id }})"
-                                                            role="button" class="btn btn-success"><i
-                                                                class="fas fa-edit"></i></a>
-                                                    @endcan
-                                                    <button wire:click="show({{ $class->id }})" role="button"
-                                                        class="btn btn-warning"><i class="fas fa-eye"
-                                                            title="view role"></i></button>
-                                                    @can('delete class')
-                                                        <button wire:click='confirmDelete({{ $class->id }})'
-                                                            title="delete" type="submit" role="button"
-                                                            class="btn btn-danger"><i class="fas fa-trash"></i></button>
-                                                    @endcan
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                                    <td>
+                                                        <div class="row">
+                                                            @foreach ($class->subjects as $subject)
+                                                                <div class="col-md-3 mb-2">
+                                                                    <button
+                                                                        class="btn btn-sm btn-warning">{{ $subject->name }}</button>
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                    </td>
 
-                                    </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <th>Class</th>
-                                            <th>Subjects</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
+                                                    <td>
+                                                        <div class="row">
+                                                            @foreach ($class->teachers->unique() as $teacher)
+                                                                <div class="col-md-4 mb-2">
+                                                                    <button
+                                                                        class="btn btn-sm btn-dark">{{ $teacher->name }}</button>
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                    </td>
+                                                    <td class="d-flex"
+                                                        style="justify-content: space-evenly; padding-right: 0;">
+                                                        {{-- @can('edit class')
+                                                            <a title="edit" wire:click="edit({{ $class->id }})"
+                                                                role="button" class="btn btn-success"><i
+                                                                    class="fas fa-edit"></i></a>
+                                                        @endcan --}}
+                                                        <button wire:click="show({{ $class->id }})" role="button"
+                                                            class="btn btn-warning"><i class="fas fa-eye"
+                                                                title="view role"></i></button>
+                                                        {{-- @can('delete class')
+                                                            <button wire:click='confirmDelete({{ $class->id }})'
+                                                                title="delete" type="submit" role="button"
+                                                                class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                                        @endcan --}}
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Class</th>
+                                                    <th>Subjects</th>
+                                                    <th>Teachers</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                @endif
+                            @endforeach
                             <!-- /.card-body -->
                         </div>
                         <!-- /.card -->
@@ -147,7 +159,7 @@
                                                     class="form-control @error('class_id') is-invalid @enderror"
                                                     id="class_id">
                                                     <option value="">Select Class</option>
-                                                    @foreach ($allClasses as $class)
+                                                    @foreach ($classes as $class)
                                                         <option value="{{ $class->id }}">
                                                             {{ $class->name }}</option>
                                                     @endforeach
@@ -157,7 +169,7 @@
                                                 @enderror
                                             </div>
 
-                                            <h5>Assign Permission</h5>
+                                            <h5>Assign Subjects</h5>
 
                                             @foreach ($subjects as $subject)
                                                 <div class="form-check">

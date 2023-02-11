@@ -127,7 +127,6 @@ class ClassroomComponent extends Component
     public function show(Clazz $class)
     {
         $this->selectedClass = $class;
-        // dd($class->sections->unique('name'));
         $this->dispatchBrowserEvent('show-view');
     }
 
@@ -146,27 +145,27 @@ class ClassroomComponent extends Component
         $this->dispatchBrowserEvent('show-confirm', ['message' => 'Sorry we can\'t perform this operation at the moment','type' => 'error']);
     }
 
-    public function showAssign(Clazz $clazz)
-    {
-        $this->selectedClass = $clazz;
-        $this->subject_ids = $clazz->subjects->pluck('id')->toArray();
-        $this->dispatchBrowserEvent('show-assign');
-    }
+    // public function showAssign(Clazz $clazz)
+    // {
+    //     $this->selectedClass = $clazz;
+    //     $this->subject_ids = $clazz->subjects->pluck('id')->toArray();
+    //     $this->dispatchBrowserEvent('show-assign');
+    // }
 
-    public function assign()
-    {
-        $data = Validator::make($this->state, [
-            'class_id' => 'required|exists:classes,id',
-        ])->validate();
+    // public function assign()
+    // {
+    //     $data = Validator::make($this->state, [
+    //         'class_id' => 'required|exists:classes,id',
+    //     ])->validate();
 
-        $id = $data['class_id'];
+    //     $id = $data['class_id'];
 
-        $class = Clazz::find($id);
+    //     $class = Clazz::find($id);
 
-        $class->subjects()->sync($this->subject_ids);
+    //     $class->subjects()->sync($this->subject_ids);
 
-        $this->dispatchBrowserEvent('hide-assign', ['message' => 'Subjects assigned to class successfully!']);
-    }
+    //     $this->dispatchBrowserEvent('hide-assign', ['message' => 'Subjects assigned to class successfully!']);
+    // }
 
     public function printData(Clazz $clazz)
     {

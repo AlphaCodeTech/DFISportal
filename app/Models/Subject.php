@@ -18,13 +18,19 @@ class Subject extends Model
         return $this->belongsTo(Clazz::class, 'class_id');
     }
 
+    // public function teachers()
+    // {
+    //     return $this->belongsToMany(User::class, 'subject_user');
+    // }
+
     public function teachers()
     {
-        return $this->belongsToMany(User::class, 'subject_user');
+        return $this->belongsToMany(User::class, 'class_subject_user')
+            ->withPivot('class_id');
     }
 
     public function classes()
     {
-        return $this->belongsToMany(Clazz::class, 'class_subjects')->withTimestamps();
+        return $this->belongsToMany(Clazz::class, 'class_subject_user', 'user_id', 'class_id')->withPivot('user_id');
     }
 }

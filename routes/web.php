@@ -29,8 +29,9 @@ use App\Http\Livewire\Backend\Classroom\ClassroomComponent;
 use App\Http\Livewire\Backend\Department\DepartmentComponent;
 use App\Http\Livewire\Backend\Permission\PermissionComponent;
 use App\Http\Livewire\Backend\Student\StudentGraduated;
-use App\Http\Livewire\Backend\Subject\AssignSubjectToClass;
+use App\Http\Livewire\Backend\Classroom\AssignClassToTeacher;
 use App\Http\Livewire\Backend\Subject\AssignSubjectToTeacher;
+use App\Http\Livewire\Backend\Subject\ClassesAssignedSubjects;
 
 // ! Frontend Routes
 
@@ -65,7 +66,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     // ! Subjects
     Route::get('subjects', SubjectComponent::class)->name('backend.subjects');
     Route::get('assign-subjects-to-teachers', AssignSubjectToTeacher::class)->name('teacher.assign');
-    Route::get('assign-subjects-to-class', AssignSubjectToClass::class)->name('class.assign');
+    Route::get('class-assigned-subjects', ClassesAssignedSubjects::class)->name('classes.assigned');
 
 
     // ! Levels
@@ -76,6 +77,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     // ! Classes
     Route::get('classrooms', ClassroomComponent::class)->name('backend.classrooms');
+    Route::get('assign-class-to-teacher', AssignClassToTeacher::class)->name('teacher.class');
     Route::get('class-sections/{classSection}', ClassroomSection::class)->name('class.sections');
 
     // ! Users

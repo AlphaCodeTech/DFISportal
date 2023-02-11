@@ -55,7 +55,8 @@ class User extends Authenticatable
 
     public function classes()
     {
-        return $this->hasManyThrough(Clazz::class, ClassSection::class);
+        return $this->belongsToMany(Clazz::class, 'class_subject_user', 'user_id', 'class_id')
+            ->withPivot('subject_id');
     }
 
     public static function boot()
@@ -63,7 +64,7 @@ class User extends Authenticatable
         parent::boot();
 
         self::creating(function ($model) {
-            $model->staff_ID = "DFIS/SEC/STAFF/" . date('Y') . '/' . rand(10000, 99999);
+            $model->staff_ID = "DFIS/STAFF/" . date('Y') . '/' . rand(10000, 99999);
         });
     }
 
@@ -122,13 +123,9 @@ class User extends Authenticatable
         return $this->belongsTo(ClassSection::class);
     }
 
-    public function class()
-    {
-        return $this->hasOneThrough(Clazz::class, ClassSection::class);
-    }
-
     public function subjects()
     {
-        return $this->belongsToMany(Subject::class,'subject_user');
+        return $this->belongsToMany(Subject::class, 'class_subject_user')
+            ->withPivot('class_id');
     }
 }

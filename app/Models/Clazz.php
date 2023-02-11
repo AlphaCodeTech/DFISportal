@@ -28,14 +28,9 @@ class Clazz extends Model
         return $this->belongsTo(Level::class);
     }
 
-    // public function subjects()
-    // {
-    //     return $this->belongsToMany(Subject::class, 'class_subjects', 'class_id')->withTimestamps();
-    // }
-
     public function subjects()
     {
-        return $this->belongsToMany(Subject::class, 'class_subjects', 'class_id');
+        return $this->belongsToMany(Subject::class, 'class_subject_user', 'class_id')->withPivot('user_id');
     }
 
     public function sections()
@@ -45,15 +40,16 @@ class Clazz extends Model
 
     public function teachers()
     {
-        return $this->belongsToMany(User::class, 'subject_user', 'class_id');
-    }
+        return $this->belongsToMany(User::class, 'class_subject_user', 'class_id')
+            ->withPivot('subject_id');
+    }   
 
-    public function classStudents()
-    {
-        $students = $this->loadMissing('students')->students->map(function ($student) {
-            return $student->user;
-        });
+    // public function classStudents()
+    // {
+    //     $students = $this->loadMissing('students')->students->map(function ($student) {
+    //         return $student;
+    //     });
 
-        return $students;
-    }
+    //     return $students;
+    // }
 }

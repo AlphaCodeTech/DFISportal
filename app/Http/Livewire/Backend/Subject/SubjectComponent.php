@@ -25,7 +25,7 @@ class SubjectComponent extends Component
 
     public $classSections;
     public $allClasses;
-    public $subjects;
+    // public $subjects;
     public $teachers;
     public $hideTeacher = false;
 
@@ -36,13 +36,13 @@ class SubjectComponent extends Component
         $this->classes = $classRepository->all();
         $this->classSections = collect();
         $this->allClasses = $classRepository->all();
-        $this->subjects = $classRepository->getAllSubjects();
+        // $this->subjects = $classRepository->getAllSubjects();
         $this->teachers = $userRepository->getUserByRole('teacher');
     }
 
-    public function render()
+    public function render(ClassRepository $classRepository)
     {
-        $subjects = $this->filter ? Clazz::find($this->class_id)->subjects : Subject::all();
+        $subjects = $classRepository->getAllSubjects();
         return view('livewire.backend.subject.subject-component', compact('subjects'))->layout('backend.layouts.app');
     }
 
@@ -122,6 +122,7 @@ class SubjectComponent extends Component
 
     public function show(Subject $subject)
     {
+        dd($subject->teachers);
         $this->selectedSubject = $subject;
 
         $this->dispatchBrowserEvent('show-view');

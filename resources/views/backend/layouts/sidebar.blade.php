@@ -117,7 +117,8 @@
                   @endif
                   @if (Nav::userCanSeeSubject())
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ in_array(Route::currentRouteName(), ['backend.subjects','subject.assign']) ? 'active' : ''  }}">
+                          <a href="#"
+                              class="nav-link {{ in_array(Route::currentRouteName(), ['backend.subjects', 'teacher.assign']) ? 'active' : '' }}">
                               <i class="nav-icon fas fa-book"></i>
                               <p>
                                   Subjects
@@ -135,13 +136,7 @@
                               <li class="nav-item">
                                   <a href="{{ route('teacher.assign') }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
-                                      <p>Teacher Subjects</p>
-                                  </a>
-                              </li>
-                              <li class="nav-item">
-                                  <a href="{{ route('class.assign') }}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>Class Subjects</p>
+                                      <p>Assign Subjects</p>
                                   </a>
                               </li>
 
@@ -213,7 +208,7 @@
                   @endif
                   @if (Nav::userCanSeeClassroom())
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ request()->is('admin/classrooms') ? 'active' : '' }}">
+                          <a href="#" class="nav-link {{ in_array(Route::currentRouteName(), ['backend.classrooms', 'classes.assigned']) ? 'active' : '' }}">
                               <i class="nav-icon fas fa-school"></i>
                               <p>
                                   Classrooms
@@ -225,6 +220,12 @@
                                   <a href="{{ route('backend.classrooms') }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
                                       <p>View Classrooms</p>
+                                  </a>
+                              </li>
+                              <li class="nav-item">
+                                  <a href="{{ route('classes.assigned') }}" class="nav-link">
+                                      <i class="far fa-circle nav-icon"></i>
+                                      <p>Class Subjects</p>
                                   </a>
                               </li>
 

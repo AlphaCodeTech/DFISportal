@@ -9,13 +9,12 @@ use App\Repositories\ClassRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Validator;
 
-class AssignSubjectToClass extends Component
+class ClassesAssignedSubjects extends Component
 {
 
     public $isEditing = false;
     public $toBeDeleted = null;
     public $state = [];
-    public $allClasses;
     public $selectedClass = null;
     public $teachers;
     public $subjects;
@@ -26,7 +25,6 @@ class AssignSubjectToClass extends Component
 
     public function mount(ClassRepository $classRepository,UserRepository $userRepository)
     {
-        $this->allClasses = $classRepository->all();
         $this->subjects = $classRepository->getAllSubjects();
         $this->teachers = $userRepository->getUserByRole('teacher');
     }
@@ -54,7 +52,7 @@ class AssignSubjectToClass extends Component
         $class = Clazz::find($data['id']);
         $class->subjects()->sync($this->subjectIDS);
 
-        $this->dispatchBrowserEvent('hide-modal', ['message' => 'Subject Assigned to Teacher successfully!']);
+        $this->dispatchBrowserEvent('hide-modal', ['message' => 'Subjects Assigned to Class successfully!']);
     }
 
     public function edit(Clazz $clazz)
@@ -76,7 +74,7 @@ class AssignSubjectToClass extends Component
 
         $this->clazz->subjects()->sync($this->subjectIDS);
 
-        $this->dispatchBrowserEvent('hide-modal', ['message' => 'Subject updated successfully!']);
+        $this->dispatchBrowserEvent('hide-modal', ['message' => 'Class Subjects updated successfully!']);
     }
 
     public function show(Clazz $clazz)
@@ -89,13 +87,13 @@ class AssignSubjectToClass extends Component
     public function confirmDelete($userId)
     {
         $this->toBeDeleted = $userId;
-        $this->dispatchBrowserEvent('delete-modal', ['message' => 'Are you sure you want to delete this subject?']);
+        $this->dispatchBrowserEvent('delete-modal', ['message' => 'Are you sure you want to delete this data?']);
     }
 
     public function destroy()
     {
         $subject = Subject::find($this->toBeDeleted);
         $subject->delete();
-        $this->dispatchBrowserEvent('show-confirm', ['message' => 'Subject deleted successfully!']);
+        $this->dispatchBrowserEvent('show-confirm', ['message' => 'Class Subjects deleted successfully!']);
     }
 }
