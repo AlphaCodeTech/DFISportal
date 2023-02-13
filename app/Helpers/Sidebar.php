@@ -88,6 +88,11 @@ class Sidebar
         return ['teacher', 'super admin','developer'];
     }
 
+    public static function getTeamExam()
+    {
+        return ['teacher', 'super admin','developer'];
+    }
+
     public static function getTeamGuardian()
     {
         return ['teacher', 'super admin','developer'];
@@ -190,6 +195,11 @@ class Sidebar
     }
 
     public static function userCanSeeTerm()
+    {
+        return Auth::user()->hasAnyRole(self::getTeamTerm());
+    }
+
+    public static function userCanSeeExam()
     {
         return Auth::user()->hasAnyRole(self::getTeamTerm());
     }

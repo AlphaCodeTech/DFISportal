@@ -16,10 +16,14 @@ class Term extends Model
         return $this->belongsTo(Session::class);
     }
 
-
     public function finances()
     {
         return $this->hasMany(Finance::class);
+    }
+
+    public function exams()
+    {
+        return $this->hasMany(Exam::class);
     }
    
 }

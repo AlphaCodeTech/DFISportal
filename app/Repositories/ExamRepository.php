@@ -8,12 +8,12 @@ use App\Models\Grade;
 use App\Models\Mark;
 use App\Models\Skill;
 
-class ExamRepo
+class ExamRepository
 {
 
     public function all()
     {
-        return Exam::orderBy('name', 'asc')->orderBy('year', 'desc')->get();
+        return Exam::orderBy('name', 'asc')->orderBy('start_date', 'desc')->get();
     }
 
     public function getExam($data)

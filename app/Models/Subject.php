@@ -29,6 +29,15 @@ class Subject extends Model
             ->withPivot('class_id');
     }
 
+    public function teacher()
+    {
+        $teacher = $this->loadMissing('teachers')->teachers->map(function ($teacher) {
+            return $teacher;
+        });
+
+        return $teacher;
+    }
+
     public function classes()
     {
         return $this->belongsToMany(Clazz::class, 'class_subject_user', 'user_id', 'class_id')->withPivot('user_id');

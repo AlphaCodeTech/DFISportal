@@ -5,7 +5,6 @@ namespace App\Http\Livewire\Backend\Event;
 use App\Models\Event;
 use Illuminate\Support\Arr;
 use Livewire\Component;
-use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Validator;
 

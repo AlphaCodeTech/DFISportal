@@ -49,64 +49,66 @@
                                 @if (count($class->subjects) > 0)
                                     <div class="card-body">
                                         <h4 class="p-4 bg-primary mb-4">{{ $class->name }} Subjects</h4>
+
                                         <table id="example1" class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
-                                                    <th>Class</th>
                                                     <th>Subjects</th>
-                                                    <th>Teachers</th>
+                                                    <th>Teacher</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>{{ Str::headline($class->name) }}</td>
-
-                                                    <td>
-                                                        <div class="row">
-                                                            @foreach ($class->subjects as $subject)
+                                                @foreach ($class->subjects as $subject)
+                                                    <tr>
+                                                        <td>
+                                                            <div class="row">
+                                                                {{-- @foreach ($class->subjects as $subject) --}}
                                                                 <div class="col-md-3 mb-2">
                                                                     <button
                                                                         class="btn btn-sm btn-warning">{{ $subject->name }}</button>
                                                                 </div>
-                                                            @endforeach
-                                                        </div>
-                                                    </td>
-
-                                                    <td>
-                                                        <div class="row">
-                                                            @foreach ($class->teachers->unique() as $teacher)
+                                                                {{-- @endforeach --}}
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="row">
+                                                                @php
+                                                                    $teacher = $subject
+                                                                        ->teachers()
+                                                                        ->where('subject_id', $subject->id)
+                                                                        ->first();
+                                                                @endphp
                                                                 <div class="col-md-4 mb-2">
                                                                     <button
                                                                         class="btn btn-sm btn-dark">{{ $teacher->name }}</button>
                                                                 </div>
-                                                            @endforeach
-                                                        </div>
-                                                    </td>
-                                                    <td class="d-flex"
-                                                        style="justify-content: space-evenly; padding-right: 0;">
-                                                        {{-- @can('edit class')
+                                                            </div>
+                                                        </td>
+                                                        <td class="d-flex"
+                                                            style="justify-content: space-evenly; padding-right: 0;">
+                                                            {{-- @can('edit class')
                                                             <a title="edit" wire:click="edit({{ $class->id }})"
                                                                 role="button" class="btn btn-success"><i
                                                                     class="fas fa-edit"></i></a>
                                                         @endcan --}}
-                                                        <button wire:click="show({{ $class->id }})" role="button"
-                                                            class="btn btn-warning"><i class="fas fa-eye"
-                                                                title="view role"></i></button>
-                                                        {{-- @can('delete class')
+                                                            <button wire:click="show({{ $class->id }})"
+                                                                role="button" class="btn btn-warning"><i
+                                                                    class="fas fa-eye" title="view role"></i></button>
+                                                            {{-- @can('delete class')
                                                             <button wire:click='confirmDelete({{ $class->id }})'
                                                                 title="delete" type="submit" role="button"
                                                                 class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                                         @endcan --}}
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
 
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <th>Class</th>
                                                     <th>Subjects</th>
-                                                    <th>Teachers</th>
+                                                    <th>Teacher</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </tfoot>

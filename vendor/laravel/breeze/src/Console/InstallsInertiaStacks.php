@@ -4,26 +4,25 @@ namespace Laravel\Breeze\Console;
 
 use Illuminate\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Process\Process;
 
 trait InstallsInertiaStacks
 {
     /**
      * Install the Inertia Vue Breeze stack.
      *
-     * @return void
+     * @return int|null
      */
     protected function installInertiaVueStack()
     {
         // Install Inertia...
-        $this->requireComposerPackages('inertiajs/inertia-laravel:^0.6.3', 'laravel/sanctum:^2.8', 'tightenco/ziggy:^1.0');
+        if (! $this->requireComposerPackages('inertiajs/inertia-laravel:^0.6.8', 'laravel/sanctum:^3.2', 'tightenco/ziggy:^1.0')) {
+            return 1;
+        }
 
         // NPM Packages...
         $this->updateNodePackages(function ($packages) {
             return [
-                '@inertiajs/inertia' => '^0.11.0',
-                '@inertiajs/inertia-vue3' => '^0.6.0',
-                '@inertiajs/progress' => '^0.2.7',
+                '@inertiajs/vue3' => '^1.0.0',
                 '@tailwindcss/forms' => '^0.5.3',
                 '@vitejs/plugin-vue' => '^4.0.0',
                 'autoprefixer' => '^10.4.12',
@@ -92,6 +91,8 @@ trait InstallsInertiaStacks
             $this->installInertiaVueSsrStack();
         }
 
+        $this->components->info('Installing and building Node dependencies.');
+
         if (file_exists(base_path('pnpm-lock.yaml'))) {
             $this->runCommands(['pnpm install', 'pnpm run build']);
         } elseif (file_exists(base_path('yarn.lock'))) {
@@ -113,22 +114,12 @@ trait InstallsInertiaStacks
     {
         $this->updateNodePackages(function ($packages) {
             return [
-                '@inertiajs/server' => '^0.1.0',
                 '@vue/server-renderer' => '^3.2.31',
             ] + $packages;
         });
 
         copy(__DIR__.'/../../stubs/inertia-vue/resources/js/ssr.js', resource_path('js/ssr.js'));
         $this->replaceInFile("input: 'resources/js/app.js',", "input: 'resources/js/app.js',".PHP_EOL."            ssr: 'resources/js/ssr.js',", base_path('vite.config.js'));
-        $this->replaceInFile('});', '    ssr: {'.PHP_EOL."        noExternal: ['@inertiajs/server'],".PHP_EOL.'    },'.PHP_EOL.'});', base_path('vite.config.js'));
-
-        (new Process([$this->phpBinary(), 'artisan', 'vendor:publish', '--provider=Inertia\ServiceProvider', '--force'], base_path()))
-            ->setTimeout(null)
-            ->run(function ($type, $output) {
-                $this->output->write($output);
-            });
-
-        $this->replaceInFile("'enabled' => false", "'enabled' => true", config_path('inertia.php'));
         $this->replaceInFile('vite build', 'vite build && vite build --ssr', base_path('package.json'));
         $this->replaceInFile('/node_modules', '/bootstrap/ssr'.PHP_EOL.'/node_modules', base_path('.gitignore'));
     }
@@ -136,20 +127,20 @@ trait InstallsInertiaStacks
     /**
      * Install the Inertia React Breeze stack.
      *
-     * @return void
+     * @return int|null
      */
     protected function installInertiaReactStack()
     {
         // Install Inertia...
-        $this->requireComposerPackages('inertiajs/inertia-laravel:^0.6.3', 'laravel/sanctum:^2.8', 'tightenco/ziggy:^1.0');
+        if (! $this->requireComposerPackages('inertiajs/inertia-laravel:^0.6.3', 'laravel/sanctum:^3.2', 'tightenco/ziggy:^1.0')) {
+            return 1;
+        }
 
         // NPM Packages...
         $this->updateNodePackages(function ($packages) {
             return [
                 '@headlessui/react' => '^1.4.2',
-                '@inertiajs/inertia' => '^0.11.0',
-                '@inertiajs/inertia-react' => '^0.8.1',
-                '@inertiajs/progress' => '^0.2.6',
+                '@inertiajs/react' => '^1.0.0',
                 '@tailwindcss/forms' => '^0.5.3',
                 '@vitejs/plugin-react' => '^3.0.0',
                 'autoprefixer' => '^10.4.12',
@@ -225,6 +216,8 @@ trait InstallsInertiaStacks
             $this->installInertiaReactSsrStack();
         }
 
+        $this->components->info('Installing and building Node dependencies.');
+
         if (file_exists(base_path('pnpm-lock.yaml'))) {
             $this->runCommands(['pnpm install', 'pnpm run build']);
         } elseif (file_exists(base_path('yarn.lock'))) {
@@ -244,23 +237,8 @@ trait InstallsInertiaStacks
      */
     protected function installInertiaReactSsrStack()
     {
-        $this->updateNodePackages(function ($packages) {
-            return [
-                '@inertiajs/server' => '^0.1.0',
-            ] + $packages;
-        });
-
         copy(__DIR__.'/../../stubs/inertia-react/resources/js/ssr.jsx', resource_path('js/ssr.jsx'));
         $this->replaceInFile("input: 'resources/js/app.jsx',", "input: 'resources/js/app.jsx',".PHP_EOL."            ssr: 'resources/js/ssr.jsx',", base_path('vite.config.js'));
-        $this->replaceInFile('});', '    ssr: {'.PHP_EOL."        noExternal: ['@inertiajs/server'],".PHP_EOL.'    },'.PHP_EOL.'});', base_path('vite.config.js'));
-
-        (new Process([$this->phpBinary(), 'artisan', 'vendor:publish', '--provider=Inertia\ServiceProvider', '--force'], base_path()))
-            ->setTimeout(null)
-            ->run(function ($type, $output) {
-                $this->output->write($output);
-            });
-
-        $this->replaceInFile("'enabled' => false", "'enabled' => true", config_path('inertia.php'));
         $this->replaceInFile('vite build', 'vite build && vite build --ssr', base_path('package.json'));
         $this->replaceInFile('/node_modules', '/bootstrap/ssr'.PHP_EOL.'/node_modules', base_path('.gitignore'));
     }

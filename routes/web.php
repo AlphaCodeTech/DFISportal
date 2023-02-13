@@ -27,11 +27,11 @@ use App\Http\Livewire\Backend\Guardian\GuardianComponent;
 use App\Http\Livewire\Backend\Settings\AcademicComponent;
 use App\Http\Livewire\Backend\Classroom\ClassroomComponent;
 use App\Http\Livewire\Backend\Department\DepartmentComponent;
+use App\Http\Livewire\Backend\Exam\ExamComponent;
 use App\Http\Livewire\Backend\Permission\PermissionComponent;
 use App\Http\Livewire\Backend\Student\StudentGraduated;
-use App\Http\Livewire\Backend\Classroom\AssignClassToTeacher;
 use App\Http\Livewire\Backend\Subject\AssignSubjectToTeacher;
-use App\Http\Livewire\Backend\Subject\ClassesAssignedSubjects;
+use App\Http\Livewire\Backend\Classroom\ClassesAssignedSubjects;
 
 // ! Frontend Routes
 
@@ -66,7 +66,6 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     // ! Subjects
     Route::get('subjects', SubjectComponent::class)->name('backend.subjects');
     Route::get('assign-subjects-to-teachers', AssignSubjectToTeacher::class)->name('teacher.assign');
-    Route::get('class-assigned-subjects', ClassesAssignedSubjects::class)->name('classes.assigned');
 
 
     // ! Levels
@@ -77,8 +76,8 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     // ! Classes
     Route::get('classrooms', ClassroomComponent::class)->name('backend.classrooms');
-    Route::get('assign-class-to-teacher', AssignClassToTeacher::class)->name('teacher.class');
     Route::get('class-sections/{classSection}', ClassroomSection::class)->name('class.sections');
+    Route::get('class-assigned-subjects', ClassesAssignedSubjects::class)->name('classes.assigned');
 
     // ! Users
     Route::get('users', UserComponent::class)->name('backend.users')->middleware(['role:developer|super admin|teacher']);
@@ -113,13 +112,15 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     // ! Terms
     Route::get('terms', TermComponent::class)->name('backend.terms');
+    
+    // ! Exams
+    Route::get('exams', ExamComponent::class)->name('backend.exams');
 });
 
-Route::prefix('settings')->middleware(['auth'])->group(function () {
+Route::prefix('settings')->middleware(['auth|role:super admin'])->group(function () {
     Route::get('system', SystemComponent::class)->name('setting.system');
     Route::get('academic', AcademicComponent::class)->name('setting.academic');
 });
 
 
-//! Continue on settings and then student promotion features
 require __DIR__ . '/auth.php';
