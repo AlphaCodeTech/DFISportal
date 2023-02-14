@@ -16,11 +16,6 @@ class ClassSection extends Model
         return $this->belongsTo(Clazz::class, 'class_id');
     }
 
-    public function teacher()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
-
     public function students()
     {
         return $this->hasManyThrough(Student::class, Clazz::class,'section_id');

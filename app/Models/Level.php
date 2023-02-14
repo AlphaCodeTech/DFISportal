@@ -30,4 +30,9 @@ class Level extends Model
     {
         return $this->belongsTo(Fee::class);
     }
+
+    public function grades()
+    {
+        return $this->hasMany(Grades::class);
+    }
 }

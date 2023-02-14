@@ -4,9 +4,7 @@ namespace App\Http\Livewire\Backend\Department;
 
 use App\Models\Department;
 use Livewire\Component;
-use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
-use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Validator;
 
 class DepartmentComponent extends Component

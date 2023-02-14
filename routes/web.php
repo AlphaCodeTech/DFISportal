@@ -7,19 +7,24 @@ use App\Http\Controllers\BursaryController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdmissionController;
 use App\Http\Controllers\BackendIndexController;
+use App\Http\Livewire\Backend\Exam\ExamComponent;
 use App\Http\Livewire\Backend\Fees\FeesComponent;
 use App\Http\Livewire\Backend\Role\RoleComponent;
 use App\Http\Livewire\Backend\Term\TermComponent;
 use App\Http\Livewire\Backend\User\UserComponent;
 use App\Http\Livewire\Backend\Student\StudentList;
 use App\Http\Livewire\Backend\Event\EventComponent;
+use App\Http\Livewire\Backend\Grade\GradeComponent;
 use App\Http\Livewire\Backend\Level\LevelComponent;
+use App\Http\Livewire\Backend\Exam\ExamMarkComponent;
 use App\Http\Livewire\Backend\Student\PromotionManage;
 use App\Http\Controllers\AdmissionManagementController;
+use App\Http\Livewire\Backend\Exam\ExamManageComponent;
 use App\Http\Livewire\Backend\Profile\ProfileComponent;
 use App\Http\Livewire\Backend\Session\SessionComponent;
 use App\Http\Livewire\Backend\Settings\SystemComponent;
 use App\Http\Livewire\Backend\Student\StudentComponent;
+use App\Http\Livewire\Backend\Student\StudentGraduated;
 use App\Http\Livewire\Backend\Student\StudentPromotion;
 use App\Http\Livewire\Backend\Subject\SubjectComponent;
 use App\Http\Livewire\Backend\Classroom\ClassroomSection;
@@ -27,9 +32,7 @@ use App\Http\Livewire\Backend\Guardian\GuardianComponent;
 use App\Http\Livewire\Backend\Settings\AcademicComponent;
 use App\Http\Livewire\Backend\Classroom\ClassroomComponent;
 use App\Http\Livewire\Backend\Department\DepartmentComponent;
-use App\Http\Livewire\Backend\Exam\ExamComponent;
 use App\Http\Livewire\Backend\Permission\PermissionComponent;
-use App\Http\Livewire\Backend\Student\StudentGraduated;
 use App\Http\Livewire\Backend\Subject\AssignSubjectToTeacher;
 use App\Http\Livewire\Backend\Classroom\ClassesAssignedSubjects;
 
@@ -115,6 +118,13 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     
     // ! Exams
     Route::get('exams', ExamComponent::class)->name('backend.exams');
+   
+    // ! Grades
+    Route::get('grades', GradeComponent::class)->name('backend.grades');
+    
+    // ! Marks
+    Route::get('marks', ExamMarkComponent::class)->name('backend.marks');
+    Route::get('mark-management/{exam_id}/{class_id}/{section_id}/{subject_id}', ExamManageComponent::class)->name('marks.manage');
 });
 
 Route::prefix('settings')->middleware(['auth|role:super admin'])->group(function () {

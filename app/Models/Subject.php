@@ -13,19 +13,9 @@ class Subject extends Model
 
     protected $guarded = [];
 
-    public function class()
-    {
-        return $this->belongsTo(Clazz::class, 'class_id');
-    }
-
-    // public function teachers()
-    // {
-    //     return $this->belongsToMany(User::class, 'subject_user');
-    // }
-
     public function teachers()
     {
-        return $this->belongsToMany(User::class, 'class_subject_user')
+        return $this->belongsToMany(User::class, 'class_subject_user', 'subject_id', 'user_id')
             ->withPivot('class_id');
     }
 
@@ -40,6 +30,6 @@ class Subject extends Model
 
     public function classes()
     {
-        return $this->belongsToMany(Clazz::class, 'class_subject_user', 'user_id', 'class_id')->withPivot('user_id');
+        return $this->belongsToMany(Clazz::class, 'class_subject_user', 'subject_id', 'class_id')->withPivot('user_id');
     }
 }

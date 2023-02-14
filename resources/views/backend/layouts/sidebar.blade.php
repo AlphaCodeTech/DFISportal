@@ -355,7 +355,7 @@
                   @endif
                   @if (Nav::userCanSeeExam())
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ in_array(Route::currentRouteName(), ['backend.exams']) ? 'active' : '' }}">
+                          <a href="#" class="nav-link {{ in_array(Route::currentRouteName(), ['backend.exams','backend.grades']) ? 'active' : '' }}">
                               <i class="nav-icon fas fa-book"></i>
                               <p>
                                   Exam
@@ -367,6 +367,20 @@
                                   <a href="{{ route('backend.exams') }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
                                       <p>View Exam</p>
+                                  </a>
+                              </li>
+                              
+                              <li class="nav-item">
+                                  <a href="{{ route('backend.grades') }}" class="nav-link">
+                                      <i class="far fa-circle nav-icon"></i>
+                                      <p>Grades</p>
+                                  </a>
+                              </li>
+
+                              <li class="nav-item">
+                                  <a href="{{ route('backend.marks') }}" class="nav-link">
+                                      <i class="far fa-circle nav-icon"></i>
+                                      <p>Marks</p>
                                   </a>
                               </li>
 

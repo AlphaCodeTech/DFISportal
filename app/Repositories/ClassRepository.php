@@ -25,6 +25,13 @@ class ClassRepository
         return Clazz::find($id);
     }
 
+    public function findClassByTeacher($teacher_id)
+    {
+        return Clazz::withWhereHas('teachers.classes', function ($query) use ($teacher_id) {
+            $query->where('user_id', $teacher_id);
+        })->get();
+    }
+
     public function create($data)
     {
         return Clazz::create($data);
@@ -84,7 +91,7 @@ class ClassRepository
 
     public function getAllSections()
     {
-        return ClassSection::orderBy('name', 'asc')->with(['class', 'teacher'])->get();
+        return ClassSection::orderBy('name', 'asc')->with(['class'])->get();
     }
 
     public function getClassSections($class_id)
@@ -105,14 +112,18 @@ class ClassRepository
         return Subject::find($id);
     }
 
-    public function findSubjectByClass($class_id, $order_by = 'name')
+    public function findSubjectByClass($class_id)
     {
-        return $this->getSubject(['my_class_id' => $class_id])->orderBy($order_by)->get();
+        return Subject::withWhereHas('classes.subjects', function ($query) use ($class_id) {
+            $query->where('class_id', $class_id);
+        })->get();
     }
 
     public function findSubjectByTeacher($teacher_id, $order_by = 'name')
     {
-        return $this->getSubject(['teacher_id' => $teacher_id])->orderBy($order_by)->get();
+        return Subject::withWhereHas('teachers.subjects', function ($query) use ($teacher_id, $order_by) {
+            $query->where('user_id', $teacher_id)->orderBy($order_by);
+        })->get();
     }
 
     public function getSubject($data)
@@ -137,6 +148,6 @@ class ClassRepository
 
     public function getAllSubjects()
     {
-        return Subject::orderBy('name', 'asc')->with(['class', 'teachers'])->get();
+        return Subject::orderBy('name', 'asc')->with(['classes', 'teachers'])->get();
     }
 }

@@ -6,7 +6,7 @@ use App\Models\Nationality;
 use App\Models\State;
 use App\Models\Lga;
 
-class LocationRepo
+class LocationRepository
 {
     public function getStates()
     {

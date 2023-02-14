@@ -15,16 +15,16 @@ return new class extends Migration
     {
         Schema::create('marks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->constrained();
-            $table->foreignId('subject_id')->constrained();
-            $table->foreignId('class_id')->constrained();
-            $table->foreignId('section_id')->constrained('class_sections');
-            $table->foreignId('exam_id');
+            $table->foreignId('student_id')->references('id')->on('students');
+            $table->foreignId('subject_id')->references('id')->on('subjects');
+            $table->foreignId('class_id')->references('id')->on('classes');
+            $table->foreignId('section_id')->references('id')->on('class_sections');;
+            $table->foreignId('exam_id')->references('id')->on('exams');;
             $table->integer('t1')->nullable();
             $table->integer('t2')->nullable();
             $table->integer('t3')->nullable();
             $table->integer('t4')->nullable();
-            $table->integer('tca')->nullable();
+            $table->integer('total_CA')->nullable();
             $table->integer('exam')->nullable();
             $table->integer('tex1')->nullable();
             $table->integer('tex2')->nullable();
@@ -32,7 +32,7 @@ return new class extends Migration
             $table->tinyInteger('sub_pos')->nullable();
             $table->integer('cum')->nullable();
             $table->string('cum_ave')->nullable();
-            $table->foreignId('grade_id')->nullable()->constrained();
+            $table->foreignId('grade_id')->nullable()->references('id')->on('grades');
             $table->string('year');
             $table->timestamps();
         });

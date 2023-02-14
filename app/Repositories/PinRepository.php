@@ -6,7 +6,7 @@ use App\Models\Pin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class PinRepo
+class PinRepository
 {
 
     public function create($data)

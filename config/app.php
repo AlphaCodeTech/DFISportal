@@ -218,6 +218,7 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade\Pdf::class,
         'QS' => App\Helpers\QS::class,
         'Nav' => App\Helpers\Sidebar::class,
+        'Mk' => App\Helpers\Mk::class,
 
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),

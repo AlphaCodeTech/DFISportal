@@ -6,7 +6,7 @@ use App\Models\TimeSlot;
 use App\Models\TimeTable;
 use App\Models\TimeTableRecord;
 
-class TimeTableRepo
+class TimeTableRepository
 {
 
     public function getTimeTable($where)

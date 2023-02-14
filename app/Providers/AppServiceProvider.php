@@ -2,10 +2,8 @@
 
 namespace App\Providers;
 
-use App\Models\Parents;
 use App\Settings\AcademicSetting;
 use App\Settings\SystemSetting;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 

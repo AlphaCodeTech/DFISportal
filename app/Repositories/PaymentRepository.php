@@ -7,7 +7,7 @@ use App\Models\Payment;
 use App\Models\PaymentRecord;
 use App\Models\Receipt;
 
-class PaymentRepo
+class PaymentRepository
 {
 
     public function all()

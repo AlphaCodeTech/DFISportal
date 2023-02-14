@@ -99,7 +99,7 @@ class QS
 
     public static function userIsTeacher()
     {
-        return Auth::user()->user_type == 'teacher';
+        return Auth::user()->hasRole('teacher');
     }
 
     public static function userIsParent()

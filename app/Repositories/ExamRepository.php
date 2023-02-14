@@ -21,6 +21,13 @@ class ExamRepository
         return Exam::where($data)->get();
     }
 
+    public function getExamsByYear($year)
+    {
+        return Exam::whereHas('term.session', function ($query) use ($year) {
+            $query->where('name', $year);
+        })->get();
+    }
+
     public function find($id)
     {
         return Exam::find($id);
@@ -117,7 +124,7 @@ class ExamRepository
 
     public function getMark($data)
     {
-        return Mark::where($data)->with('grade')->get();
+        return Mark::where($data)->with(['grade','examination'])->get();
     }
 
     /*********** Skills ***************/
@@ -133,5 +140,4 @@ class ExamRepository
             ? $this->getSkill(['class_type' => $class_type, 'skill_type' => $skill_type])
             : $this->getSkill(['class_type' => $class_type]);
     }
-
 }

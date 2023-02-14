@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Exam extends Model
 {
@@ -21,10 +21,14 @@ class Exam extends Model
         'end_date'
     ];
 
-   
-
     public function term()
     {
         return $this->belongsTo(Term::class);
     }
+
+    public function marks()
+    {
+        return $this->HasMany(Mark::class,'exam_id');
+    }
+
 }
