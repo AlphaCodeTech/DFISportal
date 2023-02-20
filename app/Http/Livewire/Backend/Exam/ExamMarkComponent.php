@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\App;
 use App\Repositories\ClassRepository;
 use App\Repositories\ExamRepository;
 use App\Repositories\StudentRepository;
-use Illuminate\Support\Arr;
 
 class ExamMarkComponent extends Component
 {

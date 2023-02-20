@@ -384,6 +384,13 @@
                                   </a>
                               </li>
 
+                              <li class="nav-item">
+                                  <a href="{{ route('marks.bulk') }}" class="nav-link">
+                                      <i class="far fa-circle nav-icon"></i>
+                                      <p>Marksheet</p>
+                                  </a>
+                              </li>
+
                           </ul>
                       </li>
                   @endif
@@ -493,6 +500,27 @@
                                   </a>
                               </li>
 
+                          </ul>
+                      </li>
+                  @endif
+                  @if (Nav::userCanSeePin())
+                      <li class="nav-item">
+                          <a href="#"
+                              class="nav-link {{ request()->is('admin/pins') ? 'active' : '' }}">
+                              <i class="nav-icon fas fa-cog"></i>
+                              <p>
+                                  Pin
+                                  <i class="fas fa-angle-left right"></i>
+                              </p>
+                          </a>
+                          <ul class="nav nav-treeview">
+                              <li class="nav-item">
+                                  <a href="{{ route('backend.pins') }}" class="nav-link">
+                                      <i class="far fa-circle nav-icon"></i>
+                                      <p>View Pins</p>
+                                  </a>
+                              </li>
+                            
                           </ul>
                       </li>
                   @endif

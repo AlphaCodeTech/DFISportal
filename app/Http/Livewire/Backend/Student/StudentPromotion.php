@@ -8,6 +8,7 @@ use App\Settings\AcademicSetting;
 use Illuminate\Support\Facades\App;
 use App\Repositories\ClassRepository;
 use App\Repositories\StudentRepository;
+use Illuminate\Support\Facades\Validator;
 
 class StudentPromotion extends Component
 {
@@ -21,7 +22,7 @@ class StudentPromotion extends Component
     public $students;
     public $fromText;
     public $toText;
-    public $p;
+    public $P = [];
 
     public $selectedCurrentClass = null;
     public $selectedNextClass = null;
@@ -31,6 +32,7 @@ class StudentPromotion extends Component
 
     public function mount(AcademicSetting $setting, StudentRepository $studentRepository, ClassRepository $classRepository, $currentClass = NULL, $currentSection = NULL, $nextClass = NULL, $nextSection = NULL)
     {
+
         if ($currentClass && $currentSection && $nextClass && $nextSection) {
             $this->selectedCurrentClass = $currentClass;
             $this->selectedCurrentSection = $currentSection;
@@ -51,6 +53,11 @@ class StudentPromotion extends Component
                 alert('sorry', 'No students found', 'error');
                 return redirect()->route('students.promotion');
             }
+            $studentIDS = $this->students->pluck('id')->toArray();
+
+            foreach ($studentIDS as $id) {
+                $this->P[$id] = 'P';
+            }
         }
 
         $this->currentClasses = $classRepository->all();
@@ -64,8 +71,9 @@ class StudentPromotion extends Component
     }
 
     protected $rules = [
-        'p.' => 'required',
+        'P.*' => 'required',
     ];
+
 
 
     public function render()
@@ -78,7 +86,6 @@ class StudentPromotion extends Component
         $classRepository = App::make(ClassRepository::class);
         $this->currentSections = $classRepository->getClassSections($currentClass);
         $this->selectedCurrentSection = null;
-        // dd($this->currentSections);
     }
 
     public function updatedselectedNextClass($nextClass)
@@ -90,10 +97,11 @@ class StudentPromotion extends Component
         }
     }
 
-    public function updatedP($p)
+    public function updateP($promote, $id)
     {
-        $data = array();
-        array_push($data, $p);
+        // dd($promote, $id);
+        // $data = array();
+        // array_push($data, $promote);
     }
 
     public function selector()
@@ -115,14 +123,8 @@ class StudentPromotion extends Component
 
     public function promote(StudentRepository $studentRepository)
     {
-        // dd($this->p);
-        $this->validate([
-            'p' => 'required'
-        ], [
-            'p' => 'this field is required'
-        ]);
-
-
+        $this->validate();
+       
         $settings = App::make(AcademicSetting::class);
         $current_session = $settings->current_session;
         $data = [];
@@ -135,7 +137,7 @@ class StudentPromotion extends Component
         }
 
         foreach ($students as $student) {
-            $p = $this->p[$student->id];
+            $p = $this->P[$student->id];
 
             if ($p === 'P') { // Promote
                 $data['class_id'] = $this->selectedNextClass;
@@ -149,12 +151,13 @@ class StudentPromotion extends Component
                 $data['class_id'] = $this->selectedCurrentClass;
                 $data['section_id'] = $this->selectedCurrentSection;
                 $data['graduated'] = 1;
+                $data['status'] = 0;
                 $data['graduation_date'] = $current_session;
             }
 
             $studentRepository->updateRecord($student->id, $data);
 
-            //            Insert New Promotion Data
+            // Insert New Promotion Data
             $promote['current_class'] = $this->selectedCurrentClass;
             $promote['current_section'] = $this->selectedCurrentSection;
             $promote['graduated'] = ($p === 'G') ? 1 : 0;

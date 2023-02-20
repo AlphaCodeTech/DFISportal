@@ -20,8 +20,6 @@ class ExamManageComponent extends Component
 
     public $year;
     public $data = [];
-    public $t1;
-    public $t2;
     public $marks;
     public $firstMark;
     public $exam_id;
@@ -62,7 +60,6 @@ class ExamManageComponent extends Component
             $this->data['classes'] = $classRepository->findClassByTeacher(Auth::user()->id);
             $this->data['subjects'] = $classRepository->findSubjectByTeacher(Auth::user()->id);
         }
-        $this->data['selected'] = true;
         $this->data['classLevel'] = $classRepository->findLevelByClass($class_id);
     }
 
@@ -89,6 +86,7 @@ class ExamManageComponent extends Component
     public function update($exam_id, $class_id, $section_id, $subject_id)
     {
         $this->validate();
+        
         $examRepository = App::make(ExamRepository::class);
         $classRepository = App::make(ClassRepository::class);
         $markRepository = App::make(MarkRepository::class);
@@ -100,7 +98,6 @@ class ExamManageComponent extends Component
         $examData = $examRepository->find($exam_id);
         $level = $classRepository->findLevelByClass($class_id);
 
-        // dd($this->marks[0]->t1);
 
         /** Test, Exam, Grade **/
         foreach ($this->marks->sortBy('user.name') as $mark) {

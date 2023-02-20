@@ -3,12 +3,10 @@
 namespace App\Repositories;
 
 use App\Models\Pin;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class PinRepository
 {
-
     public function create($data)
     {
         return DB::table('pins')->insert($data);
@@ -52,5 +50,21 @@ class PinRepository
     public function getInValid()
     {
         return $this->getPin(['used' => 1])->with(['user', 'student'])->get();
+    }
+
+    function array_flatten($array)
+    {
+        if (!is_array($array)) {
+            return FALSE;
+        }
+        $result = array();
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $result = array_merge($result, $this->array_flatten($value));
+            } else {
+                $result[$key] = $value;
+            }
+        }
+        return $result;
     }
 }

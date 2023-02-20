@@ -49,9 +49,14 @@ class Student extends Model
         return $this->hasMany(Finance::class);
     }
 
-    public function section()
+    public function promotions()
     {
-        return $this->belongsTo(ClassSection::class);
+        return $this->hasMany(Promotion::class);
     }
+
+    // public function section()
+    // {
+    //     return $this->belongsTo(ClassSection::class);
+    // }
 
 }

@@ -2,15 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Models\BloodGroup;
-use App\Models\StaffRecord;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 
 class UserRepository
 {
-
-
     public function update($id, $data)
     {
         return User::find($id)->update($data);
@@ -56,6 +52,11 @@ class UserRepository
         return User::find($id);
     }
 
+    public function findStudent($id)
+    {
+        return User::find($id);
+    }
+
     public function getAll()
     {
         return User::orderBy('name', 'asc')->get();
@@ -66,20 +67,4 @@ class UserRepository
         return User::where('user_type', '<>', 'student')->orderBy('name', 'asc')->get();
     }
 
-    /********** STAFF RECORD ********/
-    public function createStaffRecord($data)
-    {
-        return StaffRecord::create($data);
-    }
-
-    public function updateStaffRecord($where, $data)
-    {
-        return StaffRecord::where($where)->update($data);
-    }
-
-    /********** BLOOD GROUPS ********/
-    public function getBloodGroups()
-    {
-        return BloodGroup::orderBy('name')->get();
-    }
 }

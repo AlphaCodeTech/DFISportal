@@ -17,7 +17,7 @@ class ClassRepository
 
     public function getMC($data)
     {
-        return Clazz::where($data)->with('section');
+        return Clazz::where($data)->with('sections');
     }
 
     public function find($id)

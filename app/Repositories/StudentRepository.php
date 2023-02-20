@@ -77,7 +77,7 @@ class StudentRepository {
 
     public function exists($student_id)
     {
-        return $this->getRecord(['user_id' => $student_id])->exists();
+        return $this->getRecord(['id' => $student_id])->exists();
     }
 
     /************* Promotions *************/

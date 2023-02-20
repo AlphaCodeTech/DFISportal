@@ -12,6 +12,7 @@ use Livewire\WithFileUploads;
 use App\Settings\AcademicSetting;
 use Illuminate\Support\Facades\App;
 use App\Repositories\ClassRepository;
+use App\Repositories\GuardianRepository;
 use App\Repositories\StudentRepository;
 use Illuminate\Support\Facades\Validator;
 
@@ -38,13 +39,13 @@ class StudentComponent extends Component
     public $sections;
 
 
-    public function mount(User $user)
+    public function mount(User $user, ClassRepository $classRepository, GuardianRepository $guardianRepository)
     {
         $this->sections = collect();
         $this->promoteClasses = collect();
-        $this->levels = Level::all();
-        $this->classes = Clazz::orderBy('name', 'asc')->get();
-        $this->guardians = Guardian::all();
+        $this->levels = $classRepository->getLevels();
+        $this->classes = $classRepository->all();
+        $this->guardians = $guardianRepository->getAll();
         $this->authUser = $user;
     }
 
@@ -53,13 +54,13 @@ class StudentComponent extends Component
     public function render()
     {
         if ($this->authUser->hasRole('teacher')) {
-            $teacher = User::find($this->authUser->id);
-            $students = $teacher->students->where('admitted', true);
+            $students = User::find($this->authUser->id)
+                ->students->where('admitted', true);
+
             return view('livewire.backend.student.student-component', compact('students'))->layout('backend.layouts.app');
         } else {
             $students = Student::with(['guardian', 'class'])
                 ->where('admitted', true)
-                ->latest()
                 ->get();
             return view('livewire.backend.student.student-component', compact('students'))->layout('backend.layouts.app');
         }

@@ -53,8 +53,6 @@
                                     <thead>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Full Fees</th>
-                                            <th>Part Fees</th>
                                             <th>Code</th>
                                             <th>Action</th>
                                         </tr>
@@ -63,8 +61,6 @@
                                         @foreach ($levels as $level)
                                             <tr>
                                                 <td>{{ Str::headline($level->name) }}</td>
-                                                <td>{{ Str::headline($level->fee->full_fees) }}</td>
-                                                <td>{{ Str::headline($level->fee->part_fees) }}</td>
                                                 <td>{{ $level->code }}</td>
 
                                                 <td class="d-flex"
@@ -90,8 +86,6 @@
                                     <tfoot>
                                         <tr>
                                             <th>Name</th>
-                                            <th>Full Fees</th>
-                                            <th>Part Fees</th>
                                             <th>Code</th>
                                             <th>Action</th>
                                         </tr>
@@ -142,23 +136,6 @@
                                                     id="name" placeholder="Enter name"
                                                     value="{{ old('name') }}">
                                                 @error('name')
-                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                @enderror
-
-                                            </div>
-
-                                            <div class="form-group">
-                                                <label for="fee_id">Fees</label>
-                                                <select class="form-control @error('fee_id') is-invalid @enderror" wire:model.defer='state.fee_id'
-                                                    id="fee_id">
-                                                    <option value="">Select School Fees</option>
-                                                    @foreach ($fees as $fee)
-                                                        <option value="{{ $fee->id }}">
-                                                            {{ $fee->full_fees . '-' . $fee->part_fees }}
-                                                        </option>
-                                                    @endforeach
-                                                </select>
-                                                @error('fee_id')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
 
@@ -232,33 +209,6 @@
                                             </div>
                                             <div class="col-sm-9 text-secondary">
                                                 {{ ucwords(optional($selectedLevel)->name) ?? '' }}
-                                            </div>
-                                        </div>
-                                        <hr>
-
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Full Fees</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                @if ($selectedLevel != null)
-                                                    {{ ucwords(optional($selectedLevel->fee)->full_fees) ?? '' }}
-                                                @endif
-
-                                            </div>
-                                        </div>
-                                        <hr>
-
-                                        <div class="row">
-                                            <div class="col-sm-3">
-                                                <h6 class="mb-0 font-weight-bold">
-                                                    Part Fees</h6>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                @if ($selectedLevel != null)
-                                                    {{ ucwords(optional($selectedLevel)->fee->part_fees) ?? '' }}
-                                                @endif
                                             </div>
                                         </div>
                                         <hr>

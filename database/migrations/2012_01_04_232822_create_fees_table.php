@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('fees', function (Blueprint $table) {
             $table->id();
-            $table->string('full_fees');
-            $table->string('part_fees');
+            $table->string('name');
+            $table->text('description');
+            $table->string('amount');
+            $table->string('half_payment')->nullable();
             $table->timestamps();
         });
     }

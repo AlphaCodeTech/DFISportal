@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Helpers\QS;
 use App\Models\Exam;
 use App\Models\ExamRecord;
 use App\Models\Grade;
@@ -18,7 +19,10 @@ class ExamRepository
 
     public function getExam($data)
     {
-        return Exam::where($data)->get();
+        // dd($data);
+        return Exam::whereHas('term.session', function ($query) use ($data) {
+            $query->where('name', $data);
+        })->get();
     }
 
     public function getExamsByYear($year)
@@ -124,7 +128,7 @@ class ExamRepository
 
     public function getMark($data)
     {
-        return Mark::where($data)->with(['grade','examination'])->get();
+        return Mark::where($data)->with(['grade', 'examination'])->get();
     }
 
     /*********** Skills ***************/
@@ -134,10 +138,10 @@ class ExamRepository
         return Skill::where($where)->orderBy('name')->get();
     }
 
-    public function getSkillByClassType($class_type = NULL, $skill_type = NULL)
+    public function getSkillByClassType($class_level = NULL, $skill_type = NULL)
     {
         return ($skill_type)
-            ? $this->getSkill(['class_type' => $class_type, 'skill_type' => $skill_type])
-            : $this->getSkill(['class_type' => $class_type]);
+            ? $this->getSkill(['class_level' => $class_level, 'skill_type' => $skill_type])
+            : $this->getSkill(['class_level' => $class_level]);
     }
 }

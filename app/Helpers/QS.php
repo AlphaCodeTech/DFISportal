@@ -6,6 +6,7 @@ use Hashids\Hashids;
 use App\Models\Student;
 use App\Models\Subject;
 use App\Settings\AcademicSetting;
+use App\Settings\SystemSetting;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,7 +19,7 @@ class QS
 
     public static function hash($id)
     {
-        $date = date('dMY') . 'CJ';
+        $date = date('dMY') . 'DFIS';
         $hash = new Hashids($date, 14);
         return $hash->encode($id);
     }
@@ -52,34 +53,29 @@ class QS
         return $toString ? implode(',', $decoded) : $decoded;
     }
 
-    public static function userIsTeamAccount()
+    public static function getTeamSAT()
     {
-        return in_array(Auth::user()->user_type, self::getTeamAccount());
+        return ['developer', 'super admin', 'teacher'];
     }
 
-    public static function userIsTeamSA()
+    public static function getTeamSA()
     {
-        return in_array(Auth::user()->user_type, self::getTeamSA());
-    }
-
-    public static function userIsTeamSAT()
-    {
-        return in_array(Auth::user()->user_type, self::getTeamSAT());
-    }
-
-    public static function userIsAcademic()
-    {
-        return Auth::user()->hasAnyRole(self::getTeamAcademic());
-    }
-
-    public static function userIsAdministrative()
-    {
-        return in_array(Auth::user()->user_type, self::getTeamAdministrative());
+        return ['admin', 'super admin'];
     }
 
     public static function userIsAdmin()
     {
         return Auth::user()->hasRole('super admin');
+    }
+
+    public static function userIsTeamSAT()
+    {
+        return Auth::user()->hasAnyRole(self::getTeamSAT());
+    }
+
+    public static function userIsTeamSA()
+    {
+        return Auth::user()->hasAnyRole(self::getTeamSA());
     }
 
     public static function getUserType()
@@ -137,7 +133,7 @@ class QS
 
     public static function userIsMyChild($student_id, $parent_id)
     {
-        $data = ['user_id' => $student_id, 'my_parent_id' => $parent_id];
+        $data = ['id' => $student_id, 'guardian_id' => $parent_id];
         return Student::where($data)->exists();
     }
 
@@ -197,6 +193,11 @@ class QS
     {
         $academicSetting = App::make(AcademicSetting::class);
         return $academicSetting->$type;
+    }
+    public static function getAppSetting($type)
+    {
+        $systemSetting = App::make(SystemSetting::class);
+        return $systemSetting->$type;
     }
 
     public static function getCurrentSession()

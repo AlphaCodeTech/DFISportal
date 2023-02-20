@@ -19,6 +19,7 @@ use App\Http\Livewire\Backend\Level\LevelComponent;
 use App\Http\Livewire\Backend\Exam\ExamMarkComponent;
 use App\Http\Livewire\Backend\Student\PromotionManage;
 use App\Http\Controllers\AdmissionManagementController;
+use App\Http\Controllers\Backend\Mark\MarkController;
 use App\Http\Livewire\Backend\Exam\ExamManageComponent;
 use App\Http\Livewire\Backend\Profile\ProfileComponent;
 use App\Http\Livewire\Backend\Session\SessionComponent;
@@ -35,6 +36,10 @@ use App\Http\Livewire\Backend\Department\DepartmentComponent;
 use App\Http\Livewire\Backend\Permission\PermissionComponent;
 use App\Http\Livewire\Backend\Subject\AssignSubjectToTeacher;
 use App\Http\Livewire\Backend\Classroom\ClassesAssignedSubjects;
+use App\Http\Livewire\Backend\Exam\ExamMarkBulk;
+use App\Http\Livewire\Backend\Exam\ExamYearSelect;
+use App\Http\Livewire\Backend\Pin\PinComponent;
+use App\Http\Livewire\Backend\Pin\PinEnter;
 
 // ! Frontend Routes
 
@@ -115,19 +120,33 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     // ! Terms
     Route::get('terms', TermComponent::class)->name('backend.terms');
-    
+
     // ! Exams
     Route::get('exams', ExamComponent::class)->name('backend.exams');
-   
+
     // ! Grades
     Route::get('grades', GradeComponent::class)->name('backend.grades');
-    
+
     // ! Marks
     Route::get('marks', ExamMarkComponent::class)->name('backend.marks');
+    Route::get('marks/bulk/{class?}/{section?}', ExamMarkBulk::class)->name('marks.bulk');
     Route::get('mark-management/{exam_id}/{class_id}/{section_id}/{subject_id}', ExamManageComponent::class)->name('marks.manage');
+    Route::get('marks/select_year/{id}', [MarkController::class, 'year_selector'])->name('marks.year_selector');
+    Route::post('marks/select_year/{id}', [MarkController::class, 'year_selected'])->name('marks.year_select');
+    Route::get('show/{id}/{year}', [MarkController::class, 'show'])->name('marks.show');
+    Route::get('marks/print/{id}/{exam_id}/{year}', [MarkController::class, 'print_view'])->name('marks.print');
+
+
+
+    /*************** Pins *****************/
+    Route::group(['prefix' => 'pins'], function () {
+        Route::get('/', PinComponent::class)->name('backend.pins');
+        Route::get('enter/{id}', PinEnter::class)->name('pins.enter');
+        Route::post('verify/{id}', [PinController::class, 'verify'])->name('pins.verify');
+    });
 });
 
-Route::prefix('settings')->middleware(['auth|role:super admin'])->group(function () {
+Route::prefix('settings')->middleware(['auth','role:super admin|developer'])->group(function () {
     Route::get('system', SystemComponent::class)->name('setting.system');
     Route::get('academic', AcademicComponent::class)->name('setting.academic');
 });

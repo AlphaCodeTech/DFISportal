@@ -70,7 +70,7 @@ class User extends Authenticatable
 
     public function students()
     {
-        return $this->hasManyThrough(Student::class, ClassSection::class, 'user_id', 'class_id');
+        return $this->belongsToMany(Student::class, 'class_subject_user', 'user_id', 'class_id')->withPivot('subject_id');
     }
 
     public function level()

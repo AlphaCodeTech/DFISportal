@@ -121,7 +121,8 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label for="selectedCurrentSection">From Section</label>
-                                                    <select wire:model='selectedCurrentSection' id="selectedCurrentSection"
+                                                    <select wire:model='selectedCurrentSection'
+                                                        id="selectedCurrentSection"
                                                         class="form-control @error('selectedCurrentSection') is-invalid @enderror">
                                                         <option value="">Select Section</option>
                                                         @if (!is_null($selectedCurrentClass))
@@ -199,7 +200,7 @@
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
-                                    <form wire:submit.prevent='promote'>
+                                    <form wire:submit.prevent='promote' method="POST">
                                         <table id="example1" class="table table-bordered table-striped">
                                             <thead>
                                                 <tr>
@@ -211,8 +212,8 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($students as $student)
-                                                    <tr>
+                                                @foreach ($students as $key => $student)
+                                                    <tr wire:key='{{ $student->id }}'>
                                                         <td class="text-capitalize">
                                                             {{ $student->surname . ' ' . $student->middlename . ' ' . $student->lastname }}
                                                         </td>
@@ -222,21 +223,67 @@
                                                                 src="{{ asset($student->photo) }}"
                                                                 alt="{{ $student->name }}"
                                                                 style="width: 100px; height: 100px;"></td>
-
-                                                        <td style="justify-content: space-evenly; padding-right: 0;">
-                                                            <select wire:model="p.{{ $student->id }}"
-                                                                class="form-control @error('p') is-invalid @enderror"
-                                                                id="p">
-                                                                <option value=""></option>
-                                                                <option value="P" selected>Promote</option>
-                                                                <option value="D">Don't Promote</option>
-                                                                <option value="G">Graduated</option>
-                                                            </select>
-                                                            @error('p')
-                                                                <div class="invalid-feedback">{{ $message }}</div>
-                                                            @enderror
-
+                                                        <td wire:key='$student->id'>
+                                                            {{-- {{ dd($P) }} --}}
+                                                            <div class="form-check">
+                                                                <input name="P.{{ $student->id }}" title="Promote"
+                                                                    class="text-center form-check-input @error('P.' . $student->id) is-invalid @enderror"
+                                                                    wire:click="updateP('P',{{ $student->id }})"
+                                                                    type="radio" value="P" wire:model.defer='P.{{ $student->id }}'>
+                                                                <label class="form-check-label" for="">
+                                                                    Promote
+                                                                </label>
+                                                                @error('P.' . $student->id)
+                                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input name="P.{{ $student->id }}"
+                                                                    title="Don't Promote"
+                                                                    class="text-center form-check-input @error('P.' . $student->id) is-invalid @enderror"
+                                                                    wire:click="updateP('D',{{ $student->id }})"
+                                                                    type="radio" value="D" wire:model.defer='P.{{ $student->id }}'>
+                                                                <label class="form-check-label" for="">
+                                                                    Don't Promote
+                                                                </label>
+                                                                @error('P.' . $student->id)
+                                                                    <div class="invalid-feedback">{{ $message }}
+                                                                    </div>
+                                                                @enderror
+                                                            </div>
+                                                            <div class="form-check">
+                                                                <input name="P.{{ $student->id }}" title="Graduated"
+                                                                    class="text-center form-check-input @error('P.' . $student->id) is-invalid @enderror"
+                                                                    wire:click="updateP('G',{{ $student->id }})"
+                                                                    type="radio" value="G" wire:model.defer='P.{{ $student->id }}'
+                                                                    class="form-check-input @error('P.' . $student->id) is-invalid @enderror">
+                                                                <label class="form-check-label" for="">
+                                                                    Graduated
+                                                                </label>
+                                                                @error('P.' . $student->id)
+                                                                    <div class="invalid-feedback">{{ $message }}
+                                                                    </div>
+                                                                @enderror
+                                                            </div>
                                                         </td>
+
+
+
+                                                        {{-- <td style="justify-content: space-evenly; padding-right: 0;">
+                                                            <div class="form-group">
+                                                                <select 
+                                                                    wire:model="promotion.{{ $student->id }}"
+                                                                    class="form-control @error('promotion.' . $student->id) is-invalid @enderror" id="promote">
+                                                                    <option value=""></option>
+                                                                    <option value="P">Promote</option>
+                                                                    <option value="D">Don't Promote</option>
+                                                                    <option value="G">Graduated</option>
+                                                                </select>
+                                                                @error('promotion.' . $student->id)
+                                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
+                                                        </td> --}}
                                                     </tr>
                                                 @endforeach
 

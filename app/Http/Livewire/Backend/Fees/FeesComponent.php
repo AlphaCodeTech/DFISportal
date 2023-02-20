@@ -4,9 +4,7 @@ namespace App\Http\Livewire\Backend\Fees;
 
 use App\Models\Fee;
 use Livewire\Component;
-use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
-use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Validator;
 
 class FeesComponent extends Component
@@ -38,8 +36,10 @@ class FeesComponent extends Component
     public function store()
     {
         $data =  Validator::make($this->state, [
-            'full_fees' => 'required|numeric',
-            'part_fees' => 'required|numeric',
+            'name' => 'required',
+            'amount' => 'required|numeric',
+            'description' => 'required',
+            'half_payment' => 'nullable|numeric',
         ])->validate();
 
         Fee::create($data);
@@ -58,8 +58,10 @@ class FeesComponent extends Component
     public function update()
     {
         $data =  Validator::make($this->state, [
-            'full_fees' => 'required|numeric',
-            'part_fees' => 'required|numeric',
+            'name' => 'required',
+            'amount' => 'required|numeric',
+            'description' => 'required',
+            'half_payment' => 'nullable|numeric',
         ])->validate();
 
         $this->fee->update($data);

@@ -52,16 +52,20 @@
                                 <table id="example1" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Full Fees</th>
-                                            <th>Part Fees</th>
+                                            <th>Name</th>
+                                            <th>Description</th>
+                                            <th>Amount</th>
+                                            <th>Part Payment</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($fees as $fee)
                                             <tr>
-                                                <td>{{ Str::headline($fee->full_fees) }}</td>
-                                                <td>{{ Str::headline($fee->part_fees) }}</td>
+                                                <td>{{ Str::upper($fee->name) }}</td>
+                                                <td>{{ Str::upper($fee->description) }}</td>
+                                                <td>{{ Str::upper($fee->amount) }}</td>
+                                                <td>{{ Str::upper($fee->half_payment) ?? 'Not Allowed' }}</td>
 
                                                 <td class="d-flex"
                                                     style="justify-content: space-evenly; padding-right: 0;">
@@ -85,8 +89,10 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <th>Full Fees</th>
-                                            <th>Part Fees</th>
+                                            <th>Name</th>
+                                            <th>Description</th>
+                                            <th>Amount</th>
+                                            <th>Part Payment</th>
                                             <th>Action</th>
                                         </tr>
                                     </tfoot>
@@ -119,7 +125,8 @@
                     <div class="container-fluid">
                         <div class="row">
                             <!-- left column -->
-                            <div class="col-md-6">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
                                 <!-- general form elements -->
                                 <div class="card card-primary">
 
@@ -130,24 +137,45 @@
                                         <div class="card-body">
 
                                             <div class="form-group">
-                                                <label for="full_fees">Full Fees</label>
-                                                <input wire:model.defer='state.full_fees' type="text"
-                                                    class="form-control @error('full_fees') is-invalid @enderror"
-                                                    id="full_fees" placeholder="Enter full fees"
-                                                    value="{{ old('full_fees') }}">
-                                                @error('full_fees')
+                                                <label for="name">Name</label>
+                                                <input wire:model.defer='state.name' type="text"
+                                                    class="form-control @error('name') is-invalid @enderror"
+                                                    id="name" placeholder="Enter full fees"
+                                                    value="{{ old('name') }}">
+                                                @error('name')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
 
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="part_fees">Part Fees</label>
-                                                <input wire:model.defer='state.part_fees' type="text"
-                                                    class="form-control @error('part_fees') is-invalid @enderror"
-                                                    id="part_fees" placeholder="Enter part fees"
-                                                    value="{{ old('part_fees') }}">
-                                                @error('part_fees')
+                                                <label for="description">Description</label>
+                                                <textarea wire:model.defer='state.description' class="form-control @error('description') is-invalid @enderror"
+                                                    id="" cols="30" rows="10" style="resize: none"></textarea>
+                                                @error('description')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="amount">Amount</label>
+                                                <input wire:model.defer='state.amount' type="text"
+                                                    class="form-control @error('amount') is-invalid @enderror"
+                                                    id="amount" placeholder="Enter part fees"
+                                                    value="{{ old('amount') }}">
+                                                @error('amount')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="half_payment">Half Payment (If it is allowed)</label>
+                                                <input wire:model.defer='state.half_payment' type="text"
+                                                    class="form-control @error('half_payment') is-invalid @enderror"
+                                                    id="half_payment" placeholder="Enter part fees"
+                                                    value="{{ old('half_payment') }}">
+                                                @error('half_payment')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
 
@@ -166,7 +194,7 @@
                             </div>
 
                             <!--/.col (left) -->
-
+                            <div class="col-md-1"></div>
                             <!--/.col (right) -->
                         </div>
                         <!-- /.row -->
@@ -202,7 +230,7 @@
                                         <div class="d-flex flex-column align-items-center text-center">
 
                                             <div class="mt-3">
-                                                <h4>{{ Str::headline(optional($selectedFee)->full_fees) ?? '' }}
+                                                <h4>{{ Str::headline(optional($selectedFee)->name) ?? '' }}
                                                 </h4>
 
                                                 <button class="btn btn-outline-primary">Status</button>
@@ -217,27 +245,47 @@
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <h6 class="mb-0 font-weight-bold">
-                                                    Full Fees</h6>
+                                                    Name</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedFee)->full_fees) ?? '' }}
+                                                {{ ucwords(optional($selectedFee)->name) ?? '' }}
                                             </div>
                                         </div>
                                         <hr>
 
-                                    
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <h6 class="mb-0 font-weight-bold">
-                                                    Full Fees</h6>
+                                                    Description</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedFee)->part_fees) ?? '' }}
+                                                {{ ucwords(optional($selectedFee)->description) ?? '' }}
                                             </div>
                                         </div>
                                         <hr>
 
-                                    
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Amount</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                {{ ucwords(optional($selectedFee)->amount) ?? '' }}
+                                            </div>
+                                        </div>
+                                        <hr>
+
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <h6 class="mb-0 font-weight-bold">
+                                                    Half Payment</h6>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                {{ ucwords(optional($selectedFee)->half_payment) ?? '' }}
+                                            </div>
+                                        </div>
+                                        <hr>
+
                                     </div>
                                 </div>
                             </div>

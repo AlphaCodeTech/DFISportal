@@ -46,7 +46,6 @@ class LevelComponent extends Component
     {
         $data =  Validator::make($this->state, [
             'name' => 'required|unique:levels,name',
-            'fee_id' => 'required|exists:fees,id',
         ])->validate();
 
         $words = explode(" ", $data['name']);
@@ -79,7 +78,6 @@ class LevelComponent extends Component
     {
         $data =  Validator::make($this->state, [
             'name' => 'required|unique:levels,name,' . $this->level->id,
-            'fee_id' => 'required|exists:fees,id',
         ])->validate();
 
         $words = explode(" ", $data['name']);
@@ -103,7 +101,6 @@ class LevelComponent extends Component
     public function show(Level $level)
     {
         $this->selectedLevel = $level;
-        // dd($this->selectedLevel->roles);
         $this->dispatchBrowserEvent('show-view');
     }
 
