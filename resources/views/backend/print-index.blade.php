@@ -4,6 +4,7 @@
     <head>
         <title>Student Marksheet - {{ $student_record->name }}</title>
         <link rel="stylesheet" type="text/css" href="{{ asset('backend/dist/css/print.css') }}" />
+        <link rel="stylesheet" href="{{ asset('backend/dist/css/adminlte.min.css') }}">
     </head>
 
     <body>

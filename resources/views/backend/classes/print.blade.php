@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Class Data</title>
     <link rel="stylesheet" href="{{ public_path('backend/dist/css/adminlte.min.css') }}">
-
 </head>
 <body>
     

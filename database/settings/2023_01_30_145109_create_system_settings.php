@@ -11,6 +11,9 @@ class CreateSystemSettings extends SettingsMigration
         $this->migrator->add('system.email', 'schoolemail@example.com');
         $this->migrator->add('system.phone', 'School Phone Number');
         $this->migrator->add('system.address', 'School Address');
+        $this->migrator->add('system.first_CA', 10);
+        $this->migrator->add('system.second_CA', 30);
+        $this->migrator->add('system.exam', 60);
         $this->migrator->add('system.logo', 'null.jpg');
     }
 }
