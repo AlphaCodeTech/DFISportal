@@ -102,18 +102,18 @@
                                                 @enderror
                                             </div>
                                             <div class="form-group">
-                                                <label for="cre_fees">Creche School Fees</label>
-                                                <select wire:model.defer='state.cre_fees'
-                                                    class="form-control @error('cre_fees') is-invalid @enderror"
-                                                    id="cre_fees">
+                                                <label for="CR_fees">Creche School Fees</label>
+                                                <select wire:model.defer='state.CR_fees'
+                                                    class="form-control @error('CR_fees') is-invalid @enderror"
+                                                    id="CR_fees">
                                                     <option value=""></option>
                                                     @foreach ($fees as $fee)
                                                         <option value="{{ trim($fee->getRawOriginal('amount')) }}"
-                                                            {{ $state['cre_fees'] == trim($fee->getRawOriginal('amount')) ? 'selected' : '' }}>
+                                                            {{ $state['CR_fees'] == trim($fee->getRawOriginal('amount')) ? 'selected' : '' }}>
                                                             {{ $fee->name }} - {{ $fee->amount }}</option>
                                                     @endforeach
                                                 </select>
-                                                @error('cre_fees')
+                                                @error('CR_fees')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
@@ -123,66 +123,66 @@
                                         <div class="col-md-6">
 
                                             <div class="form-group">
-                                                <label for="nur_fees">Nursery School Fees</label>
-                                                <select wire:model.defer='state.nur_fees'
-                                                    class="form-control @error('nur_fees') is-invalid @enderror"
-                                                    id="nur_fees">
+                                                <label for="NU_fees">Nursery School Fees</label>
+                                                <select wire:model.defer='state.NU_fees'
+                                                    class="form-control @error('NU_fees') is-invalid @enderror"
+                                                    id="NU_fees">
                                                     <option value=""></option>
                                                     @foreach ($fees as $fee)
                                                         <option value="{{ trim($fee->getRawOriginal('amount')) }}"
-                                                            {{ $state['nur_fees'] == trim($fee->getRawOriginal('amount')) ? 'selected' : '' }}>
+                                                            {{ $state['NU_fees'] == trim($fee->getRawOriginal('amount')) ? 'selected' : '' }}>
                                                             {{ $fee->name }} - {{ $fee->amount }}</option>
                                                     @endforeach
                                                 </select>
-                                                @error('nur_fees')
+                                                @error('NU_fees')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
-                                                <label for="pri_fees">Primary School Fees</label>
-                                                <select wire:model.defer='state.pri_fees'
-                                                    class="form-control @error('pri_fees') is-invalid @enderror"
-                                                    id="pri_fees">
+                                                <label for="PR_fees">Primary School Fees</label>
+                                                <select wire:model.defer='state.PR_fees'
+                                                    class="form-control @error('PR_fees') is-invalid @enderror"
+                                                    id="PR_fees">
                                                     <option value=""></option>
                                                     @foreach ($fees as $fee)
                                                         <option value="{{ trim($fee->getRawOriginal('amount')) }}"
-                                                            {{ $state['pri_fees'] == $fee->getRawOriginal('amount') ? 'selected' : '' }}>
+                                                            {{ $state['PR_fees'] == $fee->getRawOriginal('amount') ? 'selected' : '' }}>
                                                             {{ $fee->name }} - {{ $fee->amount }}</option>
                                                     @endforeach
                                                 </select>
-                                                @error('pri_fees')
+                                                @error('PR_fees')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
-                                                <label for="jss_fees">Junior Secondary School Fees</label>
-                                                <select wire:model.defer='state.jss_fees'
-                                                    class="form-control @error('jss_fees') is-invalid @enderror"
-                                                    id="jss_fees">
+                                                <label for="JS_fees">Junior Secondary School Fees</label>
+                                                <select wire:model.defer='state.JS_fees'
+                                                    class="form-control @error('JS_fees') is-invalid @enderror"
+                                                    id="JS_fees">
                                                     <option value=""></option>
                                                     @foreach ($fees as $fee)
                                                         <option value="{{ trim($fee->getRawOriginal('amount')) }}"
-                                                            {{ $state['jss_fees'] == trim($fee->getRawOriginal('amount')) ? 'selected' : '' }}>
+                                                            {{ $state['JS_fees'] == trim($fee->getRawOriginal('amount')) ? 'selected' : '' }}>
                                                             {{ $fee->name }} - {{ $fee->amount }}</option>
                                                     @endforeach
                                                 </select>
-                                                @error('jss_fees')
+                                                @error('JS_fees')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
-                                                <label for="sss_fees">Senior Secondary School Fees</label>
-                                                <select wire:model.defer='state.sss_fees'
-                                                    class="form-control @error('sss_fees') is-invalid @enderror"
-                                                    id="sss_fees">
+                                                <label for="SS_fees">Senior Secondary School Fees</label>
+                                                <select wire:model.defer='state.SS_fees'
+                                                    class="form-control @error('SS_fees') is-invalid @enderror"
+                                                    id="SS_fees">
                                                     <option value=""></option>
                                                     @foreach ($fees as $fee)
                                                         <option value="{{ trim($fee->getRawOriginal('amount')) }}"
-                                                            {{ $state['sss_fees'] == trim($fee->getRawOriginal('amount')) ? 'selected' : '' }}>
+                                                            {{ $state['SS_fees'] == trim($fee->getRawOriginal('amount')) ? 'selected' : '' }}>
                                                             {{ $fee->name }} - {{ $fee->amount }}</option>
                                                     @endforeach
                                                 </select>
-                                                @error('sss_fees')
+                                                @error('SS_fees')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>

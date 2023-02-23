@@ -21,7 +21,7 @@ class ExamYearSelect extends Component
 
     public function render()
     {
-        return view('livewire.backend.exam.exam-year_select')->layout('backend.layouts.app');
+        return view('livewire.backend.exam.exam-year-select')->layout('backend.layouts.app');
     }
 
 }

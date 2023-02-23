@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Helpers\QS;
 use App\Models\Exam;
 use App\Models\ExamRecord;
 use App\Models\Grade;
@@ -19,7 +18,6 @@ class ExamRepository
 
     public function getExam($data)
     {
-        // dd($data);
         return Exam::whereHas('term.session', function ($query) use ($data) {
             $query->where('name', $data);
         })->get();
@@ -59,7 +57,7 @@ class ExamRepository
 
     public function getRecord($data)
     {
-        return ExamRecord::where($data)->get();
+        return ExamRecord::where($data)->get()->unique('exam_id');
     }
 
     public function findRecord($id)

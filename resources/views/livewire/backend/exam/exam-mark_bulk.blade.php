@@ -124,7 +124,7 @@
                                                                 alt="{{ $student->name }}"
                                                                 style="width: 100px; height: 100px;"></td>
                                                         <td><a class="btn btn-danger"
-                                                                href="{{ route('marks.year_selector',$student->id) }}">View
+                                                                href="{{ route('marks.year_selector', $student->id) }}">View
                                                                 Marksheet</a></td>
 
                                                     </tr>

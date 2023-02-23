@@ -38,11 +38,11 @@ class AcademicComponent extends Component
             'term_begins' => 'required',
             'term_ends' => 'required',
             'current_session' => 'required',
-            'cre_fees' => 'required|integer',
-            'nur_fees' => 'required|integer',
-            'pri_fees' => 'required|integer',
-            'jss_fees' => 'required|integer',
-            'sss_fees' => 'required|integer',
+            'CR_fees' => 'required|integer',
+            'NU_fees' => 'required|integer',
+            'PR_fees' => 'required|integer',
+            'JS_fees' => 'required|integer',
+            'SS_fees' => 'required|integer',
             'lock_exam' => 'required|integer',
         ])->validate();
 
@@ -51,11 +51,11 @@ class AcademicComponent extends Component
         $academicSetting->term_begins = $data['term_begins'];
         $academicSetting->term_ends = $data['term_ends'];
         $academicSetting->current_session = $data['current_session'];
-        $academicSetting->cre_fees = $data['cre_fees'];
-        $academicSetting->nur_fees = $data['nur_fees'];
-        $academicSetting->pri_fees = $data['pri_fees'];
-        $academicSetting->jss_fees = $data['jss_fees'];
-        $academicSetting->sss_fees = $data['sss_fees'];
+        $academicSetting->cre_fees = $data['CR_fees'];
+        $academicSetting->nur_fees = $data['NU_fees'];
+        $academicSetting->pri_fees = $data['PR_fees'];
+        $academicSetting->jss_fees = $data['JS_fees'];
+        $academicSetting->sss_fees = $data['SS_fees'];
         $academicSetting->lock_exam = $data['lock_exam'];
 
         $academicSetting->save();

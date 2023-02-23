@@ -16,8 +16,9 @@ class MarkRepository
         $grades = Grade::where(['level_id' => $level_id])->get();
 
         if ($grades->count() > 0) {
-            $gr = $grades->where('mark_from', '<=', $total)->where('mark_to', '>=', $total);
-            return $gr->count() > 0 ? $gr->first() : $this->getGrade2($total);
+            $grade = $grades->where('mark_from', '<=', $total)->where('mark_to', '>=', $total);
+
+            return $grade->count() > 0 ? $grade->first() : $this->getGrade2($total);
         }
         return $this->getGrade2($total);
     }

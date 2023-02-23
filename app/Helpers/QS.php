@@ -53,6 +53,17 @@ class QS
         return $toString ? implode(',', $decoded) : $decoded;
     }
 
+    public static function getPanelOptions()
+    {
+        return '    <div class="header-elements">
+                    <div class="list-icons">
+                        <a class="list-icons-item" data-action="collapse"></a>
+                        <a class="list-icons-item" data-action="remove"></a>
+                    </div>
+                </div>';
+    }
+
+
     public static function getTeamSAT()
     {
         return ['developer', 'super admin', 'teacher'];
@@ -60,7 +71,7 @@ class QS
 
     public static function getTeamSA()
     {
-        return ['admin', 'super admin'];
+        return ['super admin','developer', 'teacher'];
     }
 
     public static function userIsAdmin()

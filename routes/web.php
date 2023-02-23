@@ -135,6 +135,8 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::post('marks/select_year/{id}', [MarkController::class, 'year_selected'])->name('marks.year_select');
     Route::get('show/{id}/{year}', [MarkController::class, 'show'])->name('marks.show');
     Route::get('marks/print/{id}/{exam_id}/{year}', [MarkController::class, 'print_view'])->name('marks.print');
+    Route::put('comment_update/{exam_record_id}', [MarkController::class, 'comment_update'])->name('marks.comment_update');
+    Route::put('skills_update/{skill}/{exam_record_id}', [MarkController::class, 'skills_update'])->name('marks.skills_update');
 
 
 

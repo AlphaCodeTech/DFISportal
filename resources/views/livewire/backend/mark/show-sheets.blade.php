@@ -1,12 +1,12 @@
-<div class="collapse show" id="collapseOne" data-parent="#accordion" wire:ignore.self>
+<div>
     <table class="table table-bordered table-responsive text-center">
         <thead>
             <tr>
                 <th rowspan="2">S/N</th>
                 <th rowspan="2">SUBJECTS</th>
-                <th rowspan="2">1st CA<br>(10)</th>
-                <th rowspan="2">2nd CA<br>(30)</th>
-                <th rowspan="2">EXAMS<br>(60)</th>
+                <th rowspan="2">1st CA<br>({{ $appSettings->first_CA }})</th>
+                <th rowspan="2">2nd CA<br>({{ $appSettings->second_CA }})</th>
+                <th rowspan="2">EXAMS<br>({{ $appSettings->exam }})</th>
                 <th rowspan="2">TOTAL<br>(100)</th>
 
                 {{-- @if ($exam->term == 3) --}}{{-- 3rd Term --}}{{--
@@ -25,7 +25,6 @@
 
         <tbody>
             @foreach ($subjects as $subject)
-                {{-- {{ dd($subject) }} --}}
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $subject->name }}</td>
@@ -68,5 +67,4 @@
             </tr>
         </tbody>
     </table>
-
 </div>

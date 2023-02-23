@@ -5,9 +5,6 @@ namespace App\Http\Controllers\Backend\Mark;
 use App\Helpers\Mk;
 use App\Helpers\Qs;
 use Illuminate\Http\Request;
-use App\Repositories\StudentRepo;
-use App\Settings\AcademicSetting;
-use Illuminate\Support\Facades\App;
 use App\Http\Controllers\Controller;
 use App\Repositories\ExamRepository;
 use App\Repositories\MarkRepository;
@@ -16,7 +13,6 @@ use App\Repositories\ClassRepository;
 use App\Repositories\StudentRepository;
 use Illuminate\Support\Facades\Session;
 use App\Http\Requests\Mark\MarkSelector;
-use App\Settings\SystemSetting;
 
 class MarkController extends Controller
 {
@@ -90,8 +86,8 @@ class MarkController extends Controller
         $data['year'] = $year;
         $data['student_id'] = $student_id;
         $data['skills'] = $this->exam->getSkillByClassType() ?: NULL;
-
-
+        //3897
+        // dd($data);
         return view('backend.mark-include', compact('data'));
     }
 
@@ -320,41 +316,24 @@ class MarkController extends Controller
 
     public function comment_update(Request $req, $exr_id)
     {
-        $d = Qs::userIsTeamSA() ? $req->only(['t_comment', 'p_comment']) : $req->only(['t_comment']);
+        $d = QS::userIsTeamSA() ? $req->only(['t_comment', 'p_comment']) : $req->only(['t_comment']);
 
         $this->exam->updateRecord(['id' => $exr_id], $d);
-        return Qs::jsonUpdateOk();
+        toast(__('msg.update_ok'), 'success');
+        return redirect()->back();
     }
 
-    public function skills_update(Request $req, $skill, $exr_id)
+    public function skills_update(Request $req, $skill, $exam_record_id)
     {
-        $d = [];
+        $data = [];
         if ($skill == 'AF' || $skill == 'PS') {
             $sk = strtolower($skill);
-            $d[$skill] = implode(',', $req->$sk);
+            $data[$skill] = implode(',', $req->$sk);
         }
 
-        $this->exam->updateRecord(['id' => $exr_id], $d);
-        return Qs::jsonUpdateOk();
-    }
-
-    public function bulk($class_id = NULL, $section_id = NULL)
-    {
-        $d['my_classes'] = $this->my_class->all();
-        $d['selected'] = false;
-
-        if ($class_id && $section_id) {
-            $d['sections'] = $this->my_class->getAllSections()->where('my_class_id', $class_id);
-            $d['students'] = $st = $this->student->getRecord(['my_class_id' => $class_id, 'section_id' => $section_id])->get()->sortBy('user.name');
-            if ($st->count() < 1) {
-                return redirect()->route('marks.bulk')->with('flash_danger', __('msg.srnf'));
-            }
-            $d['selected'] = true;
-            $d['my_class_id'] = $class_id;
-            $d['section_id'] = $section_id;
-        }
-
-        return view('pages.support_team.marks.bulk', $d);
+        $this->exam->updateRecord(['id' => $exam_record_id], $data);
+        toast(__('msg.update_ok'), 'success');
+        return redirect()->back();
     }
 
     public function bulk_select(Request $req)

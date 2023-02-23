@@ -13,6 +13,8 @@ use App\Repositories\ExamRepository;
 use App\Repositories\MarkRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\ClassRepository;
+use App\Settings\SystemSetting;
+use Illuminate\Support\Facades\Validator;
 
 class ExamManageComponent extends Component
 {
@@ -68,11 +70,15 @@ class ExamManageComponent extends Component
         return view('livewire.backend.exam.exam-manage')->layout('backend.layouts.app');
     }
 
-    protected $rules = [
-        'marks.*.t1' => 'required|integer|max:10',
-        'marks.*.t2' => 'required|integer|max:30',
-        'marks.*.exam' => 'required|integer|max:60'
-    ];
+    protected function rules()
+    {
+        $systemSetting = App::make(SystemSetting::class);
+        return [
+            'marks.*.t1' => 'required|integer|max:' . $systemSetting->first_CA,
+            'marks.*.t2' => 'required|integer|max:' . $systemSetting->second_CA,
+            'marks.*.exam' => 'required|integer|max:' . $systemSetting->exam
+        ];
+    }
 
     protected $messages = [
         'marks.*.t1.required' => 'The first CA field is required',
@@ -86,7 +92,6 @@ class ExamManageComponent extends Component
     public function update($exam_id, $class_id, $section_id, $subject_id)
     {
         $this->validate();
-        
         $examRepository = App::make(ExamRepository::class);
         $classRepository = App::make(ClassRepository::class);
         $markRepository = App::make(MarkRepository::class);
@@ -97,7 +102,6 @@ class ExamManageComponent extends Component
 
         $examData = $examRepository->find($exam_id);
         $level = $classRepository->findLevelByClass($class_id);
-
 
         /** Test, Exam, Grade **/
         foreach ($this->marks->sortBy('user.name') as $mark) {
@@ -117,9 +121,7 @@ class ExamManageComponent extends Component
                 $data['tex' . $examData->term->id] = $data['t1'] = $data['t2'] = $data['t3'] = $data['t4'] = $data['total_CA'] = $data['exam'] = NULL;
             }
 
-            
             $grade = $markRepository->getGrade($total, $level->id);
-            // dd($grade);
             $data['grade_id'] = $grade ? $grade->id : NULL;
 
             $examRepository->updateMark($mark->id, $data);
@@ -150,7 +152,6 @@ class ExamManageComponent extends Component
             $data3['position'] = $markRepository->getPosition($student_id, $examData, $class_id, $section_id, $this->year);
 
             $examRepository->updateRecord($parameters, $data3);
-
         }
         /*Exam Record End*/
 

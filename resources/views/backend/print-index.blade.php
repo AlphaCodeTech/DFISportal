@@ -2,9 +2,10 @@
     <html>
 
     <head>
-        <title>Student Marksheet - {{ $student_record->name }}</title>
+        <title>Student Marksheet - {{ $student_record->surname }} {{ $student_record->middlename }}
+            {{ $student_record->lastname }}</title>
         <link rel="stylesheet" type="text/css" href="{{ asset('backend/dist/css/print.css') }}" />
-        <link rel="stylesheet" href="{{ asset('backend/dist/css/adminlte.min.css') }}">
+        {{-- <link rel="stylesheet" href="{{ asset('backend/dist/css/adminlte.min.css') }}"> --}}
     </head>
 
     <body>
@@ -38,18 +39,18 @@
                 </div>
 
                 {{-- <!-- SHEET BEGINS HERE--> --}}
-                <livewire:backend.mark.show-sheet :subjects="$subjects" :marks="$marks" :exam="$exam"
-                    :exam_record="$exam_record" />
+                <livewire:backend.print.print-sheet :student_record="$student_record" :class="$class" :subjects="$subjects"
+                    :marks="$marks" :exam="$exam" :exam_record="$exam_record" :tex="$tex" />
                 {{-- Key to Grading --}}
                 {{-- @include('pages.support_team.marks.print.grading') --}}
 
                 {{-- TRAITS - PSCHOMOTOR & AFFECTIVE --}}
-                <livewire:backend.mark.show-skills />
+                <livewire:backend.print.print-skill :skills="$skills" :exam_record="$exam_record"/>
 
                 <div style="margin-top: 25px; clear: both;"></div>
 
                 {{--    COMMENTS & SIGNATURE    --}}
-                <livewire:backend.mark.show-comments />
+                <livewire:backend.print.print-comment :classLevel="$cl" :exam_record="$exam_record" />
 
 
             </div>

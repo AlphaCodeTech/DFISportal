@@ -66,9 +66,9 @@
                                             <tr>
                                                 <th>Name</th>
                                                 <th>Admission Number</th>
-                                                <th>1ST CA(10)</th>
-                                                <th>2ND CA(30)</th>
-                                                <th>Exam (60)</th>
+                                                <th>1ST CA({{ $appSettings->first_CA }})</th>
+                                                <th>2ND CA({{ $appSettings->second_CA }})</th>
+                                                <th>Exam ({{ $appSettings->exam }})</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -119,9 +119,9 @@
                                             <tr>
                                                 <th>Name</th>
                                                 <th>Admission Number</th>
-                                                <th>1ST CA(10)</th>
-                                                <th>2ND CA(30)</th>
-                                                <th>Exam (60)</th>
+                                                <th>1ST CA({{ $appSettings->first_CA }})</th>
+                                                <th>2ND CA({{ $appSettings->second_CA }})</th>
+                                                <th>Exam ({{ $appSettings->exam }})</th>
                                             </tr>
                                         </tfoot>
                                     </table>
