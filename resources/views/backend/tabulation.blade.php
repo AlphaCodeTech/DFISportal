@@ -8,12 +8,7 @@
                 float: right;
             }
 
-            .btn-header-link.s:after {
-                    content: "\f106";
-                    font-family: 'Font Awesome 5 Free';
-                    font-weight: 900;
-                    float: right;
-                }
+ 
         </style>
     @endpush
     <!-- Content Wrapper. Contains page content -->
@@ -57,9 +52,7 @@
                                         <h6 class="font-weight-bold">
                                             {{ $exam->name . ' - ' . $exam->term->session->name }}</h6>
                                         <div class="">
-                                            <a data-toggle="collapse"
-                                                onclick="toggle('collapseA{{ $exam->id }}')"
-                                                id="collapseA{{ $exam->id }}" class="btn h btn-header-link text-white"
+                                            <a data-toggle="collapse" class="btn btn-header-link text-white"
                                                 data-target="#collapseSk{{ $exam->id }}"
                                                 href="#collapse{{ $exam->id }}" aria-expanded="true"
                                                 aria-controls="collapseSk{{ $exam->id }}">
@@ -95,20 +88,4 @@
                 </div>
             </div>
         </section>
-
-        @push('extra-js')
-            <script>
-                function toggle(id) {
-                    element = $('#' + id);
-                    console.log(element.hasClass("h"));
-                    if (element.hasClass('h')) {
-                        element.removeClass('h');
-                        element.addClass('s');
-                    } else {
-                        element.removeClass('s');
-                        element.addClass('h');
-                    }
-                }
-            </script>
-        @endpush
 </x-admin-layout>

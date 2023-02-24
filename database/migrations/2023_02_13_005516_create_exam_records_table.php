@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('p_comment')->nullable();
             $table->string('t_comment')->nullable();
             $table->string('year');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

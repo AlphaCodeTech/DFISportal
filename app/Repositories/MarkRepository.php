@@ -119,7 +119,8 @@ class MarkRepository
         $subject_mark = $this->getSubjectMark($exam, $class_id, $subject_id, $student_id, $year);
 
         $subject_marks = Mark::where($data)->whereNotNull($tex)->orderBy($tex, 'DESC')->select($tex)->get()->pluck($tex);
-        return $sub_pos = $subject_marks->count() > 0 ? $subject_marks->search($subject_mark) + 1 : NULL;
+        $subject_position = $subject_marks->count() > 0 ? $subject_marks->search($subject_mark) + 1 : null;
+        return $subject_position;
     }
 
     public function countExSubjects($exam, $st_id, $class_id, $year)

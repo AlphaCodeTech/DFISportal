@@ -4,7 +4,8 @@
             <div class="p-2 bg-dark d-flex justify-content-between align-items-center">
                 <h6 class="card-title font-weight-bold">Exam Comments</h6>
                 <div class="">
-                    <a data-toggle="collapse" class="btn btn-header-link text-white "
+                    <a onclick="toggle('collapseE{{ $exam_record->id }}')"
+                        id="collapseE{{ $exam_record->id }}" data-toggle="collapse" class="btn h btn-header-link text-white "
                         data-target="#collapse{{ $exam_record->id }}" href="#collapse{{ $exam_record->id }}"
                         aria-expanded="false" aria-controls="collapse{{ $exam_record->id }}">
 

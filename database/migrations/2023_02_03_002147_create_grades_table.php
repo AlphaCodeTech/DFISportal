@@ -20,6 +20,7 @@ return new class extends Migration
             $table->tinyInteger('mark_from');
             $table->tinyInteger('mark_to');
             $table->string('remark', 40)->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

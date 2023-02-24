@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('skill_type');
             $table->string('class_level')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

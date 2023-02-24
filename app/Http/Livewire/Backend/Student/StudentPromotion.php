@@ -8,7 +8,6 @@ use App\Settings\AcademicSetting;
 use Illuminate\Support\Facades\App;
 use App\Repositories\ClassRepository;
 use App\Repositories\StudentRepository;
-use Illuminate\Support\Facades\Validator;
 
 class StudentPromotion extends Component
 {

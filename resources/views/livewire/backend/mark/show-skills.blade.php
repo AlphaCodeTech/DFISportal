@@ -5,7 +5,8 @@
                 <div class="p-2 d-flex justify-content-between align-items-center bg-danger">
                     <h6 class="card-title font-weight-bold">AFFECTIVE TRAITS</h6>
                     <div class="">
-                        <a data-toggle="collapse" class="btn btn-header-link text-white"
+                        <a onclick="toggle('collapseAF{{ $exam_record->id }}')"
+                            id="collapseAF{{ $exam_record->id }}" data-toggle="collapse" class="btn h btn-header-link text-white"
                             data-target="#collapseAf{{ $exam_record->id }}" href="#collapseAf{{ $exam_record->id }}"
                             aria-expanded="false" aria-controls="collapseAf{{ $exam_record->id }}">
 
@@ -50,7 +51,8 @@
                 <div class="p-2 d-flex justify-content-between align-items-center bg-success">
                     <h6 class="card-title font-weight-bold">PSYCHOMOTOR SKILLS</h6>
                     <div class="">
-                        <a data-toggle="collapse" class="btn btn-header-link text-white"
+                        <a onclick="toggle('collapsePSy{{ $exam_record->id }}')"
+                            id="collapsePSy{{ $exam_record->id }}"data-toggle="collapse" class="btn h btn-header-link text-white"
                             data-target="#collapsePy{{ $exam_record->id }}" href="#collapsePy{{ $exam_record->id }}"
                             aria-expanded="false" aria-controls="collapsePy{{ $exam_record->id }}">
 

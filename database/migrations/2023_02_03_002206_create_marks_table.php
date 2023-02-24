@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('cum_ave')->nullable();
             $table->foreignId('grade_id')->nullable()->references('id')->on('grades');
             $table->string('year');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

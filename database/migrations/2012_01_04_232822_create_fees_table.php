@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->string('amount');
             $table->string('half_payment')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

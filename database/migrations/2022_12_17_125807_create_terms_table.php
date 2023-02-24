@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('session_id')->constrained('sessions');
             $table->string('type');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

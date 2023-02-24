@@ -66,5 +66,12 @@ class Kernel extends HttpKernel
         'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
         'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
+        'admin' => \App\Http\Middleware\Custom\AdminMiddleware::class,
+        'super_admin' => \App\Http\Middleware\Custom\SuperAdmin::class,
+        'teamSA' => \App\Http\Middleware\Custom\TeamSA::class,
+        'teamSAT' => \App\Http\Middleware\Custom\TeamSAT::class,
+        'teamAccount' => \App\Http\Middleware\Custom\TeamAccount::class,
+        'examIsLocked' => \App\Http\Middleware\Custom\ExamIsLocked::class,
+        'guardian' => \App\Http\Middleware\Custom\GuardianMiddleware::class,
     ];
 }

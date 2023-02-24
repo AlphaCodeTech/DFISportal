@@ -38,6 +38,7 @@ use App\Http\Livewire\Backend\Subject\AssignSubjectToTeacher;
 use App\Http\Livewire\Backend\Classroom\ClassesAssignedSubjects;
 use App\Http\Livewire\Backend\Exam\ExamMarkBulk;
 use App\Http\Livewire\Backend\Exam\ExamYearSelect;
+use App\Http\Livewire\Backend\Exam\TabulationSheet;
 use App\Http\Livewire\Backend\Pin\PinComponent;
 use App\Http\Livewire\Backend\Pin\PinEnter;
 
@@ -128,15 +129,29 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('grades', GradeComponent::class)->name('backend.grades');
 
     // ! Marks
-    Route::get('marks', ExamMarkComponent::class)->name('backend.marks');
-    Route::get('marks/bulk/{class?}/{section?}', ExamMarkBulk::class)->name('marks.bulk');
-    Route::get('mark-management/{exam_id}/{class_id}/{section_id}/{subject_id}', ExamManageComponent::class)->name('marks.manage');
-    Route::get('marks/select_year/{id}', [MarkController::class, 'year_selector'])->name('marks.year_selector');
-    Route::post('marks/select_year/{id}', [MarkController::class, 'year_selected'])->name('marks.year_select');
-    Route::get('show/{id}/{year}', [MarkController::class, 'show'])->name('marks.show');
-    Route::get('marks/print/{id}/{exam_id}/{year}', [MarkController::class, 'print_view'])->name('marks.print');
-    Route::put('comment_update/{exam_record_id}', [MarkController::class, 'comment_update'])->name('marks.comment_update');
-    Route::put('skills_update/{skill}/{exam_record_id}', [MarkController::class, 'skills_update'])->name('marks.skills_update');
+    Route::group(['prefix' => 'marks'], function () {
+        // FOR teamSAT
+        Route::group(['middleware' => 'teamSAT'], function () {
+            Route::get('/', ExamMarkComponent::class)->name('backend.marks');
+            Route::get('bulk/{class?}/{section?}', ExamMarkBulk::class)->name('marks.bulk');
+            Route::get('management/{exam_id}/{class_id}/{section_id}/{subject_id}', ExamManageComponent::class)->name('marks.manage');
+            Route::get('select_year/{id}', [MarkController::class, 'year_selector'])->name('marks.year_selector');
+            Route::post('select_year/{id}', [MarkController::class, 'year_selected'])->name('marks.year_select');
+            Route::get('show/{id}/{year}', [MarkController::class, 'show'])->name('marks.show');
+            Route::get('print/{id}/{exam_id}/{year}', [MarkController::class, 'print_view'])->name('marks.print');
+            Route::put('comment_update/{exam_record_id}', [MarkController::class, 'comment_update'])->name('marks.comment_update');
+            Route::put('skills_update/{skill}/{exam_record_id}', [MarkController::class, 'skills_update'])->name('marks.skills_update');
+        });
+
+        // FOR teamSA
+        Route::group(['middleware' => 'teamSA'], function () {
+            Route::get('batch_fix', [MarkController::class, 'batch_fix'])->name('marks.batch_fix');
+            Route::put('batch_update', [MarkController::class, 'batch_update'])->name('marks.batch_update');
+            Route::get('tabulation/{exam_id?}/{class_id?}/{section_id?}', TabulationSheet::class)->name('marks.tabulation');
+            Route::post('tabulation', [MarkController::class, 'tabulation_select'])->name('marks.tabulation_select');
+            Route::get('tabulation/print/{exam}/{class}/{sec_id}', [MarkController::class, 'print_tabulation'])->name('marks.print_tabulation');
+        });
+    });
 
 
 
@@ -148,7 +163,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     });
 });
 
-Route::prefix('settings')->middleware(['auth','role:super admin|developer'])->group(function () {
+Route::prefix('settings')->middleware(['auth', 'role:super admin|developer'])->group(function () {
     Route::get('system', SystemComponent::class)->name('setting.system');
     Route::get('academic', AcademicComponent::class)->name('setting.academic');
 });

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('current_session');
             $table->string('next_session');
             $table->string('status');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

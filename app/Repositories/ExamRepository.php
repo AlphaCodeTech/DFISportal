@@ -57,7 +57,7 @@ class ExamRepository
 
     public function getRecord($data)
     {
-        return ExamRecord::where($data)->get()->unique('exam_id');
+        return ExamRecord::where($data)->get();
     }
 
     public function findRecord($id)

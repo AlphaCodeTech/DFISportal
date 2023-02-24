@@ -55,7 +55,7 @@
             @foreach ($subjects as $subject)
                 <tr>
                     <td style="font-weight: bold; text-align: left;">{{ $subject->name }}</td>
-                    @foreach ($marks->where('subject_id', $subject->id)->where('exam_id', $exam->id)->last() as $mark)
+                    @foreach ($marks->where('subject_id', $subject->id)->where('exam_id', $exam->id) as $mark)
                         <td>{{ $mark->t1 ?: '-' }}</td>
                         <td>{{ $mark->t2 ?: '-' }}</td>
                         <td>{{ $mark->total_CA ?: '-' }}</td>

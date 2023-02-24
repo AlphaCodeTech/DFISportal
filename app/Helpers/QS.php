@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Guardian;
 use Hashids\Hashids;
 use App\Models\Student;
 use App\Models\Subject;
@@ -69,14 +70,19 @@ class QS
         return ['developer', 'super admin', 'teacher'];
     }
 
+    public static function getTeamAccount()
+    {
+        return ['admin', 'super admin', 'accountant'];
+    }
+
     public static function getTeamSA()
     {
-        return ['super admin','developer', 'teacher'];
+        return ['super admin', 'developer', 'teacher'];
     }
 
     public static function userIsAdmin()
     {
-        return Auth::user()->hasRole('super admin');
+        return Auth::user()->hasRole('admin');
     }
 
     public static function userIsTeamSAT()
@@ -96,12 +102,12 @@ class QS
 
     public static function userIsSuperAdmin()
     {
-        return Auth::user()->user_type == 'super_admin';
+        return Auth::user()->hasRole('super admin');
     }
 
     public static function userIsStudent()
     {
-        return Auth::user()->user_type == 'student';
+        return Auth::user() instanceof Student;
     }
 
     public static function userIsTeacher()
@@ -111,8 +117,15 @@ class QS
 
     public static function userIsParent()
     {
-        return Auth::user()->user_type == 'parent';
+        return Auth::user() instanceof Guardian;
     }
+
+
+    public static function userIsTeamAccount()
+    {
+        return Auth::user()->hasAnyRole(self::getTeamAccount());
+    }
+
 
     public static function userIsStaff()
     {
@@ -295,7 +308,7 @@ class QS
     public static function goToRoute($goto, $status = 302, $headers = [], $secure = null)
     {
         $data = [];
-        $to = (is_array($goto) ? $goto[0] : $goto) ?: 'dashboard';
+        $to = (is_array($goto) ? $goto[0] : $goto) ?: 'admin';
         if (is_array($goto)) {
             array_shift($goto);
             $data = $goto;
@@ -306,7 +319,10 @@ class QS
     public static function goWithDanger($to = 'dashboard', $msg = NULL)
     {
         $msg = $msg ? $msg : __('msg.rnf');
-        return self::goToRoute($to)->with('flash_danger', $msg);
+
+        toast($msg, 'error');
+
+        return self::goToRoute($to);
     }
 
     public static function goWithSuccess($to, $msg)

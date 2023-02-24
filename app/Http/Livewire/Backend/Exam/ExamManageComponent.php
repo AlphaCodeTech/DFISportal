@@ -104,7 +104,7 @@ class ExamManageComponent extends Component
         $level = $classRepository->findLevelByClass($class_id);
 
         /** Test, Exam, Grade **/
-        foreach ($this->marks->sortBy('user.name') as $mark) {
+        foreach ($this->marks->sortBy('student.surname') as $mark) {
             $all_students_ids[] = $mark->student_id;
 
             $data['t1'] = $t1 = $mark->t1;
@@ -130,7 +130,7 @@ class ExamManageComponent extends Component
 
         /** Sub Position Begin  **/
 
-        foreach ($this->marks->sortBy('user.name') as $mark) {
+        foreach ($this->marks->sortBy('student.surname') as $mark) {
 
             $data2['sub_pos'] = $markRepository->getSubPos($mark->student_id, $examData, $class_id, $subject_id, $this->year);
 

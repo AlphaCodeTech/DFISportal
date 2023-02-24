@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('times_used')->default(0);
             $table->foreignId('user_id')->nullable()->references('id')->on('users');
             $table->foreignId('student_id')->nullable()->references('id')->on('students');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -32,5 +33,6 @@ return new class extends Migration
     public function down()
     {
         Schema::dropIfExists('pins');
+
     }
 };

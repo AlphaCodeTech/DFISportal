@@ -56,7 +56,7 @@ class StudentRepository {
 
     public function getRecordByUserIDs($ids)
     {
-        return $this->activeStudents()->whereIn('user_id', $ids)->with('user');
+        return $this->activeStudents()->whereIn('id', $ids);
     }
 
     public function findByUserId($st_id)

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->date('start');
             $table->date('end');  
             $table->string('color')->nullable();  
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignId('term_id')->constrained();
             $table->boolean('active')->default(false);
             $table->boolean('publish_result')->default(false);
+            $table->softDeletes();
             $table->timestamps();
         });
     }
