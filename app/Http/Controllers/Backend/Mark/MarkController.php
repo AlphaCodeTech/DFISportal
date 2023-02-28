@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Repositories\ClassRepository;
 use App\Repositories\StudentRepository;
 use Illuminate\Support\Facades\Session;
-use App\Http\Requests\Mark\MarkSelector;
 
 class MarkController extends Controller
 {
@@ -224,8 +223,8 @@ class MarkController extends Controller
     public function batch_fix()
     {
         $d['exams'] = $this->exam->getExam(['year' => $this->year]);
-        $d['my_classes'] = $this->my_class->all();
-        $d['sections'] = $this->my_class->getAllSections();
+        $d['my_classes'] = $this->class->all();
+        $d['sections'] = $this->class->getAllSections();
         $d['selected'] = false;
 
         return view('pages.support_team.marks.batch_fix', $d);

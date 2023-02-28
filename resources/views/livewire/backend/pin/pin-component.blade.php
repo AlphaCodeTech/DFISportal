@@ -49,10 +49,12 @@
                                                 Pin</a>
                                         </li>
                                     @endcan
-                                    <li class="nav-item"><a href="#valid-pins" class="nav-link active"
-                                            data-toggle="tab">Valid Pins</a></li>
-                                    <li class="nav-item"><a href="#used-pins" class="nav-link" data-toggle="tab"> Used
-                                            Pins</a></li>
+                                    <li class="nav-item">
+                                        <a href="#valid-pins" class="nav-link active" data-toggle="tab">Valid Pins</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#used-pins" class="nav-link" data-toggle="tab">Used Pins</a>
+                                    </li>
                                 </ul>
 
                             </div>
@@ -63,9 +65,8 @@
                                     <div class="tab-pane fade show active" id="valid-pins">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <div class="text-center alert alert-info border-0 alert-dismissible">
-                                                    <button type="button" class="close"
-                                                        data-dismiss="alert"><span>&times;</span></button>
+                                                <div class="text-center p-2 mb-2 alert-info border-0 alert-dismissible">
+                                                    <button type="button" class="close" data-dismiss="alert"></button>
 
                                                     <span>There are <strong>{{ $pin_count }}</strong> valid pins that
                                                         have not been used</span>
@@ -77,8 +78,9 @@
                                             <div class="row">
                                                 @foreach ($chunk as $vp)
                                                     <div class="col-md-3 mb-2">
-                                                        <input type="hidden" value="{{ $vp->code }}" id="copy_{{ $vp->id }}">
-                                                        <button  onclick="copyToClipboard('copy_{{ $vp->id }}')"
+                                                        <input type="hidden" value="{{ $vp->code }}"
+                                                            id="copy_{{ $vp->id }}">
+                                                        <button onclick="copyToClipboard('copy_{{ $vp->id }}')"
                                                             class="btn btn-sm btn-success">{{ $vp->code }}</button>
                                                     </div>
                                                 @endforeach
@@ -91,21 +93,17 @@
                                     <div class="tab-pane fade" id="used-pins">
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <div class="alert alert-info border-0 alert-dismissible">
-                                                    <button type="button" class="close"
-                                                        data-dismiss="alert"><span>&times;</span></button>
+                                                <div class="p-2 mb-2 alert-info border-0 alert-dismissible">
+                                                    <button type="button" class="close" data-dismiss="alert">
+                                                    </button>
 
                                                     <div class="text-center"> <span>A total of
                                                             <strong>{{ $used_pins->count() }}</strong> pin(s) have been
                                                             used and may no longer be valid </span>
 
-                                                        <a id="used-pins" onclick="confirmDelete(this.id)"
-                                                            href="#" class="btn btn-danger btn-sm ml-2"><i
+                                                        <a id="used-pins" wire:click="confirmDelete"
+                                                            class="btn btn-danger btn-sm ml-2"><i
                                                                 class="icon-trash mr-1"></i> Delete ALL Used Pins</a>
-                                                        {{-- <form method="post" id="item-delete-used-pins"
-                                                            action="{{ route('pins.destroy', 'used-pins') }}"
-                                                            class="hidden">@csrf @method('delete')</form> --}}
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -116,21 +114,41 @@
                                                 <table id="example1" class="table table-bordered table-striped">
                                                     <thead>
                                                         <tr>
-                                                            <th>Name</th>
+                                                            <th>Pin</th>
+                                                            <th>Used By</th>
+                                                            <th>User Type</th>
+                                                            <th>Used for Student</th>
+                                                            <th>Date Used</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @foreach ($used_pins as $pin)
                                                             <tr>
-                                                                <td>{{ Str::headline($role->name) }}</td>
+                                                                <td>{{ Str::upper($pin->code) }}</td>
+                                                                <td>
+                                                                    @php
+                                                                        $display = $pin->user instanceof App\Models\Student ? $pin->student->surname . ' ' . $pin->student->middlename . ' ' . $pin->student->lastname : $pin->user->name;
+                                                                    @endphp
+                                                                    {{ $display }}
 
+                                                                </td>
+                                                                <td>{{ Str::ucfirst($pin->user->getRoleNames()[0]) ?? '_' }}
+                                                                </td>
+                                                                <td>
+                                                                    {{ $pin->student->surname . ' ' . $pin->student->middlename . ' ' . $pin->student->lastname }}
+                                                                </td>
+                                                                <td>{{ $pin->updated_at->diffForHumans() }}</td>
                                                             </tr>
                                                         @endforeach
 
                                                     </tbody>
                                                     <tfoot>
                                                         <tr>
-                                                            <th>Name</th>
+                                                            <th>Pin</th>
+                                                            <th>Used By</th>
+                                                            <th>User Type</th>
+                                                            <th>Used for Student</th>
+                                                            <th>Date Used</th>
                                                         </tr>
                                                     </tfoot>
                                                 </table>
@@ -355,7 +373,6 @@
                 toastr.success('Pin copied to clipboard', 'Success!');
                 // console.log(document.execCommand('copy'));
             }
-            
         </script>
     @endpush
 </div>

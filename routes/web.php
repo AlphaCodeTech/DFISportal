@@ -36,11 +36,13 @@ use App\Http\Livewire\Backend\Department\DepartmentComponent;
 use App\Http\Livewire\Backend\Permission\PermissionComponent;
 use App\Http\Livewire\Backend\Subject\AssignSubjectToTeacher;
 use App\Http\Livewire\Backend\Classroom\ClassesAssignedSubjects;
+use App\Http\Livewire\Backend\Exam\BatchFix;
 use App\Http\Livewire\Backend\Exam\ExamMarkBulk;
 use App\Http\Livewire\Backend\Exam\ExamYearSelect;
 use App\Http\Livewire\Backend\Exam\TabulationSheet;
 use App\Http\Livewire\Backend\Pin\PinComponent;
 use App\Http\Livewire\Backend\Pin\PinEnter;
+use App\Http\Livewire\Backend\Settings\TeamComponent;
 
 // ! Frontend Routes
 
@@ -64,69 +66,104 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::post('/update-event', [BackendIndexController::class, 'calendarEvents'])->name('event.update')->middleware('permission:create event');
 
     // ! Students
-    Route::get('students/{user}', StudentComponent::class)->name('backend.students');
-    Route::get('students/list/{class}', StudentList::class)->name('students.list');
-    Route::get('students-promotion/manage', PromotionManage::class)->name('students.promotion_manage');
-    Route::get('students-graduated', StudentGraduated::class)->name('students.graduated');
-    Route::get('student-promotion/{currentClass?}/{currentSection?}/{nextClass?}/{nextSection?}', StudentPromotion::class)->name('students.promotion');
+    Route::group(['prefix' => 'students'], function () {
+        Route::get('/{user}', StudentComponent::class)->name('backend.students');
+        Route::get('/list/{class}', StudentList::class)->name('students.list');
+        Route::get('/promotion-manage', PromotionManage::class)->name('students.promotion_manage');
+        Route::get('/students-graduated', StudentGraduated::class)->name('students.graduated');
+        Route::get('/promotion/{currentClass?}/{currentSection?}/{nextClass?}/{nextSection?}', StudentPromotion::class)->name('students.promotion');
+    });
 
     Route::get('student/admit/{id}', [AdmissionManagementController::class, 'admit'])->name('student.admit');
 
     // ! Subjects
-    Route::get('subjects', SubjectComponent::class)->name('backend.subjects');
-    Route::get('assign-subjects-to-teachers', AssignSubjectToTeacher::class)->name('teacher.assign');
-
+    Route::group(['prefix' => 'subjects'], function () {
+        Route::get('/', SubjectComponent::class)->name('backend.subjects');
+        Route::get('/assign-subjects-to-teachers', AssignSubjectToTeacher::class)->name('teacher.assign');
+    });
 
     // ! Levels
-    Route::get('levels', LevelComponent::class)->name('backend.levels');
+    Route::group(['prefix' => 'levels'], function () {
+        Route::get('/', LevelComponent::class)->name('backend.levels');
+    });
 
     // ! Fees
-    Route::get('fees', FeesComponent::class)->name('backend.fees');
+    Route::group(['prefix' => 'payments'], function () {
+        Route::get('/', FeesComponent::class)->name('backend.fees');
+    });
 
     // ! Classes
-    Route::get('classrooms', ClassroomComponent::class)->name('backend.classrooms');
-    Route::get('class-sections/{classSection}', ClassroomSection::class)->name('class.sections');
-    Route::get('class-assigned-subjects', ClassesAssignedSubjects::class)->name('classes.assigned');
+    Route::group(['prefix' => 'classrooms'], function () {
+        Route::get('/', ClassroomComponent::class)->name('backend.classrooms');
+        Route::get('class-sections/{classSection}', ClassroomSection::class)->name('class.sections');
+        Route::get('class-assigned-subjects', ClassesAssignedSubjects::class)->name('classes.assigned');
+    });
 
     // ! Users
-    Route::get('users', UserComponent::class)->name('backend.users')->middleware(['role:developer|super admin|teacher']);
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('/', UserComponent::class)->name('backend.users')->middleware(['role:developer|super admin|teacher']);
+    });
 
     // ! Profiles
-    Route::get('profile/{user}', ProfileComponent::class)->name('backend.profile');
+    Route::group(['prefix' => 'profile'], function () {
+        Route::get('/{user}', ProfileComponent::class)->name('backend.profile');
+    });
 
     // ! Events
-    Route::get('events', EventComponent::class)->name('backend.events');
+    Route::group(['prefix' => 'events'], function () {
+        Route::get('/', EventComponent::class)->name('backend.events');
+    });
 
     // ! Admissions
-    Route::resource('admission', AdmissionManagementController::class);
-    Route::get('offer-admission/{student}', [AdmissionManagementController::class, 'admit'])->name('admission.offer');
+    Route::group(['prefix' => 'admission'], function () {
+        Route::get('/', [AdmissionManagementController::class, 'index'])->name('admission.index');
+        Route::get('offer-admission/{student}', [AdmissionManagementController::class, 'admit'])->name('admission.offer');
+    });
 
     // ! Permissions
-    Route::get('permissions', PermissionComponent::class)->name('backend.permissions')->middleware(['role:developer|super admin']);
+    Route::group(['prefix' => 'permissions'], function () {
+        Route::get('/', PermissionComponent::class)->name('backend.permissions')->middleware(['role:developer|super admin']);
+    });
 
     // ! Roles
-    Route::get('roles', RoleComponent::class)->name('backend.roles');
+    Route::group(['prefix' => 'roles'], function () {
+        Route::get('/', RoleComponent::class)->name('backend.roles');
+    });
 
     // ! Departments
-    Route::get('departments', DepartmentComponent::class)->name('backend.departments');
+    Route::group(['prefix' => 'departments'], function () {
+        Route::get('/', DepartmentComponent::class)->name('backend.departments');
+    });
 
     // ! Academic Sessions
-    Route::get('sessions', SessionComponent::class)->name('backend.sessions');
+    Route::group(['prefix' => 'sessions'], function () {
+        Route::get('/', SessionComponent::class)->name('backend.sessions');
+    });
 
     // ! Parents
-    Route::get('parents', GuardianComponent::class)->name('backend.parents');
+    Route::group(['prefix' => 'parents'], function () {
+        Route::get('/', GuardianComponent::class)->name('backend.parents');
+    });
 
-    // ! Bursary
-    Route::resource('bursary', BursaryController::class);
+    // ! Payment
+    Route::group(['prefix' => 'bursary'], function () {
+        Route::resource('/', BursaryController::class);
+    });
 
     // ! Terms
-    Route::get('terms', TermComponent::class)->name('backend.terms');
+    Route::group(['prefix' => 'terms'], function () {
+        Route::get('/', TermComponent::class)->name('backend.terms');
+    });
 
     // ! Exams
-    Route::get('exams', ExamComponent::class)->name('backend.exams');
+    Route::group(['prefix' => 'exams'], function () {
+        Route::get('/', ExamComponent::class)->name('backend.exams');
+    });
 
     // ! Grades
-    Route::get('grades', GradeComponent::class)->name('backend.grades');
+    Route::group(['prefix' => 'grades'], function () {
+        Route::get('/', GradeComponent::class)->name('backend.grades');
+    });
 
     // ! Marks
     Route::group(['prefix' => 'marks'], function () {
@@ -145,15 +182,12 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
         // FOR teamSA
         Route::group(['middleware' => 'teamSA'], function () {
-            Route::get('batch_fix', [MarkController::class, 'batch_fix'])->name('marks.batch_fix');
-            Route::put('batch_update', [MarkController::class, 'batch_update'])->name('marks.batch_update');
+            Route::get('batch_fix', BatchFix::class)->name('marks.batch_fix');
             Route::get('tabulation/{exam_id?}/{class_id?}/{section_id?}', TabulationSheet::class)->name('marks.tabulation');
             Route::post('tabulation', [MarkController::class, 'tabulation_select'])->name('marks.tabulation_select');
             Route::get('tabulation/print/{exam}/{class}/{sec_id}', [MarkController::class, 'print_tabulation'])->name('marks.print_tabulation');
         });
     });
-
-
 
     /*************** Pins *****************/
     Route::group(['prefix' => 'pins'], function () {
@@ -166,6 +200,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 Route::prefix('settings')->middleware(['auth', 'role:super admin|developer'])->group(function () {
     Route::get('system', SystemComponent::class)->name('setting.system');
     Route::get('academic', AcademicComponent::class)->name('setting.academic');
+    Route::get('team', TeamComponent::class)->name('setting.team');
 });
 
 

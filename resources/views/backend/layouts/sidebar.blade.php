@@ -50,7 +50,9 @@
                       </a>
 
                   </li>
-                  @if (Nav::userCanSeeStudent())
+
+                  {{-- Manage Students --}}
+                  @if (QS::userIsTeamSAT())
                       <li class="nav-item">
                           <a href="#"
                               class="nav-link {{ in_array(Route::currentRouteName(), ['students.promotion', 'students.list', 'backend.students', 'students.promotion_manage', 'students.graduated']) ? 'active' : '' }}">
@@ -61,13 +63,17 @@
                               </p>
                           </a>
                           <ul class="nav nav-treeview">
-                              <li class="nav-item">
-                                  <a href="{{ route('backend.students', ['user' => auth()->user()]) }}"
-                                      class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>View Students</p>
-                                  </a>
-                              </li>
+                              {{-- View and Admit Student --}}
+                              @if (QS::userIsTeamSA())
+                                  <li class="nav-item">
+                                      <a href="{{ route('backend.students', ['user' => auth()->user()]) }}"
+                                          class="nav-link">
+                                          <i class="far fa-circle nav-icon"></i>
+                                          <p>View Students</p>
+                                      </a>
+                                  </li>
+                              @endif
+                              {{-- Student Information --}}
                               <li class="nav-item">
                                   <a href="#" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
@@ -85,37 +91,89 @@
                                       @endforeach
                                   </ul>
                               </li>
-                              <li class="nav-item">
-                                  <a href="#" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>Promotion</p>
-                                  </a>
-                                  <ul class="nav nav-treeview">
-                                      <li class="nav-item ml-4">
-                                          <a href="{{ route('students.promotion') }}" class="nav-link">
-                                              <i class="far fa-circle nav-icon"></i>
-                                              <p>Promote Students</p>
-                                          </a>
-                                      </li>
-                                      <li class="nav-item ml-4">
-                                          <a href="{{ route('students.promotion_manage') }}" class="nav-link">
-                                              <i class="far fa-circle nav-icon"></i>
-                                              <p>Manage Promotions</p>
-                                          </a>
-                                      </li>
-                                      <li class="nav-item ml-4">
-                                          <a href="{{ route('students.graduated') }}" class="nav-link">
-                                              <i class="far fa-circle nav-icon"></i>
-                                              <p>Manage Graduation</p>
-                                          </a>
-                                      </li>
-                                  </ul>
-                              </li>
+                              @if (QS::userIsTeamSA())
+                                  {{-- Student Promotion --}}
+                                  <li class="nav-item">
+                                      <a href="#" class="nav-link">
+                                          <i class="far fa-circle nav-icon"></i>
+                                          <p>Promotion</p>
+                                      </a>
+                                      <ul class="nav nav-treeview">
+                                          <li class="nav-item ml-4">
+                                              <a href="{{ route('students.promotion') }}" class="nav-link">
+                                                  <i class="far fa-circle nav-icon"></i>
+                                                  <p>Promote Students</p>
+                                              </a>
+                                          </li>
+                                          <li class="nav-item ml-4">
+                                              <a href="{{ route('students.promotion_manage') }}" class="nav-link">
+                                                  <i class="far fa-circle nav-icon"></i>
+                                                  <p>Manage Promotions</p>
+                                              </a>
+                                          </li>
+                                          <li class="nav-item ml-4">
+                                              <a href="{{ route('students.graduated') }}" class="nav-link">
+                                                  <i class="far fa-circle nav-icon"></i>
+                                                  <p>Manage Graduation</p>
+                                              </a>
+                                          </li>
+                                      </ul>
+                                  </li>
+                              @endif
 
                           </ul>
                       </li>
                   @endif
-                  @if (Nav::userCanSeeSubject())
+
+                  @if (QS::userIsTeamSA())
+                      {{-- Manage Users --}}
+                      <li class="nav-item">
+                          <a href="#" class="nav-link {{ request()->is('admin/users') ? 'active' : '' }}">
+                              <i class="nav-icon fas fa-users"></i>
+                              <p>
+                                  Users
+                                  <i class="fas fa-angle-left right"></i>
+                              </p>
+                          </a>
+                          <ul class="nav nav-treeview">
+                              <li class="nav-item">
+                                  <a href="{{ route('backend.users') }}" class="nav-link">
+                                      <i class="far fa-circle nav-icon"></i>
+                                      <p>View Users</p>
+                                  </a>
+                              </li>
+
+                          </ul>
+                      </li>
+
+                      {{-- Manage Classroom --}}
+                      <li class="nav-item">
+                          <a href="#"
+                              class="nav-link {{ in_array(Route::currentRouteName(), ['backend.classrooms', 'classes.assigned']) ? 'active' : '' }}">
+                              <i class="nav-icon fas fa-school"></i>
+                              <p>
+                                  Classrooms
+                                  <i class="fas fa-angle-left right"></i>
+                              </p>
+                          </a>
+                          <ul class="nav nav-treeview">
+                              <li class="nav-item">
+                                  <a href="{{ route('backend.classrooms') }}" class="nav-link">
+                                      <i class="far fa-circle nav-icon"></i>
+                                      <p>View Classrooms</p>
+                                  </a>
+                              </li>
+                              <li class="nav-item">
+                                  <a href="{{ route('classes.assigned') }}" class="nav-link">
+                                      <i class="far fa-circle nav-icon"></i>
+                                      <p>Class Subjects</p>
+                                  </a>
+                              </li>
+
+                          </ul>
+                      </li>
+
+                      {{-- Manage Subjects --}}
                       <li class="nav-item">
                           <a href="#"
                               class="nav-link {{ in_array(Route::currentRouteName(), ['backend.subjects', 'teacher.assign']) ? 'active' : '' }}">
@@ -142,50 +200,8 @@
 
                           </ul>
                       </li>
-                  @endif
-                  @if (Nav::userCanSeeLevel())
-                      <li class="nav-item">
-                          <a href="#" class="nav-link {{ request()->is('admin/levels') ? 'active' : '' }}">
-                              <i class="nav-icon fas fa-battery-half"></i>
-                              <p>
-                                  Levels
-                                  <i class="fas fa-angle-left right"></i>
-                              </p>
-                          </a>
-                          <ul class="nav nav-treeview">
-                              <li class="nav-item">
-                                  <a href="{{ route('backend.levels') }}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>View Levels</p>
-                                  </a>
-                              </li>
 
-
-                          </ul>
-                      </li>
-                  @endif
-                  @if (Nav::userCanSeeFee())
-                      <li class="nav-item">
-                          <a href="#" class="nav-link {{ request()->is('admin/fees') ? 'active' : '' }}">
-                              <i class="nav-icon fas fa-sort-amount-up"></i>
-                              <p>
-                                  Fees
-                                  <i class="fas fa-angle-left right"></i>
-                              </p>
-                          </a>
-                          <ul class="nav nav-treeview">
-                              <li class="nav-item">
-                                  <a href="{{ route('backend.fees') }}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>View Fees</p>
-                                  </a>
-                              </li>
-
-
-                          </ul>
-                      </li>
-                  @endif
-                  @if (Nav::userCanSeeDepartment())
+                      {{-- Manage Departments --}}
                       <li class="nav-item">
                           <a href="#"
                               class="nav-link {{ request()->is('admin/departments') ? 'active' : '' }}">
@@ -205,54 +221,28 @@
 
                           </ul>
                       </li>
-                  @endif
-                  @if (Nav::userCanSeeClassroom())
+
+                      {{-- Manage Levels --}}
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ in_array(Route::currentRouteName(), ['backend.classrooms', 'classes.assigned']) ? 'active' : '' }}">
-                              <i class="nav-icon fas fa-school"></i>
+                          <a href="#" class="nav-link {{ request()->is('admin/levels') ? 'active' : '' }}">
+                              <i class="nav-icon fas fa-battery-half"></i>
                               <p>
-                                  Classrooms
+                                  Levels
                                   <i class="fas fa-angle-left right"></i>
                               </p>
                           </a>
                           <ul class="nav nav-treeview">
                               <li class="nav-item">
-                                  <a href="{{ route('backend.classrooms') }}" class="nav-link">
+                                  <a href="{{ route('backend.levels') }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
-                                      <p>View Classrooms</p>
+                                      <p>View Levels</p>
                                   </a>
                               </li>
-                              <li class="nav-item">
-                                  <a href="{{ route('classes.assigned') }}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>Class Subjects</p>
-                                  </a>
-                              </li>
-
                           </ul>
                       </li>
                   @endif
-                  @if (Nav::userCanSeeUser())
-                      <li class="nav-item">
-                          <a href="#" class="nav-link {{ request()->is('admin/users') ? 'active' : '' }}">
-                              <i class="nav-icon fas fa-users"></i>
-                              <p>
-                                  Users
-                                  <i class="fas fa-angle-left right"></i>
-                              </p>
-                          </a>
-                          <ul class="nav nav-treeview">
-                              <li class="nav-item">
-                                  <a href="{{ route('backend.users') }}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>View Users</p>
-                                  </a>
-                              </li>
 
-                          </ul>
-                      </li>
-                  @endif
-                  @if (Nav::userCanSeeProfile())
+                  @if (QS::userIsProfileOwner())
                       <li class="nav-item">
                           <a href="#" class="nav-link {{ request()->is('admin/profile/*') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-users"></i>
@@ -272,7 +262,8 @@
                           </ul>
                       </li>
                   @endif
-                  @if (Nav::userCanSeePermission())
+
+                  @if (QS::userIsTeamSA())
                       <li class="nav-item">
                           <a href="#"
                               class="nav-link {{ request()->is('admin/permissions') ? 'active' : '' }}">
@@ -293,7 +284,8 @@
                           </ul>
                       </li>
                   @endif
-                  @if (Nav::userCanSeeRole())
+
+                  @if (QS::userIsTeamSA())
                       <li class="nav-item">
                           <a href="#" class="nav-link {{ request()->is('admin/roles') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-tasks"></i>
@@ -313,7 +305,8 @@
                           </ul>
                       </li>
                   @endif
-                  @if (Nav::userCanSeeSession())
+
+                  @if (QS::userIsTeamSA())
                       <li class="nav-item">
                           <a href="#" class="nav-link {{ request()->is('admin/sessions') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-calendar"></i>
@@ -333,7 +326,8 @@
                           </ul>
                       </li>
                   @endif
-                  @if (Nav::userCanSeeTerm())
+
+                  @if (QS::userIsTeamSA())
                       <li class="nav-item">
                           <a href="#" class="nav-link {{ request()->is('admin/terms') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-calendar-alt"></i>
@@ -353,9 +347,12 @@
                           </ul>
                       </li>
                   @endif
-                  @if (Nav::userCanSeeExam())
+
+                  {{-- Exam --}}
+                  @if (QS::userIsTeamSAT())
                       <li class="nav-item">
-                          <a href="#" class="nav-link {{ in_array(Route::currentRouteName(), ['backend.exams','backend.grades']) ? 'active' : '' }}">
+                          <a href="#"
+                              class="nav-link {{ in_array(Route::currentRouteName(), ['backend.exams', 'backend.grades']) ? 'active' : '' }}">
                               <i class="nav-icon fas fa-book"></i>
                               <p>
                                   Exam
@@ -363,44 +360,64 @@
                               </p>
                           </a>
                           <ul class="nav nav-treeview">
-                              <li class="nav-item">
-                                  <a href="{{ route('backend.exams') }}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>View Exam</p>
-                                  </a>
-                              </li>
-                              
-                              <li class="nav-item">
-                                  <a href="{{ route('backend.grades') }}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>Grades</p>
-                                  </a>
-                              </li>
+                              @if (QS::userIsTeamSA())
+                                  {{-- Exam list --}}
+                                  <li class="nav-item">
+                                      <a href="{{ route('backend.exams') }}" class="nav-link">
+                                          <i class="far fa-circle nav-icon"></i>
+                                          <p>View Exam</p>
+                                      </a>
+                                  </li>
 
-                              <li class="nav-item">
-                                  <a href="{{ route('backend.marks') }}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>Marks</p>
-                                  </a>
-                              </li>
+                                  {{-- Grades list --}}
+                                  <li class="nav-item">
+                                      <a href="{{ route('backend.grades') }}" class="nav-link">
+                                          <i class="far fa-circle nav-icon"></i>
+                                          <p>Grades</p>
+                                      </a>
+                                  </li>
 
-                              <li class="nav-item">
-                                  <a href="{{ route('marks.bulk') }}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>Marksheet</p>
-                                  </a>
-                              </li>
-                              <li class="nav-item">
-                                  <a href="{{ route('marks.tabulation') }}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>Tabulation Sheet</p>
-                                  </a>
-                              </li>
+                                  {{-- Tabulation Sheet --}}
+                                  <li class="nav-item">
+                                      <a href="{{ route('marks.tabulation') }}" class="nav-link">
+                                          <i class="far fa-circle nav-icon"></i>
+                                          <p>Tabulation Sheet</p>
+                                      </a>
+                                  </li>
+
+                                  {{-- Marks Batch Fix --}}
+                                  <li class="nav-item">
+                                      <a href="{{ route('marks.batch_fix') }}" class="nav-link">
+                                          <i class="far fa-circle nav-icon"></i>
+                                          <p>Batch Fix</p>
+                                      </a>
+                                  </li>
+                              @endif
+
+                              @if (QS::userIsTeamSAT())
+                                  {{-- Marks Manage --}}
+                                  <li class="nav-item">
+                                      <a href="{{ route('backend.marks') }}" class="nav-link">
+                                          <i class="far fa-circle nav-icon"></i>
+                                          <p>Marks</p>
+                                      </a>
+                                  </li>
+
+                                  {{-- Marksheet --}}
+                                  <li class="nav-item">
+                                      <a href="{{ route('marks.bulk') }}" class="nav-link">
+                                          <i class="far fa-circle nav-icon"></i>
+                                          <p>Marksheet</p>
+                                      </a>
+                                  </li>
+                              @endif
 
                           </ul>
                       </li>
                   @endif
-                  @if (Nav::userCanSeeGuardian())
+                  {{-- End Exam --}}
+
+                  @if (QS::userIsTeamSAT())
                       <li class="nav-item">
                           <a href="#" class="nav-link {{ request()->is('admin/parents') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-user-tie"></i>
@@ -413,34 +430,64 @@
                               <li class="nav-item">
                                   <a href="{{ route('backend.parents') }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
-                                      <p>View Parents</p>
+                                      <p>View Guardians</p>
                                   </a>
                               </li>
 
                           </ul>
                       </li>
                   @endif
-                  @if (Nav::userCanSeeBursary())
+
+                  {{-- Administrative --}}
+                  @if (QS::userIsAdministrative())
                       <li class="nav-item">
                           <a href="#" class="nav-link {{ request()->is('admin/bursaries') ? 'active' : '' }}">
                               <i class="nav-icon fas fa-credit-card"></i>
                               <p>
-                                  Bursary
+                                  Administrative
                                   <i class="fas fa-angle-left right"></i>
                               </p>
                           </a>
-                          <ul class="nav nav-treeview">
-                              <li class="nav-item">
-                                  <a href="{{ route('bursary.index') }}" class="nav-link">
-                                      <i class="far fa-circle nav-icon"></i>
-                                      <p>View Bursary</p>
-                                  </a>
-                              </li>
+                          {{-- Payments --}}
+                          @if (QS::userIsTeamAccount())
+                              <ul class="nav nav-treeview">
+                                  <li class="nav-item">
+                                      <a href="#" class="nav-link">
+                                          <i class="far fa-circle nav-icon"></i>
+                                          <p>Payments</p>
+                                      </a>
+                                      <ul class="nav nav-treeview">
+                                          <li class="nav-item ml-4">
+                                              <a href="{{ route('backend.fees') }}" class="nav-link">
+                                                  <i class="far fa-circle nav-icon"></i>
+                                                  <p>Create Payments</p>
+                                              </a>
+                                          </li>
 
-                          </ul>
+                                          <li class="nav-item ml-4">
+                                              <a href="" class="nav-link">
+                                                  <i class="far fa-circle nav-icon"></i>
+                                                  <p>Manage Payments</p>
+                                              </a>
+                                          </li>
+
+                                          <li class="nav-item ml-4">
+                                              <a href="" class="nav-link">
+                                                  <i class="far fa-circle nav-icon"></i>
+                                                  <p>Students Payments</p>
+                                              </a>
+                                          </li>
+
+                                      </ul>
+                                  </li>
+
+                              </ul>
+                          @endif
                       </li>
                   @endif
-                  @if (Nav::userCanSeeAdmission())
+
+                  {{-- Admission --}}
+                  @if (QS::userIsTeamSA())
                       <li class="nav-item">
                           <a href="#"
                               class="nav-link {{ request()->is('admin/admission-management') ? 'active' : '' }}">
@@ -461,7 +508,9 @@
                           </ul>
                       </li>
                   @endif
-                  @if (Nav::userCanSeeEvent())
+
+                  {{-- Events --}}
+                  @if (QS::userIsTeamSAT())
                       <li class="nav-item">
                           <a href="#"
                               class="nav-link {{ request()->is('admin/admission-management') ? 'active' : '' }}">
@@ -482,7 +531,31 @@
                           </ul>
                       </li>
                   @endif
-                  @if (Nav::userCanSeeSetting())
+
+                  {{-- Exam Pins --}}
+                  @if (QS::userIsTeamSA())
+                      <li class="nav-item">
+                          <a href="#" class="nav-link {{ request()->is('admin/pins') ? 'active' : '' }}">
+                              <i class="nav-icon fas fa-cog"></i>
+                              <p>
+                                  Pin
+                                  <i class="fas fa-angle-left right"></i>
+                              </p>
+                          </a>
+                          <ul class="nav nav-treeview">
+                              <li class="nav-item">
+                                  <a href="{{ route('backend.pins') }}" class="nav-link">
+                                      <i class="far fa-circle nav-icon"></i>
+                                      <p>View Pins</p>
+                                  </a>
+                              </li>
+
+                          </ul>
+                      </li>
+                  @endif
+
+                  {{-- Settings --}}
+                  @if (QS::userIsTeamSA())
                       <li class="nav-item">
                           <a href="#"
                               class="nav-link {{ request()->is('admin/admission-management') ? 'active' : '' }}">
@@ -505,32 +578,16 @@
                                       <p>Academic Settings</p>
                                   </a>
                               </li>
-
-                          </ul>
-                      </li>
-                  @endif
-                  @if (Nav::userCanSeePin())
-                      <li class="nav-item">
-                          <a href="#"
-                              class="nav-link {{ request()->is('admin/pins') ? 'active' : '' }}">
-                              <i class="nav-icon fas fa-cog"></i>
-                              <p>
-                                  Pin
-                                  <i class="fas fa-angle-left right"></i>
-                              </p>
-                          </a>
-                          <ul class="nav nav-treeview">
                               <li class="nav-item">
-                                  <a href="{{ route('backend.pins') }}" class="nav-link">
+                                  <a href="{{ route('setting.team') }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
-                                      <p>View Pins</p>
+                                      <p>Team Settings</p>
                                   </a>
                               </li>
-                            
+
                           </ul>
                       </li>
                   @endif
-
               </ul>
           </nav>
           <!-- /.sidebar-menu -->

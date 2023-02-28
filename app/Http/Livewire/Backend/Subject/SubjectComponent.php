@@ -122,7 +122,6 @@ class SubjectComponent extends Component
 
     public function show(Subject $subject)
     {
-        dd($subject->teachers);
         $this->selectedSubject = $subject;
 
         $this->dispatchBrowserEvent('show-view');

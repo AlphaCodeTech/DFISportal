@@ -17,11 +17,7 @@ class PinComponent extends Component
     public $selectedPin;
     public $state = [];
 
-    // public function mount(PinRepository $pinRepository, UserRepository $userRepository)
-    // {
-    //     $this->pin = $pinRepository;
-    //     $this->user = $userRepository;
-    // }
+    protected $listeners = ['delete' => 'destroy'];
 
     public function render(PinRepository $pinRepository, UserRepository $userRepository)
     {
@@ -66,51 +62,20 @@ class PinComponent extends Component
         $this->dispatchBrowserEvent('hide-modal', ['message' => __('msg.pin_create')]);
     }
 
-    public function edit(Role $role)
+
+    public function confirmDelete()
     {
-        $this->role = $role;
-        $this->rolePermission = $this->role->permissions()->pluck('id')->toArray();
-
-        $this->isEditing = true;
-        $this->state = $role->toArray();
-        $this->dispatchBrowserEvent('show-form');
-    }
-
-    public function update()
-    {
-        if ($this->rolePermission) {
-            $this->role->syncPermissions(array_unique($this->rolePermission));
-        }
-
-        $data =  Validator::make($this->state, [
-            'name' => 'required|unique:roles,name,' . $this->role->id,
-        ])->validate();
-
-        $data['name'] = Str::lower($data['name']);
-
-        $this->role->update($data);
-
-        $this->dispatchBrowserEvent('hide-modal', ['message' => 'Role updated successfully!']);
-    }
-
-    public function show(Role $role)
-    {
-        $this->selectedRole = $role;
-        $this->dispatchBrowserEvent('show-view');
-    }
-
-    public function confirmDelete($userId)
-    {
-        $this->toBeDeleted = $userId;
-        $this->dispatchBrowserEvent('delete-modal', ['message' => 'Are you sure you want to delete this role?']);
+        $this->dispatchBrowserEvent('delete-modal', ['message' => 'Are you sure you want to delete all the used Pins?']);
     }
 
     public function destroy()
     {
-        $role = Role::find($this->toBeDeleted);
-        $role->delete();
-        $this->dispatchBrowserEvent('show-confirm', ['message' => 'Role deleted successfully!']);
-    }
+        $pinRepository = App::make(PinRepository::class);
 
-   
+        $pinRepository->deleteUsed();
+
+        $this->dispatchBrowserEvent('show-confirm', ['message' => 'Pins Deleted Successfully']);
+
+        $this->emit('refreshComponent');
+    }
 }
