@@ -38,27 +38,33 @@ use App\Http\Livewire\Backend\Subject\AssignSubjectToTeacher;
 use App\Http\Livewire\Backend\Classroom\ClassesAssignedSubjects;
 use App\Http\Livewire\Backend\Exam\BatchFix;
 use App\Http\Livewire\Backend\Exam\ExamMarkBulk;
-use App\Http\Livewire\Backend\Exam\ExamYearSelect;
 use App\Http\Livewire\Backend\Exam\TabulationSheet;
 use App\Http\Livewire\Backend\Pin\PinComponent;
 use App\Http\Livewire\Backend\Pin\PinEnter;
+use App\Http\Livewire\Backend\Settings\AdmissionComponent;
 use App\Http\Livewire\Backend\Settings\TeamComponent;
 
 // ! Frontend Routes
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
-Route::get('/purchase-admission-form', [HomeController::class, 'purchase'])->name('form.purchase');
-Route::get('/school-fees-payment', [PaymentController::class, 'showfees'])->name('fees.pay');
-Route::post('/school-fees-payment', [PaymentController::class, 'payfees'])->name('pay.fees');
+Route::post('/continue-registration', [HomeController::class, 'continue'])->name('form.continue');
+Route::get('/guardian-create', [HomeController::class, 'guardianCreate'])->name('guardian.create');
+Route::post('/guardian-store', [HomeController::class, 'guardianStore'])->name('guardian.store');
+Route::get('/purchase-admission-form/{guardian}', [HomeController::class, 'purchase'])->name('form.purchase');
+Route::get('/school-fees-payment', [PaymentController::class, 'schoolFeeCreate'])->name('fees.show');
+Route::post('/school-fees-payment', [PaymentController::class, 'schoolFeeStore'])->name('fees.store');
 Route::get('/school-fees-verification/{phone?}', [PaymentController::class, 'verifyFees'])->name('fees.verify');
 Route::post('/school-fees-verification', [PaymentController::class, 'verify'])->name('verify');
 Route::post('/student-admissions', [AdmissionController::class, 'store'])->name('admission.store');
+Route::get('/admission-form-payment/{guardian}', [PaymentController::class, 'formFeeCreate'])->name('form.fee.create');
+Route::post('/admission-form-payment', [PaymentController::class, 'formFeeStore'])->name('form.fee.store');
+
 
 Route::get('/storages', function () {
     Artisan::call('storage:link');
     dd('success');
-});
 
+});
 
 // ! Backend Routes
 Route::prefix('admin')->middleware(['auth'])->group(function () {
@@ -201,6 +207,7 @@ Route::prefix('settings')->middleware(['auth', 'role:super admin|developer'])->g
     Route::get('system', SystemComponent::class)->name('setting.system');
     Route::get('academic', AcademicComponent::class)->name('setting.academic');
     Route::get('team', TeamComponent::class)->name('setting.team');
+    Route::get('admission', AdmissionComponent::class)->name('setting.admission');
 });
 
 

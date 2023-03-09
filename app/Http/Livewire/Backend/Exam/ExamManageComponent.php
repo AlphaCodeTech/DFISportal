@@ -14,7 +14,6 @@ use App\Repositories\MarkRepository;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\ClassRepository;
 use App\Settings\SystemSetting;
-use Illuminate\Support\Facades\Validator;
 
 class ExamManageComponent extends Component
 {

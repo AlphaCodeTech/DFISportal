@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Finance;
+use App\Models\AdmissionFormFee;
 use App\Models\SMS;
+use App\Models\Finance;
+use App\Models\Guardian;
 use App\Services\SMSService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -16,12 +18,12 @@ class PaymentController extends Controller
     {
     }
 
-    public function showfees()
+    public function schoolFeeCreate()
     {
-        return view('frontend.payfees');
+        return view('frontend.fees.payfees');
     }
 
-    public function payfees(Request $request)
+    public function schoolFeeStore(Request $request)
     {
         $request->validate([
             'student_id' => 'required',
@@ -58,6 +60,71 @@ class PaymentController extends Controller
             $finance->transaction_ref = $data['data']['transaction_ref'];
             $finance->save();
 
+            return redirect($url);
+        } else {
+            $data = $response->json();
+            alert('Error', $data['message'], 'error');
+
+            return redirect()->back();
+        }
+    }
+
+    public function formFeeCreate(Guardian $guardian)
+    {
+        return view('frontend.fees.form-fee', compact('guardian'));
+    }
+
+    public function formFeeStore(Request $request)
+    {
+        $data = $request->validate([
+            'buyer_id' => 'required',
+            'amount' => 'required',
+            'current_session' => 'required',
+        ]);
+
+        $key = 'sandbox_sk_06fda0d87d3772b8c6e8cccd5b6e030f7707f3baf944';
+
+        $response = Http::withHeaders([
+            'Authorization' => $key,
+        ])->post('https://sandbox-api-d.squadco.com/transaction/initiate', [
+            'email' => $request->email,
+            'amount' => intval($request->amount) * 100,
+            'initiate_type' => 'inline',
+            'currency' => 'NGN',
+            'customer_name' => $request->name,
+            'callback_url' => route('form.purchase', ['guardian' => $request->buyer_id]),
+        ]);
+
+        if ($response['status'] == 200) {
+            $data = $response->json();
+            $url = $data['data']['checkout_url'];
+
+            $fee = new AdmissionFormFee();
+            $fee->buyer_id = $request->buyer_id;
+            $fee->amount = $request->amount;
+            $fee->current_session = $request->current_session;
+            $fee->transaction_ref = $data['data']['transaction_ref'];
+            $fee->save();
+
+            $transaction_ref = $data['data']['transaction_ref'];
+            $phone = $request->phone;
+
+            $message = "Admission fees payment was successful.\nKindly use this transaction reference to proceed on the application.\n$transaction_ref";
+
+            $response = $this->smsService->sendSMS($phone, $message);
+
+            if ($response['status'] == 'success') {
+                SMS::create([
+                    'code' => $response['code'],
+                    'phone_number' => $response['data']['phone_number'],
+                    'reference' => $response['data']['reference'],
+                    'errors' => $response['errors'] ?? 'null',
+                    'message' => $response['message'],
+                    'status' => $response['status'],
+                ]);
+            }
+
+            toast('Form Purchase Successful', 'success');
             return redirect($url);
         } else {
             $data = $response->json();

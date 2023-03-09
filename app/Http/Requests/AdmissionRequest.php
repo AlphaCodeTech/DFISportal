@@ -37,11 +37,21 @@ class AdmissionRequest extends FormRequest
             "reason" => 'required',
             "introducer" => 'required',
             "driver" => 'required',
-            "parent_id" => 'required|exists:parents,id',
+            'phone' => 'required',
+            "guardian_id" => 'required|exists:guardians,id',
             "class_id" => 'required|exists:classes,id',
             "photo" => 'required|file|mimes:jpg,png,jpeg',
             "birth_certificate" => 'required|file|mimes:jpg,png,jpeg,pdf',
             "immunization_card" => 'required|file|mimes:jpg,png,jpeg,pdf'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'class_id.required' => 'The class is required',
+            'guardian_id.required' => 'The guardian is required',
+            'prevSchool.required' => 'The previous school is required',
         ];
     }
 }

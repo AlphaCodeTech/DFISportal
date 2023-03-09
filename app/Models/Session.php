@@ -10,4 +10,9 @@ class Session extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function terms()
+    {
+        return $this->hasMany(Term::class);
+    }
 }

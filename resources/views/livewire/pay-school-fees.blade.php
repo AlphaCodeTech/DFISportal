@@ -1,171 +1,104 @@
-<section class="Admission-form">
-    <div class="admission-text">
-        <h1>SCHOOL FEES</h1>
-    </div>
-    <div class="admit-form container">
-        <div class="row">
-            <div class="col-md-12">
-                <form action="{{ route('pay.fees') }}" method="POST">
-                    @csrf
-                    <div class="row">
-                        <div class="col-lg-6 col-md-12">
-                            <div class="form-group">
-                                <input class="form-control" type="text"
-                                    wire:keydown.debounce.1000ms='fetchDetails($event.target.value)'
-                                    placeholder="Enter Admission Number">
-                                @error('admno')
-                                    <span class="error">{{ $message }}</span>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                @php
-                                    $terms = App\Models\Term::all();
-                                @endphp
-                                <select class="form-control" name="term_id" id="term_id" style="width: 500px;">
-                                    <option value="">Select Term</option>
-                                    @foreach ($terms as $term)
-                                        <option value="{{ $term->id }}">
-                                            {{ $term->term_type->name . ' - ' . $term->session->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('term_id')
-                                    <span class="error">{{ $message }}</span>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <select name="amount" class="form-control"
-                                    wire:change='amountPaid($event.target.value)' id="" style="width: 500px;">
-                                    <option value="" selected>Please Select Amount</option>
-                                    <option value='{{ $fullFees }}'>{{ $fullFees }}</option>
-                                    <option value='{{ $partFees }}'>{{ $partFees }}</option>
-                                </select>
-                                @error('amount')
-                                    <span class="error">{{ $message }}</span>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <input class="form-control" placeholder="Email" type="email" name="email" value="{{ $email }}"
-                                    readonly>
-                                @error('email')
-                                    <span class="error">{{ $message }}</span>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <input class="form-control" type="hidden" name="student_id" value="{{ $studentID }}"
-                                    readonly>
-                                @error('student_id')
-                                    <span class="error">{{ $message }}</span>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <input class="form-control" type="hidden" name="phone" value="{{ $phone }}"
-                                    readonly>
-                                @error('phone')
-                                    <span class="error">{{ $message }}</span>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <input class="form-control" placeholder="Level" type="text" name="level_id" value="{{ $level }}"
-                                    readonly>
-                                @error('level_id')
-                                    <span class="error">{{ $message }}</span>
-                                @enderror
-                            </div>
-
-
-                            <div class="form-group">
-                                <input class="form-control" name="class" type="text" placeholder="Child class"
-                                    value="{{ $class }}" readonly>
-                                @error('class')
-                                    <span class="error">{{ $message }}</span>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <input class="form-control" name="customer_name" type="hidden"
-                                    value="{{ $name }}" readonly>
-                            </div>
-
-
-                        </div>
-
-                        <div class="col-lg-6 col-md-12">
-                            <div class="form-group">
-                                <input class="form-control" type="text" placeholder="Surname"
-                                    value="{{ $surname }}" readonly>
-                            </div>
-
-                            <div class="form-group">
-                                <input class="form-control" type="text" placeholder="Middle Name"
-                                    value="{{ $middlename }}" readonly>
-                            </div>
-                            <div class="form-group">
-                                <input class="form-control" type="text" placeholder="Last Name"
-                                    value="{{ $lastname }}" readonly>
-                            </div>
-
-                            <div class="form-group">
-                                <input class="form-control" type="text" name="total_fees" placeholder="Total Fees"
-                                    value="{{ $fullFees }}" readonly>
-                                @error('total_fees')
-                                    <span class="error">{{ $message }}</span>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <input class="form-control" name="amount_paid" type="text" placeholder="Amount Paid"
-                                    value="{{ $amountPaid }}" readonly>
-                                @error('amount_paid')
-                                    <span class="error">{{ $message }}</span>
-                                @enderror
-                            </div>
-
-                            <div class="form-group">
-                                <input class="form-control" type="text" name="amount_unpaid"
-                                    placeholder="Amount Unpaid" value="{{ $amountUnPaid }}" readonly>
-                                @error('amount_unpaid')
-                                    <span class="error">{{ $message }}</span>
-                                @enderror
-                            </div>
-
-
-                        </div>
+<section class="contact bg-white p-5 text-center text-sm-start">
+    <div class="container">
+        <h1 class="text-center">Fill the form below</h1>
+        <div class="d-sm-flex align-items-center justify-content-between">
+            <div class="text-center col-md-6 p-3">
+                <form action="">
+                    <div class="mb-3">
+                        <label for="Term" class="col-form-label">
+                            Term
+                        </label>
+                        <select class="form-control" name="Term" id="Term" required>
+                            <option value="Term">Please Select Term</option>
+                            <option value="First">First Term - 2023/2024</option>
+                            <option value="Second">Second Term - 2023/2024</option>
+                        </select>
                     </div>
-
-                    <div class="row">
-                        <div class="col-lg-6">
-
-                            <div class="form-group">
-                                <input type="submit" id="btn" value="Submit Payment">
-                            </div>
-
-
-                        </div>
+                    <div class="mb-3">
+                        <label for="level" class="col-form-label">
+                            Level
+                        </label>
+                        <select class="form-control" name="Level" id="level" required>
+                            <option value="Level">Please Select Level</option>
+                            <option value="Creche">Creche</option>
+                            <option value="Nursery">Nursery</option>
+                            <option value="Toddlers">Toddlers</option>
+                            <option value="Basic">Basic</option>
+                        </select>
                     </div>
-                </form>
-
+                    <div class="mb-3">
+                        <label for="Email" class="col-form-label">
+                            Email
+                        </label>
+                        <input type="text" style="height: 50px;" class="form-control" id="Email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Amount" class="col-form-label">
+                            Amount
+                        </label>
+                        <select class="form-control" name="Amount" id="Amount" required>
+                            <option class="form-control" value="Amount">Please Select Amount</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="admission-number" class="col-form-label">
+                            Admission Number
+                        </label>
+                        <input type="text" style="height: 50px;" class="form-control" id="admission-number" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="class" class="col-form-label">
+                            class
+                        </label>
+                        <input type="text" style="height: 50px;" class="form-control" id="class" required>
+                    </div>
             </div>
-        </div>
+            <div class="c-right col-md-6 text-center">
+                <form action="">
+                    <div class="mb-3">
+                        <label for="Surname" class="col-form-label">
+                            Surname
+                        </label>
+                        <input type="text" style="height: 50px;" class="form-control" id="Surname" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Middle-name" class="col-form-label">
+                            Middle Name
+                        </label>
+                        <input type="text" style="height: 50px;" class="form-control" id="Middle-name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="last-name" class="col-form-label">
+                            Last Name
+                        </label>
+                        <input type="text" style="height: 50px;" class="form-control" id="last-name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="total-fees" class="col-form-label">
+                            Total Fees
+                        </label>
+                        <input type="text" style="height: 50px;" class="form-control" id="total-fees" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Amount-paid" class="col-form-label">
+                            Amount Paid
+                        </label>
+                        <input type="text" style="height: 50px;" class="form-control" id="Amount-paid" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="Amount-unpaid" class="col-form-label">
+                            Amount Unpaid
+                        </label>
+                        <input type="text" style="height: 50px;" class="form-control" id="Amount-unpaid" required>
+                    </div>
+            </div>
 
+        </div>
+        <div class="col">
+            <input class="form-control" style="height: 47px;" type="submit" id="btn" value="Send Message">
+        </div>
+        </form>
+
+    </div>
     </div>
 </section>
-
-@push('front-js')
-    {{-- js --> --}}
-    <script src="{{ asset('frontend/dist/js/bootstrap.bundle.min.js') }}"></script>
-    <script>
-        $(function() {
-
-            setTimeout(() => {
-                $(".error").hide('slow');
-            }, 5000);
-
-        });
-    </script>
-@endpush

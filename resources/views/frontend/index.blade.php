@@ -19,7 +19,7 @@
     <!--Section Gallery ends-->
 
     <!--Section Result begins-->
-    @include('frontend.components.result')
+    {{-- @include('frontend.components.result') --}}
     <!--Section Result ends-->
 
     <!--Section Advert begins-->
@@ -39,5 +39,7 @@
     <!--Section Faq Begins-->
     @include('frontend.components.faqs')
 
+    <!--Modals-->
+    @include('frontend.components.modal')
 
 @endsection

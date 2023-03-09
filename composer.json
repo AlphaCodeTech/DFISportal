@@ -13,6 +13,7 @@
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^2.10",
+        "nnjeim/world": "^1.1",
         "realrashid/sweet-alert": "^5.1",
         "spatie/laravel-permission": "^5.7",
         "spatie/laravel-settings": "^2.6",
