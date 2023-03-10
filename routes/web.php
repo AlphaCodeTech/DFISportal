@@ -1,12 +1,17 @@
 <?php
 
+use App\Models\EmailMailTemplate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BursaryController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Livewire\Backend\Pin\PinEnter;
+use App\Http\Livewire\Backend\Exam\BatchFix;
 use App\Http\Controllers\AdmissionController;
+use App\Http\Livewire\Backend\Pin\PinComponent;
 use App\Http\Controllers\BackendIndexController;
+use App\Http\Livewire\Backend\Exam\ExamMarkBulk;
 use App\Http\Livewire\Backend\Exam\ExamComponent;
 use App\Http\Livewire\Backend\Fees\FeesComponent;
 use App\Http\Livewire\Backend\Role\RoleComponent;
@@ -14,12 +19,15 @@ use App\Http\Livewire\Backend\Term\TermComponent;
 use App\Http\Livewire\Backend\User\UserComponent;
 use App\Http\Livewire\Backend\Student\StudentList;
 use App\Http\Livewire\Backend\Event\EventComponent;
+use App\Http\Livewire\Backend\Exam\TabulationSheet;
 use App\Http\Livewire\Backend\Grade\GradeComponent;
 use App\Http\Livewire\Backend\Level\LevelComponent;
+use App\Http\Controllers\Backend\Mark\MarkController;
+use App\Http\Livewire\Backend\Email\ListMailVariable;
 use App\Http\Livewire\Backend\Exam\ExamMarkComponent;
+use App\Http\Livewire\Backend\Settings\TeamComponent;
 use App\Http\Livewire\Backend\Student\PromotionManage;
 use App\Http\Controllers\AdmissionManagementController;
-use App\Http\Controllers\Backend\Mark\MarkController;
 use App\Http\Livewire\Backend\Exam\ExamManageComponent;
 use App\Http\Livewire\Backend\Profile\ProfileComponent;
 use App\Http\Livewire\Backend\Session\SessionComponent;
@@ -31,31 +39,35 @@ use App\Http\Livewire\Backend\Subject\SubjectComponent;
 use App\Http\Livewire\Backend\Classroom\ClassroomSection;
 use App\Http\Livewire\Backend\Guardian\GuardianComponent;
 use App\Http\Livewire\Backend\Settings\AcademicComponent;
+use App\Http\Livewire\Backend\Settings\AdmissionComponent;
 use App\Http\Livewire\Backend\Classroom\ClassroomComponent;
+use App\Http\Livewire\Backend\MailTemplate\EditMailTemplate;
+use App\Http\Livewire\Backend\MailTemplate\ListMailTemplate;
 use App\Http\Livewire\Backend\Department\DepartmentComponent;
 use App\Http\Livewire\Backend\Permission\PermissionComponent;
 use App\Http\Livewire\Backend\Subject\AssignSubjectToTeacher;
+use App\Http\Livewire\Backend\MailTemplate\CreateMailTemplate;
 use App\Http\Livewire\Backend\Classroom\ClassesAssignedSubjects;
-use App\Http\Livewire\Backend\Exam\BatchFix;
-use App\Http\Livewire\Backend\Exam\ExamMarkBulk;
-use App\Http\Livewire\Backend\Exam\TabulationSheet;
-use App\Http\Livewire\Backend\Pin\PinComponent;
-use App\Http\Livewire\Backend\Pin\PinEnter;
-use App\Http\Livewire\Backend\Settings\AdmissionComponent;
-use App\Http\Livewire\Backend\Settings\TeamComponent;
 
 // ! Frontend Routes
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
+
 Route::post('/continue-registration', [HomeController::class, 'continue'])->name('form.continue');
+
 Route::get('/guardian-create', [HomeController::class, 'guardianCreate'])->name('guardian.create');
 Route::post('/guardian-store', [HomeController::class, 'guardianStore'])->name('guardian.store');
+
 Route::get('/purchase-admission-form/{guardian}', [HomeController::class, 'purchase'])->name('form.purchase');
+
 Route::get('/school-fees-payment', [PaymentController::class, 'schoolFeeCreate'])->name('fees.show');
 Route::post('/school-fees-payment', [PaymentController::class, 'schoolFeeStore'])->name('fees.store');
+
 Route::get('/school-fees-verification/{phone?}', [PaymentController::class, 'verifyFees'])->name('fees.verify');
 Route::post('/school-fees-verification', [PaymentController::class, 'verify'])->name('verify');
+
 Route::post('/student-admissions', [AdmissionController::class, 'store'])->name('admission.store');
+
 Route::get('/admission-form-payment/{guardian}', [PaymentController::class, 'formFeeCreate'])->name('form.fee.create');
 Route::post('/admission-form-payment', [PaymentController::class, 'formFeeStore'])->name('form.fee.store');
 
@@ -63,7 +75,6 @@ Route::post('/admission-form-payment', [PaymentController::class, 'formFeeStore'
 Route::get('/storages', function () {
     Artisan::call('storage:link');
     dd('success');
-
 });
 
 // ! Backend Routes
@@ -208,7 +219,19 @@ Route::prefix('settings')->middleware(['auth', 'role:super admin|developer'])->g
     Route::get('academic', AcademicComponent::class)->name('setting.academic');
     Route::get('team', TeamComponent::class)->name('setting.team');
     Route::get('admission', AdmissionComponent::class)->name('setting.admission');
+
+    Route::prefix('email')->group(function () {
+        Route::get('/', ListMailVariable::class)->name('setting.email');
+        Route::get('/viewTemplate', ListMailTemplate::class)->name('email.view.template');
+        Route::get('/createTemplate', CreateMailTemplate::class)->name('email.create.template');
+        Route::get('/editTemaplate/{id}', EditMailTemplate::class)->name('email.edit.template');
+        Route::get('/preview/{id}', function ($id) {
+            $mailTemplate = EmailMailTemplate::find($id);
+            return $mailTemplate->body;
+        })->name('email.preview');
+    });
 });
+
 
 
 require __DIR__ . '/auth.php';

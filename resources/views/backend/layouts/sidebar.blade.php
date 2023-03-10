@@ -585,6 +585,12 @@
                                   </a>
                               </li>
                               <li class="nav-item">
+                                  <a href="{{ route('setting.email') }}" class="nav-link">
+                                      <i class="far fa-circle nav-icon"></i>
+                                      <p>Email Settings</p>
+                                  </a>
+                              </li>
+                              <li class="nav-item">
                                   <a href="{{ route('setting.admission') }}" class="nav-link">
                                       <i class="far fa-circle nav-icon"></i>
                                       <p>Admission Settings</p>

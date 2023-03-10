@@ -47,6 +47,7 @@ class ComposerStaticInitdd800fccb9c5df3b01d4f376a3666821
         '6b34c85f7b1ad6faa15aa12109e030f2' => __DIR__ . '/..' . '/realrashid/sweet-alert/src/functions.php',
         '320163ac6b93aebe3dc25b60a0533d56' => __DIR__ . '/..' . '/spatie/laravel-ignition/src/helpers.php',
         '377b22b161c09ed6e5152de788ca020a' => __DIR__ . '/..' . '/spatie/laravel-permission/src/helpers.php',
+        'ef157334f1067da991ff8953983afdb3' => __DIR__ . '/../..' . '/app/Helpers/helper.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -132,6 +133,7 @@ class ComposerStaticInitdd800fccb9c5df3b01d4f376a3666821
             'Psr\\Cache\\' => 10,
             'PhpParser\\' => 10,
             'PhpOption\\' => 10,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'N' => 
         array (
@@ -465,6 +467,10 @@ class ComposerStaticInitdd800fccb9c5df3b01d4f376a3666821
         'PhpOption\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
+        ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
         'NunoMaduro\\Collision\\' => 
         array (
@@ -918,6 +924,8 @@ class ComposerStaticInitdd800fccb9c5df3b01d4f376a3666821
         'App\\Http\\Livewire\\Backend\\Classroom\\ClassroomSection' => __DIR__ . '/../..' . '/app/Http/Livewire/Backend/Classroom/ClassroomSection.php',
         'App\\Http\\Livewire\\Backend\\Components\\StatusButton' => __DIR__ . '/../..' . '/app/Http/Livewire/Backend/Components/StatusButton.php',
         'App\\Http\\Livewire\\Backend\\Department\\DepartmentComponent' => __DIR__ . '/../..' . '/app/Http/Livewire/Backend/Department/DepartmentComponent.php',
+        'App\\Http\\Livewire\\Backend\\Email\\CreateMailVariable' => __DIR__ . '/../..' . '/app/Http/Livewire/Backend/Email/CreateMailVariable.php',
+        'App\\Http\\Livewire\\Backend\\Email\\ListMailVariable' => __DIR__ . '/../..' . '/app/Http/Livewire/Backend/Email/ListMailVariable.php',
         'App\\Http\\Livewire\\Backend\\Event\\EventComponent' => __DIR__ . '/../..' . '/app/Http/Livewire/Backend/Event/EventComponent.php',
         'App\\Http\\Livewire\\Backend\\Exam\\BatchFix' => __DIR__ . '/../..' . '/app/Http/Livewire/Backend/Exam/BatchFix.php',
         'App\\Http\\Livewire\\Backend\\Exam\\ExamComponent' => __DIR__ . '/../..' . '/app/Http/Livewire/Backend/Exam/ExamComponent.php',
@@ -931,6 +939,11 @@ class ComposerStaticInitdd800fccb9c5df3b01d4f376a3666821
         'App\\Http\\Livewire\\Backend\\GraduatedButton' => __DIR__ . '/../..' . '/app/Http/Livewire/Backend/GraduatedButton.php',
         'App\\Http\\Livewire\\Backend\\Guardian\\GuardianComponent' => __DIR__ . '/../..' . '/app/Http/Livewire/Backend/Guardian/GuardianComponent.php',
         'App\\Http\\Livewire\\Backend\\Level\\LevelComponent' => __DIR__ . '/../..' . '/app/Http/Livewire/Backend/Level/LevelComponent.php',
+        'App\\Http\\Livewire\\Backend\\MailTemplate\\CreateMailTemplate' => __DIR__ . '/../..' . '/app/Http/Livewire/Backend/MailTemplate/CreateMailTemplate.php',
+        'App\\Http\\Livewire\\Backend\\MailTemplate\\EditMailTemplate' => __DIR__ . '/../..' . '/app/Http/Livewire/Backend/MailTemplate/EditMailTemplate.php',
+        'App\\Http\\Livewire\\Backend\\MailTemplate\\ListMailTemplate' => __DIR__ . '/../..' . '/app/Http/Livewire/Backend/MailTemplate/ListMailTemplate.php',
+        'App\\Http\\Livewire\\Backend\\MailTemplate\\MailTemplateFormTrait' => __DIR__ . '/../..' . '/app/Http/Livewire/Backend/MailTemplate/MailTemplateFormTrait.php',
+        'App\\Http\\Livewire\\Backend\\MailTemplate\\SendMailTemplate' => __DIR__ . '/../..' . '/app/Http/Livewire/Backend/MailTemplate/SendMailTemplate.php',
         'App\\Http\\Livewire\\Backend\\Mark\\ShowComments' => __DIR__ . '/../..' . '/app/Http/Livewire/Backend/Mark/ShowComments.php',
         'App\\Http\\Livewire\\Backend\\Mark\\ShowSheets' => __DIR__ . '/../..' . '/app/Http/Livewire/Backend/Mark/ShowSheets.php',
         'App\\Http\\Livewire\\Backend\\Mark\\ShowSkills' => __DIR__ . '/../..' . '/app/Http/Livewire/Backend/Mark/ShowSkills.php',
@@ -997,6 +1010,8 @@ class ComposerStaticInitdd800fccb9c5df3b01d4f376a3666821
         'App\\Http\\Requests\\SubjectUpdateRequest' => __DIR__ . '/../..' . '/app/Http/Requests/SubjectUpdateRequest.php',
         'App\\Http\\Requests\\UserStoreRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UserStoreRequest.php',
         'App\\Http\\Requests\\UserUpdateRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UserUpdateRequest.php',
+        'App\\Lib\\TemplateParser' => __DIR__ . '/../..' . '/app/Lib/TemplateParser.php',
+        'App\\Mail\\SendMail' => __DIR__ . '/../..' . '/app/Mail/SendMail.php',
         'App\\Models\\AdmissionFormFee' => __DIR__ . '/../..' . '/app/Models/AdmissionFormFee.php',
         'App\\Models\\Applicant' => __DIR__ . '/../..' . '/app/Models/Applicant.php',
         'App\\Models\\Bursary' => __DIR__ . '/../..' . '/app/Models/Bursary.php',
@@ -1004,6 +1019,7 @@ class ComposerStaticInitdd800fccb9c5df3b01d4f376a3666821
         'App\\Models\\ClassSubject' => __DIR__ . '/../..' . '/app/Models/ClassSubject.php',
         'App\\Models\\Clazz' => __DIR__ . '/../..' . '/app/Models/Clazz.php',
         'App\\Models\\Department' => __DIR__ . '/../..' . '/app/Models/Department.php',
+        'App\\Models\\EmailMailTemplate' => __DIR__ . '/../..' . '/app/Models/EmailMailTemplate.php',
         'App\\Models\\Employee' => __DIR__ . '/../..' . '/app/Models/Employee.php',
         'App\\Models\\Event' => __DIR__ . '/../..' . '/app/Models/Event.php',
         'App\\Models\\Exam' => __DIR__ . '/../..' . '/app/Models/Exam.php',
@@ -1013,6 +1029,7 @@ class ComposerStaticInitdd800fccb9c5df3b01d4f376a3666821
         'App\\Models\\Grade' => __DIR__ . '/../..' . '/app/Models/Grade.php',
         'App\\Models\\Guardian' => __DIR__ . '/../..' . '/app/Models/Guardian.php',
         'App\\Models\\Level' => __DIR__ . '/../..' . '/app/Models/Level.php',
+        'App\\Models\\MailVariable' => __DIR__ . '/../..' . '/app/Models/MailVariable.php',
         'App\\Models\\Mark' => __DIR__ . '/../..' . '/app/Models/Mark.php',
         'App\\Models\\Pin' => __DIR__ . '/../..' . '/app/Models/Pin.php',
         'App\\Models\\Promotion' => __DIR__ . '/../..' . '/app/Models/Promotion.php',
@@ -4589,6 +4606,13 @@ class ComposerStaticInitdd800fccb9c5df3b01d4f376a3666821
         'NunoMaduro\\Collision\\Provider' => __DIR__ . '/..' . '/nunomaduro/collision/src/Provider.php',
         'NunoMaduro\\Collision\\SolutionsRepositories\\NullSolutionsRepository' => __DIR__ . '/..' . '/nunomaduro/collision/src/SolutionsRepositories/NullSolutionsRepository.php',
         'NunoMaduro\\Collision\\Writer' => __DIR__ . '/..' . '/nunomaduro/collision/src/Writer.php',
+        'PHPMailer\\PHPMailer\\DSNConfigurator' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/DSNConfigurator.php',
+        'PHPMailer\\PHPMailer\\Exception' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/Exception.php',
+        'PHPMailer\\PHPMailer\\OAuth' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/OAuth.php',
+        'PHPMailer\\PHPMailer\\OAuthTokenProvider' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/OAuthTokenProvider.php',
+        'PHPMailer\\PHPMailer\\PHPMailer' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/PHPMailer.php',
+        'PHPMailer\\PHPMailer\\POP3' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/POP3.php',
+        'PHPMailer\\PHPMailer\\SMTP' => __DIR__ . '/..' . '/phpmailer/phpmailer/src/SMTP.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\ActualValueIsNotAnObjectException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Exception/ActualValueIsNotAnObjectException.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',

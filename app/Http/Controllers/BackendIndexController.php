@@ -28,7 +28,7 @@ class BackendIndexController extends Controller
 
     public function calendarEvents(Request $request)
     {
-        $colors = array('#FF5733','#351C17','#B4CF6D','#28A2DE','#8F29B8','#9B1384','#61915E','#28B3F4','#D8D145','#DDA4EA');
+        $colors = array('#FF5733', '#351C17', '#B4CF6D', '#28A2DE', '#8F29B8', '#9B1384', '#61915E', '#28B3F4', '#D8D145', '#DDA4EA');
 
         switch ($request->type) {
             case 'create':

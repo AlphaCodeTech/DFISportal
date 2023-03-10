@@ -65,6 +65,7 @@ return array(
     'Psr\\Cache\\' => array($vendorDir . '/psr/cache/src'),
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
     'PhpOption\\' => array($vendorDir . '/phpoption/phpoption/src/PhpOption'),
+    'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
     'NunoMaduro\\Collision\\' => array($vendorDir . '/nunomaduro/collision/src'),
     'Nnjeim\\World\\Database\\Seeders\\' => array($vendorDir . '/nnjeim/world/src/Database/Seeders'),
     'Nnjeim\\World\\' => array($vendorDir . '/nnjeim/world/src'),

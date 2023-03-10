@@ -1,4 +1,3 @@
-
 <!-- REQUIRED SCRIPTS -->
 <!-- jQuery -->
 <script src="{{ asset('backend/plugins/jquery/jquery.min.js') }}"></script>
@@ -32,6 +31,13 @@
 
     window.addEventListener('show-form', function() {
         $('#form').modal({
+            backdrop: 'static',
+            keyboard: false
+        }, 'show');
+    });
+
+    window.addEventListener('show-email', function() {
+        $('#email').modal({
             backdrop: 'static',
             keyboard: false
         }, 'show');
@@ -87,6 +93,11 @@
 
     window.addEventListener('hide-modal', function(event) {
         $('#form').modal('hide');
+        toastr.success(event.detail.message, 'Success!');
+    });
+
+    window.addEventListener('hide-email', function(event) {
+        $('#email').modal('hide');
         toastr.success(event.detail.message, 'Success!');
     });
 
