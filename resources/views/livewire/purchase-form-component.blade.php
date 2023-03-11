@@ -24,8 +24,9 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <input type="hidden" name="guardian_id" value="{{ $guardian }}">
-                            <input type="hidden" name="phone" value="{{ $phone }}">
+                            <input type="hidden" name="guardian_id" value="{{ $guardian->id }}">
+                            <input type="hidden" name="phone" value="{{ $guardian->phone }}">
+                            <input type="hidden" name="guardian" value="{{ $guardian }}">
                             <div class="mb-3">
                                 <label for="surname" class="form-label">
                                     Surname
@@ -141,8 +142,8 @@
                                 <label for="introducer" class="form-label">
                                     Who Introduce you to the school
                                 </label>
-                                <input class="form-control @error('introducer') is-invalid @enderror" name="introducer"
-                                    type="text" placeholder="Who Introduced You to the School"
+                                <input class="form-control @error('introducer') is-invalid @enderror"
+                                    name="introducer" type="text" placeholder="Who Introduced You to the School"
                                     value="{{ old('introducer') }}">
 
                                 @error('introducer')
@@ -166,7 +167,8 @@
                                 <label for="allergies" class="form-label">
                                     Any Allergy?
                                 </label>
-                                <textarea class="form-control @error('allergies') is-invalid @enderror" name="allergies" placeholder="Any allergies?">{{ old('allergies') }}</textarea>
+                                <textarea class="form-control @error('allergies') is-invalid @enderror" name="allergies"
+                                    placeholder="Any allergies?">{{ old('allergies') }}</textarea>
                                 @error('allergies')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
@@ -176,7 +178,8 @@
                                 <label for="disabilities" class="form-label">
                                     Any Disability?
                                 </label>
-                                <textarea class="form-control @error('disabilities') is-invalid @enderror" name="disabilities" placeholder="Any disabilities?">{{ old('disabilities') }}</textarea>
+                                <textarea class="form-control @error('disabilities') is-invalid @enderror" name="disabilities"
+                                    placeholder="Any disabilities?">{{ old('disabilities') }}</textarea>
                                 @error('disabilities')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror
@@ -186,7 +189,8 @@
                                 <label for="reason" class="form-label">
                                     Any Other Information?
                                 </label>
-                                <textarea class="form-control @error('reason') is-invalid @enderror" name="reason" placeholder="Reason for leaving your formal school">{{ old('reason') }}</textarea>
+                                <textarea class="form-control @error('reason') is-invalid @enderror" name="reason"
+                                    placeholder="Reason for leaving your formal school">{{ old('reason') }}</textarea>
                                 @error('reason')
                                     <span class="invalid-feedback">{{ $message }}</span>
                                 @enderror

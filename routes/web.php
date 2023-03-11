@@ -69,7 +69,8 @@ Route::post('/school-fees-verification', [PaymentController::class, 'verify'])->
 Route::post('/student-admissions', [AdmissionController::class, 'store'])->name('admission.store');
 
 Route::get('/admission-form-payment/{guardian}', [PaymentController::class, 'formFeeCreate'])->name('form.fee.create');
-Route::post('/admission-form-payment', [PaymentController::class, 'formFeeStore'])->name('form.fee.store');
+Route::post('/admission-form-payment/{guardian}', [PaymentController::class, 'formFeeStore'])->name('form.fee.store');
+Route::get('/confirm-form-payment/{reference}', [PaymentController::class, 'confirmFee'])->name('form.fee.confirm');
 
 
 Route::get('/storages', function () {

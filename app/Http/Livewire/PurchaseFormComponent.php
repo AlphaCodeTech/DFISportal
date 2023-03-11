@@ -10,7 +10,6 @@ class PurchaseFormComponent extends Component
     use WithFileUploads;
 
     public $guardian;
-    public $phone;
 
     public function render()
     {

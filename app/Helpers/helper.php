@@ -188,8 +188,7 @@ function sendEmail($user, $type = null, $shortCodes = [])
     $templateParser->process();
 
     $message = $templateParser->getCompiled();
-
-    dd($message);
+    
     if ($config['name'] == 'php') {
         sendPhpMail($user->email, $user->username, $mailTemplate->subject, $message, $general);
     } else if ($config['name'] == 'smtp') {

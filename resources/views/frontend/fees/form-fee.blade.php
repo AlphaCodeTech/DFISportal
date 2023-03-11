@@ -4,14 +4,13 @@
     <section class="contact bg-white p-5 text-sm-start">
         <div class="container">
             <h1 class="text-center">Purchase Admission Form</h1>
-            <form action="{{ route('form.fee.store') }}" method="POST">
+            <form action="{{ route('form.fee.store', ['guardian' => $guardian]) }}" method="POST">
                 @csrf
                 @php
                     $setting = App::make(App\Settings\AdmissionSetting::class);
                 @endphp
 
                 <div class="row">
-                    <input type="hidden" name="phone" value="{{ $guardian->phone }}">
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="name" class="form-label">
@@ -30,8 +29,6 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-
-                        <input name="buyer_id" type="hidden" value="{{ $guardian->id }}">
 
                         <div class="mb-3">
                             <label for="email" class="form-label">

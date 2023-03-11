@@ -18,10 +18,7 @@ class HomeController extends Controller
 
     public function purchase(Guardian $guardian)
     {
-        $guardian_id = $guardian->id;
-        $phone = $guardian->phone;
-
-        return view('frontend.purchase', compact('guardian_id', 'phone'));
+        return view('frontend.purchase', compact('guardian'));
     }
 
     public function guardianCreate()

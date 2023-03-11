@@ -74,10 +74,9 @@ class PaymentController extends Controller
         return view('frontend.fees.form-fee', compact('guardian'));
     }
 
-    public function formFeeStore(Request $request)
+    public function formFeeStore(Request $request, Guardian $guardian)
     {
         $data = $request->validate([
-            'buyer_id' => 'required',
             'amount' => 'required',
             'current_session' => 'required',
         ]);
@@ -87,12 +86,12 @@ class PaymentController extends Controller
         $response = Http::withHeaders([
             'Authorization' => $key,
         ])->post('https://sandbox-api-d.squadco.com/transaction/initiate', [
-            'email' => $request->email,
+            'email' => $guardian->email,
             'amount' => intval($request->amount) * 100,
             'initiate_type' => 'inline',
             'currency' => 'NGN',
-            'customer_name' => $request->name,
-            'callback_url' => route('form.purchase', ['guardian' => $request->buyer_id]),
+            'customer_name' => $guardian->name,
+            'callback_url' => route('form.purchase', ['guardian' => $guardian->id]),
         ]);
 
         if ($response['status'] == 200) {
@@ -100,14 +99,14 @@ class PaymentController extends Controller
             $url = $data['data']['checkout_url'];
 
             $fee = new AdmissionFormFee();
-            $fee->buyer_id = $request->buyer_id;
+            $fee->buyer_id = $guardian->id;
             $fee->amount = $request->amount;
             $fee->current_session = $request->current_session;
             $fee->transaction_ref = $data['data']['transaction_ref'];
             $fee->save();
 
             $transaction_ref = $data['data']['transaction_ref'];
-            $phone = $request->phone;
+            $phone = $guardian->phone;
 
             $message = "Admission fees payment was successful.\nKindly use this transaction reference to proceed on the application.\n$transaction_ref";
 
@@ -123,6 +122,10 @@ class PaymentController extends Controller
                     'status' => $response['status'],
                 ]);
             }
+            
+            notify($guardian, 'continue-registration', [
+                'url' => route('form.fee.confirm', $transaction_ref),
+            ]);
 
             toast('Form Purchase Successful', 'success');
             return redirect($url);
@@ -166,6 +169,21 @@ class PaymentController extends Controller
         } else {
             alert('Sorry', 'School Fees Verifification already done contact the management for more support', 'success');
             return redirect()->route('home.index');
+        }
+    }
+
+    public function confirmFee($reference)
+    {
+        $formFee = AdmissionFormFee::where('transaction_ref', $reference)
+            ->where('used', false)
+            ->first();
+
+        if ($formFee) {
+            return redirect()->route('form.purchase', ['guardian' => $formFee->buyer_id]);
+        } else {
+            alert('Sorry', 'Please Purchase new form, transaction reference not found or already used', 'error');
+
+            return redirect()->route('guardian.create');
         }
     }
 }

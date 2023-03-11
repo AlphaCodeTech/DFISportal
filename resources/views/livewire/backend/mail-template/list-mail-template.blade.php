@@ -52,7 +52,7 @@
                                                 <td>{{ $item->id }}</td>
                                                 <td>{{ $item->title }}</td>
                                                 <td>{{ $item->subject }}</td>
-                                                <td>{{ $item->template_key }}</td>
+                                                <td>{{ $item->key }}</td>
                                                 <td>
                                                     <a href="{{ route('email.edit.template', $item->id) }}"
                                                         class="btn btn-sm btn-outline-info btn-edit"><i

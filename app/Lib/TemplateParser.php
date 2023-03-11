@@ -170,6 +170,7 @@ class TemplateParser
         return [
             "[WEBSITE_LOGO]" => $this->getWebsiteLogo(),
             "[WEBSITE_NAME]" => $this->systemSetting->name,
+            "[WEBSITE_EMAIL]" => $this->systemSetting->email,
             "[YEAR]" => date("Y"),
             "[MESSAGE_BODY]" => $this->rawMessage,
             "[CURR_USER]" => (auth()->check() ? auth()->user()->name : "")
