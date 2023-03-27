@@ -6,6 +6,7 @@ use App\Models\AdmissionFormFee;
 use App\Models\SMS;
 use App\Models\Finance;
 use App\Models\Guardian;
+use App\Models\Student;
 use App\Services\SMSService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -30,23 +31,25 @@ class PaymentController extends Controller
             'total_fees' => 'required',
             'amount_paid' => 'required',
             'amount_unpaid' => 'required',
-            'term_id' => 'required',
+            'term_id' => 'required|exists:terms,id',
         ]);
 
-        $this->phone = str_replace('+', '', $request->phone);
+        $student = Student::where('id', $request->student_id)->first();
 
-        $response = Http::withHeaders([
-            'Authorization' => 'sandbox_sk_06fda0d87d3772b8c6e8cccd5b6e030f7707f3baf944',
+        $this->phone = $student->guardian->phone;
+
+        $response = Http::retry(3, 500)->withHeaders([
+            'Authorization' => env('SANDBOX_KEY'),
         ])->post('https://sandbox-api-d.squadco.com/transaction/initiate', [
             'email' => $request->email,
             'amount' => intval($request->amount_paid) * 100,
             'initiate_type' => 'inline',
             'currency' => 'NGN',
-            'customer_name' => $request->customer_name,
+            'customer_name' => $student->guardian->name,
             'callback_url' => route('fees.verify', ['phone' => $this->phone]),
         ]);
 
-        if ($response['status'] == 200) {
+        if ($response->successful()) {
             $data = $response->json();
             $url = $data['data']['checkout_url'];
 
@@ -81,10 +84,9 @@ class PaymentController extends Controller
             'current_session' => 'required',
         ]);
 
-        $key = 'sandbox_sk_06fda0d87d3772b8c6e8cccd5b6e030f7707f3baf944';
 
-        $response = Http::withHeaders([
-            'Authorization' => $key,
+        $response = Http::retry(3, 500)->withHeaders([
+            'Authorization' => env('SANDBOX_KEY'),
         ])->post('https://sandbox-api-d.squadco.com/transaction/initiate', [
             'email' => $guardian->email,
             'amount' => intval($request->amount) * 100,
@@ -122,7 +124,7 @@ class PaymentController extends Controller
                     'status' => $response['status'],
                 ]);
             }
-            
+
             notify($guardian, 'continue-registration', [
                 'url' => route('form.fee.confirm', $transaction_ref),
             ]);

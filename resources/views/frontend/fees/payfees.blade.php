@@ -7,5 +7,4 @@
 
 @section('frontend')
     <livewire:pay-school-fees />
-
 @endsection

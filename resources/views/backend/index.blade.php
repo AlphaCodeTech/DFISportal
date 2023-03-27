@@ -54,7 +54,7 @@
                             <div class="info-box mb-3">
                                 <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-users"></i></span>
                                 @php
-                                    $staff_count = App\Models\User::notRole('teacher')->count();
+                                    $staff_count = App\Models\User::count();
                                 @endphp
                                 <div class="info-box-content">
                                     <span class="info-box-text">Staffs</span>
@@ -89,11 +89,11 @@
                             <div class="info-box mb-3">
                                 <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-cog"></i></span>
                                 @php
-                                    $teacher_count = App\Models\User::role('teacher')->count();
+                                    $applicants = App\Models\Applicant::count();
                                 @endphp
                                 <div class="info-box-content">
-                                    <span class="info-box-text">Teachers</span>
-                                    <span class="info-box-number">{{ $teacher_count }}</span>
+                                    <span class="info-box-text">Applicants</span>
+                                    <span class="info-box-number">{{ $applicants }}</span>
                                 </div>
                                 <!-- /.info-box-content -->
                             </div>

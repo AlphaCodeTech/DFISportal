@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Backend\Settings;
 
 use App\Models\Fee;
 use App\Models\Session;
+use App\Models\Term;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Settings\AcademicSetting;
@@ -17,14 +18,14 @@ class AcademicComponent extends Component
     public $state = [];
     public $classLevels;
     public $sections;
-    public $fees;
+    public $terms;
 
     public function mount(AcademicSetting $setting, ClassRepository $classRepository)
     {
         $this->state = $setting->toArray();
         $this->classLevels = $classRepository->getLevels();
         $this->sections = Session::all();
-        $this->fees = Fee::orderBy('name','asc')->get();
+        $this->terms = Term::orderBy('type', 'asc')->get();
     }
 
     public function render()
@@ -35,6 +36,7 @@ class AcademicComponent extends Component
     public function update(AcademicSetting $academicSetting)
     {
         $data =  Validator::make($this->state, [
+            'next_term' => 'required',
             'term_begins' => 'required',
             'term_ends' => 'required',
             'current_session' => 'required',
@@ -46,8 +48,7 @@ class AcademicComponent extends Component
             'lock_exam' => 'required|integer',
         ])->validate();
 
-
-
+        $academicSetting->next_term = $data['next_term'];
         $academicSetting->term_begins = $data['term_begins'];
         $academicSetting->term_ends = $data['term_ends'];
         $academicSetting->current_session = $data['current_session'];

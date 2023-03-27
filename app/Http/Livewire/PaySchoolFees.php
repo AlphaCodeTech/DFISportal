@@ -4,6 +4,8 @@ namespace App\Http\Livewire;
 
 use App\Models\Student;
 use Livewire\Component;
+use App\Settings\AcademicSetting;
+use Illuminate\Support\Facades\App;
 
 class PaySchoolFees extends Component
 {
@@ -14,6 +16,7 @@ class PaySchoolFees extends Component
     public $fullFees;
     public $partFees;
     public $class;
+    public $term;
     public $surname;
     public $middlename;
     public $lastname;
@@ -21,6 +24,7 @@ class PaySchoolFees extends Component
     public $amountUnPaid;
     public $email;
     public $phone;
+    public $admno;
 
 
     public function render()
@@ -28,24 +32,41 @@ class PaySchoolFees extends Component
         return view('livewire.pay-school-fees');
     }
 
-    public function fetchDetails($value)
+    protected $rules = [
+        'admno' => 'required|exists:students,admno',
+    ];
+
+    protected $messages = [
+        'admno.required' => 'The Registration Number cannot be empty.',
+        'admno.exists' => 'The Registration Number does not exist.',
+    ];
+
+    public function updatedAdmno($value)
     {
+        $this->validateOnly('admno');
+        $academicSetting  = App::make(AcademicSetting::class);
+
         $this->student = Student::where('admno', $value)->first();
+
         if ($this->student) {
+            $fee = $this->student->level->code . '_fees';
+
             $this->studentID = $this->student->id;
-            $this->name = $this->student->parent->name;
+            $this->name = optional($this->student->guardian)->name;
             $this->level = $this->student->level->name;
             $this->class = $this->student->class->name;
-            $this->email = $this->student->parent->email;
+            $this->term = $academicSetting->next_term;
+            $this->email = optional($this->student->guardian)->email;
             $this->surname = $this->student->surname;
             $this->middlename = $this->student->middlename;
             $this->lastname = $this->student->lastname;
-            $this->fullFees = $this->student->level->fee->full_fees;
-            $this->partFees = $this->student->level->fee->part_fees;
-            $this->phone = $this->student->parent->phone;
+            $this->fullFees = $academicSetting->$fee;
+            $this->partFees = ceil($this->fullFees / 2);
+            $this->phone = optional($this->student->guardian)->phone;
         } else {
             $this->level = '';
             $this->class = '';
+            $this->term = '';
             $this->email = '';
             $this->surname = '';
             $this->middlename = '';
@@ -58,9 +79,9 @@ class PaySchoolFees extends Component
         }
     }
 
-    public function amountPaid($val)
+    public function updatedAmountPaid($value)
     {
-        $this->amountPaid = $val;
-        $this->amountUnPaid = $this->fullFees - $val;
+        $this->amountPaid = $value;
+        $this->amountUnPaid = $this->fullFees - $value;
     }
 }

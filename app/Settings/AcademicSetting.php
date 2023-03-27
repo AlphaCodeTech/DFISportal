@@ -6,6 +6,7 @@ use Spatie\LaravelSettings\Settings;
 
 class AcademicSetting extends Settings
 {
+    public string $next_term;
     public string $term_begins;
     public string $term_ends;   
     public string $current_session;

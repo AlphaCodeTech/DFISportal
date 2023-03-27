@@ -6,6 +6,7 @@ use App\Models\SMS;
 use App\Models\Applicant;
 use App\Services\SMSService;
 use App\Http\Requests\AdmissionRequest;
+use App\Models\AdmissionFormFee;
 
 class AdmissionController extends Controller
 {
@@ -15,6 +16,8 @@ class AdmissionController extends Controller
 
     public function store(AdmissionRequest $request)
     {
+        $transaction_ref = session()->get('transaction_ref');
+
         $validated = $request->validated();
 
         if ($request->hasFile('photo')) {
@@ -57,7 +60,7 @@ class AdmissionController extends Controller
                         please kindly wait for us as we review it";
 
             $response = $this->smsservice->sendSMS($phone, $message);
-            
+
             if ($response['status'] == 'success') {
                 SMS::create([
                     'code' => $response['code'],
@@ -68,6 +71,11 @@ class AdmissionController extends Controller
                     'status' => $response['status'],
                 ]);
             }
+
+            // mark the admission form with the given transaction reference used to avoid re-use
+            $admissionFee = AdmissionFormFee::where('transaction_ref', $transaction_ref)->first();
+            $admissionFee->used = true;
+            $admissionFee->save();
 
             toast('Application completed successfully', 'success');
             return redirect()->route('home.index');

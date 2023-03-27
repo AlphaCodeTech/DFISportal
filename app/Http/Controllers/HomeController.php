@@ -18,6 +18,8 @@ class HomeController extends Controller
 
     public function purchase(Guardian $guardian)
     {
+        session()->put('transaction_ref', request()->get('reference'));
+
         return view('frontend.purchase', compact('guardian'));
     }
 

@@ -51,6 +51,21 @@
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
+                                            <div class="form-group">
+                                                <label for="next_term">Next Term</label>
+                                                <select wire:model.defer='state.next_term'
+                                                    class="form-control @error('next_term') is-invalid @enderror"
+                                                    id="next_term">
+                                                    <option value=""></option>
+                                                    @foreach ($terms as $term)
+                                                        <option value="{{ $term->id }}">
+                                                            {{ $term->type }}</option>
+                                                    @endforeach
+                                                </select>
+                                                @error('next_term')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
 
                                             <div class="form-group">
                                                 <label for="term_begins">Term Begins</label>
@@ -101,92 +116,62 @@
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
+
+                                        </div>
+
+                                        <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="CR_fees">Creche School Fees</label>
-                                                <select wire:model.defer='state.CR_fees'
+                                                <input wire:model.defer='state.CR_fees'
                                                     class="form-control @error('CR_fees') is-invalid @enderror"
-                                                    id="CR_fees">
-                                                    <option value=""></option>
-                                                    @foreach ($fees as $fee)
-                                                        <option value="{{ trim($fee->getRawOriginal('amount')) }}"
-                                                            {{ $state['CR_fees'] == trim($fee->getRawOriginal('amount')) ? 'selected' : '' }}>
-                                                            {{ $fee->name }} - {{ $fee->amount }}</option>
-                                                    @endforeach
-                                                </select>
+                                                    type="text">
+
                                                 @error('CR_fees')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
 
-                                        </div>
-
-                                        <div class="col-md-6">
-
                                             <div class="form-group">
                                                 <label for="NU_fees">Nursery School Fees</label>
-                                                <select wire:model.defer='state.NU_fees'
+                                                <input wire:model.defer='state.NU_fees'
                                                     class="form-control @error('NU_fees') is-invalid @enderror"
-                                                    id="NU_fees">
-                                                    <option value=""></option>
-                                                    @foreach ($fees as $fee)
-                                                        <option value="{{ trim($fee->getRawOriginal('amount')) }}"
-                                                            {{ $state['NU_fees'] == trim($fee->getRawOriginal('amount')) ? 'selected' : '' }}>
-                                                            {{ $fee->name }} - {{ $fee->amount }}</option>
-                                                    @endforeach
-                                                </select>
+                                                    type="text">
+
                                                 @error('NU_fees')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
                                                 <label for="PR_fees">Primary School Fees</label>
-                                                <select wire:model.defer='state.PR_fees'
+                                                <input wire:model.defer='state.PR_fees'
                                                     class="form-control @error('PR_fees') is-invalid @enderror"
-                                                    id="PR_fees">
-                                                    <option value=""></option>
-                                                    @foreach ($fees as $fee)
-                                                        <option value="{{ trim($fee->getRawOriginal('amount')) }}"
-                                                            {{ $state['PR_fees'] == $fee->getRawOriginal('amount') ? 'selected' : '' }}>
-                                                            {{ $fee->name }} - {{ $fee->amount }}</option>
-                                                    @endforeach
-                                                </select>
+                                                    type="text">
+
                                                 @error('PR_fees')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
                                                 <label for="JS_fees">Junior Secondary School Fees</label>
-                                                <select wire:model.defer='state.JS_fees'
+                                                <input wire:model.defer='state.JS_fees'
                                                     class="form-control @error('JS_fees') is-invalid @enderror"
-                                                    id="JS_fees">
-                                                    <option value=""></option>
-                                                    @foreach ($fees as $fee)
-                                                        <option value="{{ trim($fee->getRawOriginal('amount')) }}"
-                                                            {{ $state['JS_fees'] == trim($fee->getRawOriginal('amount')) ? 'selected' : '' }}>
-                                                            {{ $fee->name }} - {{ $fee->amount }}</option>
-                                                    @endforeach
-                                                </select>
+                                                    type="text">
+
                                                 @error('JS_fees')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
                                             <div class="form-group">
                                                 <label for="SS_fees">Senior Secondary School Fees</label>
-                                                <select wire:model.defer='state.SS_fees'
+                                                <input wire:model.defer='state.SS_fees'
                                                     class="form-control @error('SS_fees') is-invalid @enderror"
-                                                    id="SS_fees">
-                                                    <option value=""></option>
-                                                    @foreach ($fees as $fee)
-                                                        <option value="{{ trim($fee->getRawOriginal('amount')) }}"
-                                                            {{ $state['SS_fees'] == trim($fee->getRawOriginal('amount')) ? 'selected' : '' }}>
-                                                            {{ $fee->name }} - {{ $fee->amount }}</option>
-                                                    @endforeach
-                                                </select>
+                                                    type="text">
+
                                                 @error('SS_fees')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
                                             </div>
-                                            
+
                                             <div class="card-footer text-right">
                                                 <button type="submit" class="btn btn-primary">Create</button>
                                             </div>

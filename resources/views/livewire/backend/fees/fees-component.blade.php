@@ -140,8 +140,7 @@
                                                 <label for="name">Name</label>
                                                 <input wire:model.defer='state.name' type="text"
                                                     class="form-control @error('name') is-invalid @enderror"
-                                                    id="name" placeholder="Enter full fees"
-                                                    value="{{ old('name') }}">
+                                                    id="name" placeholder="Enter full fees">
                                                 @error('name')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
