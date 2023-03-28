@@ -124,7 +124,7 @@
         if (event.detail.type == 'error') {
             toastr.error(event.detail.message, 'error!');
         } else {
-            toastr.success(event.detail.message, 'Success!');
+            toastr.success(event.detail.message, 'success!');
         }
     });
 

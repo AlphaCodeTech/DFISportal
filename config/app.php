@@ -220,6 +220,7 @@ return [
         'QS' => App\Helpers\QS::class,
         'Nav' => App\Helpers\Sidebar::class,
         'Mk' => App\Helpers\Mk::class,
+        'Pay' => App\Helpers\Pay::class,
 
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),

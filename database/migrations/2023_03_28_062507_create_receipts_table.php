@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('bursaries', function (Blueprint $table) {
+        Schema::create('receipts', function (Blueprint $table) {
             $table->id();
-            $table->softDeletes();
+            $table->foreignId('pr_id')->constrained('payment_records')->cascadeOnDelete();
+            $table->Integer('amount_paid');
+            $table->Integer('balance');
+            $table->string('year');
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bursaries');
+        Schema::dropIfExists('receipts');
     }
 };

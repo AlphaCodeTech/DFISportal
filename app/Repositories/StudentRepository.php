@@ -59,9 +59,9 @@ class StudentRepository {
         return $this->activeStudents()->whereIn('id', $ids);
     }
 
-    public function findByUserId($st_id)
+    public function findByUserId($student_id)
     {
-        return $this->getRecord(['user_id' => $st_id]);
+        return $this->getRecord(['id' => $student_id]);
     }
 
     public function getAll()

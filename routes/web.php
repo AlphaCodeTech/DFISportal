@@ -22,6 +22,7 @@ use App\Http\Livewire\Backend\Event\EventComponent;
 use App\Http\Livewire\Backend\Exam\TabulationSheet;
 use App\Http\Livewire\Backend\Grade\GradeComponent;
 use App\Http\Livewire\Backend\Level\LevelComponent;
+use App\Http\Livewire\Backend\Payment\ManagePayment;
 use App\Http\Controllers\Backend\Mark\MarkController;
 use App\Http\Livewire\Backend\Email\ListMailVariable;
 use App\Http\Livewire\Backend\Exam\ExamMarkComponent;
@@ -29,6 +30,7 @@ use App\Http\Livewire\Backend\Settings\TeamComponent;
 use App\Http\Livewire\Backend\Student\PromotionManage;
 use App\Http\Controllers\AdmissionManagementController;
 use App\Http\Livewire\Backend\Exam\ExamManageComponent;
+use App\Http\Livewire\Backend\Payment\PaymentComponent;
 use App\Http\Livewire\Backend\Profile\ProfileComponent;
 use App\Http\Livewire\Backend\Session\SessionComponent;
 use App\Http\Livewire\Backend\Settings\SystemComponent;
@@ -48,7 +50,8 @@ use App\Http\Livewire\Backend\Permission\PermissionComponent;
 use App\Http\Livewire\Backend\Subject\AssignSubjectToTeacher;
 use App\Http\Livewire\Backend\MailTemplate\CreateMailTemplate;
 use App\Http\Livewire\Backend\Classroom\ClassesAssignedSubjects;
-use App\Http\Livewire\Backend\Payment\PaymentComponent;
+use App\Http\Livewire\Backend\Payment\PaymentInvoice;
+use App\Http\Livewire\Backend\Payment\PaymentManage;
 
 // ! Frontend Routes
 
@@ -161,19 +164,17 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     /*************** Payments *****************/
 
-    // Route::resource('payments', App\Http\Controllers\Backend\Payment\PaymentController::class);
-
     Route::group(['prefix' => 'payments'], function () {
+
+        Route::get('manage/{class_id?}', PaymentManage::class)->name('payments.manage');
         
         Route::get('/{year?}', PaymentComponent::class)->name('backend.payment');
-        Route::get('manage/{class_id?}', [PaymentController::class, 'manage'])->name('payments.manage');
-        Route::get('invoice/{id}/{year?}', [PaymentController::class, 'invoice'])->name('payments.invoice');
-        Route::get('receipts/{id}', [PaymentController::class, 'receipts'])->name('payments.receipts');
-        Route::get('pdf_receipts/{id}', [PaymentController::class, 'pdf_receipts'])->name('payments.pdf_receipts');
-        Route::post('select_year', [PaymentController::class, 'select_year'])->name('payments.select_year');
-        Route::post('select_class', [PaymentController::class, 'select_class'])->name('payments.select_class');
-        Route::delete('reset_record/{id}', [PaymentController::class, 'reset_record'])->name('payments.reset_record');
-        Route::post('pay_now/{id}', [PaymentController::class, 'pay_now'])->name('payments.pay_now');
+        
+        Route::get('invoice/{student_id}/{year?}', PaymentInvoice::class)->name('payments.invoice');
+
+        Route::get('receipts/{id}', [App\Http\Controllers\Backend\Payment\PaymentController::class, 'receipts'])->name('payments.receipts');
+
+        Route::get('pdf_receipts/{id}', [App\Http\Controllers\Backend\Payment\PaymentController::class, 'pdf_receipts'])->name('payments.pdf_receipts');
     });
 
 

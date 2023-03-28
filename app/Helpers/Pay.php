@@ -2,13 +2,13 @@
 
 namespace App\Helpers;
 
-use App\Models\Payment;
+use App\Models\PaymentRecord;
 
 class Pay
 {
     public static function getYears($student_id)
     {
-        return Payment::where(['student_id' => $student_id])->pluck('year')->unique();
+        return PaymentRecord::where(['student_id' => $student_id])->pluck('year')->unique();
     }
 
     public static function genRefCode()

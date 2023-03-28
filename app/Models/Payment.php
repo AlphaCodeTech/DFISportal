@@ -29,4 +29,12 @@ class Payment extends Model
             get: fn ($value) => $amount->formatCurrency($value, 'NGN'),
         );
     }
+
+    protected function balance(): Attribute
+    {
+        $amount = new NumberFormatter("en_US", NumberFormatter::CURRENCY);
+        return Attribute::make(
+            get: fn ($value) => $amount->formatCurrency($value, 'NGN'),
+        );
+    }
 }

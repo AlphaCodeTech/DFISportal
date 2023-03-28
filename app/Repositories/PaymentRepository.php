@@ -22,7 +22,7 @@ class PaymentRepository
 
     public function getGeneralPayment($data)
     {
-        return Payment::whereNull('my_class_id')->where($data)->with('my_class');
+        return Payment::whereNull('class_id')->where($data)->with('class');
     }
 
     public function getActivePayments()
@@ -62,9 +62,9 @@ class PaymentRepository
         return $this->getRecord(['student_id' => $st_id, 'payment_id' => $pay_id]);
     }
 
-    public function getAllMyPR($st_id, $year = NULL)
+    public function getAllMyPR($student_id, $year = NULL)
     {
-        return $year ? $this->getRecord(['student_id' => $st_id, 'year' => $year]) : $this->getRecord(['student_id' => $st_id]);
+        return $year ? $this->getRecord(['student_id' => $student_id, 'year' => $year]) : $this->getRecord(['student_id' => $student_id]);
     }
 
     public function getRecord($data, $order = 'year', $dir = 'desc')

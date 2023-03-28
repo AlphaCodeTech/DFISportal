@@ -42,7 +42,6 @@ class PaymentComponent extends Component
             $this->selected = false;
         }
 
-
         $this->classes = $classRepository->all();
     }
 
@@ -117,7 +116,7 @@ class PaymentComponent extends Component
     public function destroy()
     {
         $paymentRepository = App::make(PaymentRepository::class);
-        
+
         $paymentRepository->find($this->toBeDeleted)->delete();
 
         $this->dispatchBrowserEvent('show-confirm', ['message' => 'Payment deleted successfully!']);
