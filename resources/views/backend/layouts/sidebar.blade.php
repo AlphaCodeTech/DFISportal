@@ -458,21 +458,21 @@
                                       </a>
                                       <ul class="nav nav-treeview">
                                           <li class="nav-item ml-4">
-                                              <a href="{{ route('backend.fees') }}" class="nav-link">
-                                                  <i class="far fa-circle nav-icon"></i>
-                                                  <p>Create Payments</p>
-                                              </a>
-                                          </li>
-
-                                          <li class="nav-item ml-4">
-                                              <a href="" class="nav-link">
+                                              <a href="{{ route('backend.payment') }}" class="nav-link">
                                                   <i class="far fa-circle nav-icon"></i>
                                                   <p>Manage Payments</p>
                                               </a>
                                           </li>
 
+                                          {{-- <li class="nav-item ml-4">
+                                              <a href="{{ route('payments.index') }}" href="" class="nav-link">
+                                                  <i class="far fa-circle nav-icon"></i>
+                                                  <p>Manage Payments</p>
+                                              </a>
+                                          </li> --}}
+
                                           <li class="nav-item ml-4">
-                                              <a href="" class="nav-link">
+                                              <a href="{{ route('payments.manage') }}" href="" class="nav-link">
                                                   <i class="far fa-circle nav-icon"></i>
                                                   <p>Students Payments</p>
                                               </a>

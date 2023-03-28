@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\Backend\Level;
 
-use App\Models\Fee;
 use App\Models\Level;
+use App\Models\Payment;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
@@ -25,7 +25,7 @@ class LevelComponent extends Component
 
     public function mount()
     {
-        $this->fees = Fee::all();
+        $this->fees = Payment::all();
         $this->selectedLevel = Level::first();
     }
 

@@ -13,12 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('fees', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description');
-            $table->string('amount');
-            $table->string('half_payment')->nullable();
+            $table->string('title', 100);
+            $table->integer('amount');
+            $table->string('ref_no', 100)->unique();
+            $table->enum('method', ['cash','online'])->default('cash');
+            $table->foreignId('class_id')->nullable()->constrained('classes');
+            $table->string('description')->nullable();
+            $table->string('year');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -31,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('fees');
+        Schema::dropIfExists('payments');
     }
 };

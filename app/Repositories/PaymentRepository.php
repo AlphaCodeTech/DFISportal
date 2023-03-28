@@ -17,7 +17,7 @@ class PaymentRepository
 
     public function getPayment($data)
     {
-        return Payment::where($data)->with('my_class');
+        return Payment::where($data)->with('class');
     }
 
     public function getGeneralPayment($data)

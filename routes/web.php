@@ -48,6 +48,7 @@ use App\Http\Livewire\Backend\Permission\PermissionComponent;
 use App\Http\Livewire\Backend\Subject\AssignSubjectToTeacher;
 use App\Http\Livewire\Backend\MailTemplate\CreateMailTemplate;
 use App\Http\Livewire\Backend\Classroom\ClassesAssignedSubjects;
+use App\Http\Livewire\Backend\Payment\PaymentComponent;
 
 // ! Frontend Routes
 
@@ -105,11 +106,6 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::get('/', LevelComponent::class)->name('backend.levels');
     });
 
-    // ! Fees
-    Route::group(['prefix' => 'payments'], function () {
-        Route::get('/', FeesComponent::class)->name('backend.fees');
-    });
-
     // ! Classes
     Route::group(['prefix' => 'classrooms'], function () {
         Route::get('/', ClassroomComponent::class)->name('backend.classrooms');
@@ -163,10 +159,23 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
         Route::get('/', GuardianComponent::class)->name('backend.parents');
     });
 
-    // ! Payment
-    Route::group(['prefix' => 'bursary'], function () {
-        Route::resource('/', BursaryController::class);
+    /*************** Payments *****************/
+
+    // Route::resource('payments', App\Http\Controllers\Backend\Payment\PaymentController::class);
+
+    Route::group(['prefix' => 'payments'], function () {
+        
+        Route::get('/{year?}', PaymentComponent::class)->name('backend.payment');
+        Route::get('manage/{class_id?}', [PaymentController::class, 'manage'])->name('payments.manage');
+        Route::get('invoice/{id}/{year?}', [PaymentController::class, 'invoice'])->name('payments.invoice');
+        Route::get('receipts/{id}', [PaymentController::class, 'receipts'])->name('payments.receipts');
+        Route::get('pdf_receipts/{id}', [PaymentController::class, 'pdf_receipts'])->name('payments.pdf_receipts');
+        Route::post('select_year', [PaymentController::class, 'select_year'])->name('payments.select_year');
+        Route::post('select_class', [PaymentController::class, 'select_class'])->name('payments.select_class');
+        Route::delete('reset_record/{id}', [PaymentController::class, 'reset_record'])->name('payments.reset_record');
+        Route::post('pay_now/{id}', [PaymentController::class, 'pay_now'])->name('payments.pay_now');
     });
+
 
     // ! Terms
     Route::group(['prefix' => 'terms'], function () {
