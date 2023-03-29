@@ -2,8 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
+use App\Models\User;
 use Illuminate\Support\Str;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UsersTableSeeder extends Seeder
 {
@@ -15,17 +18,16 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         if (User::count() == 0) {
-            $role = Role::where('name', 'admin')->firstOrFail();
-
-            User::create([
+            $user = User::create([
                 'name'           => 'Admin',
-                'lastname'           => 'AdminL',
-                'middlename'           => 'AdminM',
+                'photo'           => 'default.png',
+                'status'           => 1,
                 'email'          => 'admin@admin.com',
-                'password'       => bcrypt('password'),
+                'password'       => Hash::make('password'),
                 'remember_token' => Str::random(60),
-                'role_id'        => $role->id,
             ]);
+            
+            $user->assignRole('super admin');
         }
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Backend\User;
 
-use App\Helpers\QS;
 use App\Models\User;
 use Livewire\Component;
 use Illuminate\Support\Str;
