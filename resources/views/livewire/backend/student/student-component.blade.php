@@ -121,7 +121,7 @@
                                         @foreach ($students as $student)
                                             <tr>
                                                 <td class="text-capitalize">
-                                                    {{ $student->surname . ' ' . $student->middlename . ' ' . $student->lastname }}
+                                                    {{ $student->full_name }}
                                                 </td>
                                                 <td>{{ $student->admno }}</td>
                                                 <td>{{ $student->class->name }}</td>

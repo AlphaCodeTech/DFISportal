@@ -3,11 +3,8 @@
 namespace App\Http\Livewire\Backend\Student;
 
 use App\Models\User;
-use App\Models\Clazz;
-use App\Models\Level;
 use App\Models\Student;
 use Livewire\Component;
-use App\Models\Guardian;
 use Livewire\WithFileUploads;
 use App\Settings\AcademicSetting;
 use Illuminate\Support\Facades\App;
