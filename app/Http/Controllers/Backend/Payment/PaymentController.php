@@ -58,7 +58,7 @@ class PaymentController extends Controller
         }
         $data['receipts'] = $payment_record->receipt;
         $data['payment'] = $payment_record->payment;
-        $data['student_record'] = $student_record = $this->studentRepository->findByUserId($payment_record->student_id)->first();
+        $data['student_record'] = $this->studentRepository->findByUserId($payment_record->student_id)->first();
 
 
         $pdf_name = 'Receipt_' . $payment_record->ref_no . '.pdf';
