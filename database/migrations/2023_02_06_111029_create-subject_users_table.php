@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('subject_user', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('subject_id')();
+            $table->foreignId('subject_id');
             $table->foreignId('user_id');
         });
     }
