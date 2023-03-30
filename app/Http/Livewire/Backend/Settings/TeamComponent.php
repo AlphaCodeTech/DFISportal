@@ -14,6 +14,7 @@ class TeamComponent extends Component
     public $teams = [];
     public $rolesInTeam = [];
     public $state = [];
+    public bool $show = false;
 
     public function mount()
     {
@@ -35,6 +36,7 @@ class TeamComponent extends Component
 
     public function updatedStateName($value)
     {
+        !empty($value) ? $this->show = true : $this->show = false;
         $this->rolesInTeam = json_decode(TeamSetting::where('name', $value)->pluck('roles')->first()) ?? [];
 
     }

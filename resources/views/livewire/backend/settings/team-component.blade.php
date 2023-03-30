@@ -40,7 +40,7 @@
                                                 <label for="name">Name</label>
                                                 <select wire:model='state.name'
                                                     class="form-control @error('name') is-invalid @enderror">
-                                                    <option>Select a Team</option>
+                                                    <option value="">Select a Team</option>
                                                     @foreach ($teams as $team)
                                                         <option value="{{ $team }}">{{ $team }}</option>
                                                     @endforeach
@@ -51,7 +51,7 @@
 
                                             </div>
 
-                                            @if (!empty($rolesInTeam))
+                                            @if (($show))
                                                 <h5>Select the roles in the team</h5>
                                                 @foreach ($roles as $role)
                                                     <div class="form-check">

@@ -6,6 +6,7 @@
 /public/staff
 /public/student
 /public/parent
+/public/setting
 /storage/*.key
 .env
 .env.backup

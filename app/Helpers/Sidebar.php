@@ -8,12 +8,12 @@ class Sidebar
 {
     public static function getTeamSA()
     {
-        return ['admin', 'super_admin'];
+        return ['admin', 'super admin'];
     }
 
     public static function getTeamAccount()
     {
-        return ['admin', 'super_admin', 'accountant'];
+        return ['admin', 'super admin', 'accountant'];
     }
 
    
