@@ -109,8 +109,8 @@
                                                     class="form-control @error('lock_exam') is-invalid @enderror"
                                                     id="lock_exam">
                                                     <option value=""></option>
-                                                    <option value="true">Yes</option>
-                                                    <option value="false">No</option>
+                                                    <option value="1">Yes</option>
+                                                    <option value="0">No</option>
                                                 </select>
                                                 @error('lock_exam')
                                                     <div class="invalid-feedback">{{ $message }}</div>

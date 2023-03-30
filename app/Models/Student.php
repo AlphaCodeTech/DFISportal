@@ -37,7 +37,7 @@ class Student extends Model
 
     public function guardian()
     {
-        return $this->belongsTo(Guardian::class);
+        return $this->belongsTo(Guardian::class)->withDefault();
     }
 
     public function level()

@@ -1,3 +1,7 @@
 *
 !public/
+!parent/
+!setting/
+!staff/
+!student/
 !.gitignore
