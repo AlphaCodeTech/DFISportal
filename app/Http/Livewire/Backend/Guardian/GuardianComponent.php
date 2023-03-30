@@ -14,19 +14,21 @@ class GuardianComponent extends Component
     public $toBeDeleted = null;
     public $state = [];
     public $guardian;
-    public Guardian $selectedGuardian;
-    public Student $selectedStudent;
+    public $selectedGuardian;
+    public $selectedStudent;
 
     protected $listeners = ['delete' => 'destroy'];
 
 
     public function mount()
     {
-        $this->selectedStudent = Student::first();
+        $this->selectedStudent = collect()->first();
     }
+
     public function render()
     {
         $guardians = Guardian::all();
+        
         return view('livewire.backend.guardian.guardian-component', compact('guardians'))->layout('backend.layouts.app');
     }
 

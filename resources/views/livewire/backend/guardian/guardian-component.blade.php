@@ -144,8 +144,7 @@
                                                 <label for="name">Name</label>
                                                 <input wire:model.defer='state.name' type="text"
                                                     class="form-control @error('name') is-invalid @enderror"
-                                                    id="name" placeholder="Enter name"
-                                                    value="{{ old('name') }}">
+                                                    id="name" placeholder="Enter name">
                                                 @error('name')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
@@ -157,7 +156,7 @@
                                                 <input wire:model.defer='state.email' type="text"
                                                     class="form-control @error('email') is-invalid @enderror"
                                                     id="email" placeholder="Enter email"
-                                                    value="{{ old('email') }}">
+                                                    >
                                                 @error('email')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
@@ -169,7 +168,7 @@
                                                 <input wire:model.defer='state.phone' type="text"
                                                     class="form-control @error('phone') is-invalid @enderror"
                                                     id="phone" placeholder="Enter phone"
-                                                    value="{{ old('phone') }}">
+                                                    >
                                                 @error('phone')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
@@ -181,7 +180,7 @@
                                                 <input wire:model.defer='state.relationship' type="text"
                                                     class="form-control @error('relationship') is-invalid @enderror"
                                                     id="relationship" placeholder="Enter relationship"
-                                                    value="{{ old('relationship') }}">
+                                                  >
                                                 @error('relationship')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
@@ -193,7 +192,7 @@
                                                 <input wire:model.defer='state.password' type="password"
                                                     class="form-control @error('password') is-invalid @enderror"
                                                     id="password" placeholder="Enter password"
-                                                    value="{{ old('password') }}">
+                                                   >
                                                 @error('password')
                                                     <div class="invalid-feedback">{{ $message }}</div>
                                                 @enderror
@@ -536,7 +535,7 @@
                                                     Guardian</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedStudent->guardian)->name ?? null) }}
+                                                {{ ucwords(optional($selectedStudent?->guardian)->name ?? null) }}
                                             </div>
                                         </div>
                                         <hr>
@@ -625,7 +624,7 @@
                                                     Class</h6>
                                             </div>
                                             <div class="col-sm-9 text-secondary">
-                                                {{ ucwords(optional($selectedStudent->class)->name) }}
+                                                {{ ucwords(optional($selectedStudent?->class)->name) }}
                                             </div>
                                         </div>
                                         <hr>
