@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Znck\Eloquent\Traits\BelongsToThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Student extends Model
@@ -61,9 +60,9 @@ class Student extends Model
         return preg_replace('/\s+/', ' ', $this->firstname . ' ' . $this->middlename . ' ' . $this->lastname);
     }
 
-    // public function section()
-    // {
-    //     return $this->belongsTo(ClassSection::class);
-    // }
+    public function section()
+    {
+        return $this->belongsTo(ClassSection::class);
+    }
 
 }
