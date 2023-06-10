@@ -14,6 +14,7 @@ use InvalidArgumentException;
 
 class Translator extends NamespacedItemResolver implements TranslatorContract
 {
+   
     use Macroable, ReflectsClosures;
 
     /**
@@ -77,6 +78,7 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
         $this->loader = $loader;
 
         $this->setLocale($locale);
+
     }
 
     /**
@@ -115,6 +117,8 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
      */
     public function get($key, array $replace = [], $locale = null, $fallback = true)
     {
+        // dd($this);
+
         $locale = $locale ?: $this->locale;
 
         // For JSON translations, there is only one file per locale, so we will simply load
@@ -148,6 +152,7 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
         // that will be quick to spot in the UI if language keys are wrong or missing
         // from the application's language files. Otherwise we can return the line.
         return $this->makeReplacements($line ?: $key, $replace);
+
     }
 
     /**
